@@ -27,13 +27,22 @@ function Navbar() {
           </span>
         </div>
         <div className="flex items-center gap-6 text-sm font-medium text-[#31135E]">
-          <a href="#sobre" className="hover:text-[#8B3FFC] transition-colors hidden md:block">
+          <a
+            href="#sobre"
+            className="hover:text-[#8B3FFC] transition-colors hidden md:block"
+          >
             Sobre
           </a>
-          <a href="#programacao" className="hover:text-[#8B3FFC] transition-colors hidden md:block">
+          <a
+            href="#programacao"
+            className="hover:text-[#8B3FFC] transition-colors hidden md:block"
+          >
             Programação
           </a>
-          <a href="#inscricao" className="hover:text-[#8B3FFC] transition-colors hidden md:block">
+          <a
+            href="#inscricao"
+            className="hover:text-[#8B3FFC] transition-colors hidden md:block"
+          >
             Inscrição
           </a>
           <a
@@ -71,13 +80,18 @@ function Hero() {
         {/* title — white card to ensure readability over the busy illustration */}
         <div className="rounded-3xl bg-white/75 backdrop-blur-sm px-8 py-6">
           <h1 className="text-5xl sm:text-7xl font-bold text-[#31135E] leading-tight">
-            Qiskit<br />Fall Fest<br />2026
+            Qiskit
+            <br />
+            Fall Fest
+            <br />
+            2026
           </h1>
         </div>
 
         {/* sub */}
         <p className="max-w-md text-lg text-[#31135E] font-medium bg-white/60 backdrop-blur-sm rounded-2xl px-6 py-3">
-          Semana de aprendizado em computação quântica aberta para estudantes e entusiastas de todo o Brasil.
+          Semana de aprendizado em computação quântica aberta para estudantes e
+          entusiastas de todo o Brasil.
         </p>
 
         {/* Countdown */}
@@ -148,9 +162,13 @@ function About() {
           <span className="text-xs font-semibold tracking-widest uppercase text-[#8B3FFC]">
             O que é
           </span>
-          <h2 className="text-4xl font-bold text-[#31135E]">Qiskit Fall Fest</h2>
+          <h2 className="text-4xl font-bold text-[#31135E]">
+            Qiskit Fall Fest
+          </h2>
           <p className="max-w-xl text-[#31135E]/70 text-lg leading-relaxed">
-            Uma semana global de eventos dedicados à computação quântica, organizada por estudantes para estudantes — e este ano pela primeira vez no Brasil!
+            Uma semana global de eventos dedicados à computação quântica,
+            organizada por estudantes para estudantes — e este ano pela primeira
+            vez no Brasil!
           </p>
         </div>
 
@@ -215,7 +233,8 @@ function Schedule() {
           </span>
           <h2 className="text-4xl font-bold text-[#31135E]">Programação</h2>
           <p className="max-w-lg text-[#31135E]/70 text-lg">
-            Três dias de workshops, palestras e labs práticos — online e gratuitos.
+            Três dias de workshops, palestras e labs práticos — online e
+            gratuitos.
           </p>
         </div>
 
@@ -230,12 +249,19 @@ function Schedule() {
                 <span className="text-xs font-semibold uppercase tracking-widest text-[#8B3FFC]">
                   {d.day}
                 </span>
-                <span className="text-xs text-[#31135E]/50 font-medium">{d.date}</span>
+                <span className="text-xs text-[#31135E]/50 font-medium">
+                  {d.date}
+                </span>
               </div>
-              <h3 className="text-base font-bold text-[#31135E] leading-snug">{d.title}</h3>
+              <h3 className="text-base font-bold text-[#31135E] leading-snug">
+                {d.title}
+              </h3>
               <ul className="flex flex-col gap-1.5 mt-1">
                 {d.items.map((item) => (
-                  <li key={item} className="flex items-start gap-2 text-sm text-[#31135E]/70">
+                  <li
+                    key={item}
+                    className="flex items-start gap-2 text-sm text-[#31135E]/70"
+                  >
                     <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#FF7EB6]" />
                     {item}
                   </li>
@@ -291,7 +317,8 @@ function Registration() {
         />
         <h2 className="text-4xl font-bold text-white">Garanta sua vaga</h2>
         <p className="text-[#BE95FF] text-lg leading-relaxed max-w-md">
-          As inscrições são gratuitas e abertas para estudantes de graduação, pós-graduação e entusiastas de computação quântica.
+          As inscrições são gratuitas e abertas para estudantes de graduação,
+          pós-graduação e entusiastas de computação quântica.
         </p>
         <a
           href="/inscricao"
@@ -322,22 +349,30 @@ function Footer() {
             className="rounded-full opacity-80"
           />
           <div>
-            <p className="font-semibold text-white text-sm">Qiskit Fall Fest 2026</p>
+            <p className="font-semibold text-white text-sm">
+              Qiskit Fall Fest 2026
+            </p>
             <p className="text-xs text-[#BE95FF]/50">Brasil</p>
           </div>
         </div>
 
         {/* links */}
         <nav className="flex flex-wrap justify-center gap-6 text-sm">
-          <Link href="https://qiskit.org" target="_blank" rel="noopener noreferrer" className="hover:text-[#FF7EB6] transition-colors">
-            Qiskit.org
-          </Link>
-          <Link href="https://ibm.com/quantum" target="_blank" rel="noopener noreferrer" className="hover:text-[#FF7EB6] transition-colors">
-            IBM Quantum
-          </Link>
-          <a href="#sobre" className="hover:text-[#FF7EB6] transition-colors">Sobre</a>
-          <a href="#programacao" className="hover:text-[#FF7EB6] transition-colors">Programação</a>
-          <a href="#inscricao" className="hover:text-[#FF7EB6] transition-colors">Inscrição</a>
+          <a href="#sobre" className="hover:text-[#FF7EB6] transition-colors">
+            Sobre
+          </a>
+          <a
+            href="#programacao"
+            className="hover:text-[#FF7EB6] transition-colors"
+          >
+            Programação
+          </a>
+          <a
+            href="#inscricao"
+            className="hover:text-[#FF7EB6] transition-colors"
+          >
+            Inscrição
+          </a>
         </nav>
 
         {/* badge strip */}
@@ -360,7 +395,7 @@ function Footer() {
       </div>
 
       <div className="mt-8 border-t border-white/10 pt-6 text-center text-xs text-[#BE95FF]/40">
-        © 2026 Qiskit Fall Fest Brasil · Organizado pela comunidade · Evento não oficial da IBM
+        © 2026 Qiskit Fall Fest Brasil
       </div>
     </footer>
   );
