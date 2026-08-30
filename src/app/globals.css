@@ -4,11 +4,57 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ─── IBM Quantum brand tokens ─────────────────────────────────────────────── */
+/* Primary palette                                                               */
+/* --iq-gray-100  #121619  Cool Gray 100 — deepest bg                           */
+/* --iq-gray-90   #21272a  Cool Gray 90  — surface / card                       */
+/* --iq-gray-10   #f4f4f4  Gray 10       — light text on dark                   */
+/* --iq-white     #ffffff                                                        */
+/* --iq-blue-60   #0f62fe  Blue 60       — primary action                       */
+/* --iq-purple-40 #be95ff  Purple 40     — accent / lavender                    */
+/* --iq-magenta-40 #ff7eb6 Magenta 40   — accent / CTA                          */
+/*                                                                               */
+/* Secondary palette                                                             */
+/* --iq-gray-80   #343a3f                                                        */
+/* --iq-gray-60   #697077                                                        */
+/* --iq-gray-40   #a8a8a8                                                        */
+/* --iq-gray-20   #e0e0e0                                                        */
+/* --iq-blue-50   #4589ff                                                        */
+/* --iq-blue-40   #78a9ff                                                        */
+/* --iq-purple-60 #8a3ffc                                                        */
+/* --iq-purple-50 #a56eff                                                        */
+/* --iq-magenta-60 #d02670                                                       */
+/* --iq-magenta-50 #ee5396                                                       */
+
 @theme inline {
+  /* Map shadcn/Tailwind slots to IBM Quantum tokens */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* IBM brand token shortcuts — usable as `bg-[--iq-blue-60]` etc. */
+  --iq-gray-100:    #121619;
+  --iq-gray-90:     #21272a;
+  --iq-gray-80:     #343a3f;
+  --iq-gray-60:     #697077;
+  --iq-gray-40:     #a8a8a8;
+  --iq-gray-20:     #e0e0e0;
+  --iq-gray-10:     #f4f4f4;
+  --iq-white:       #ffffff;
+  --iq-blue-60:     #0f62fe;
+  --iq-blue-50:     #4589ff;
+  --iq-blue-40:     #78a9ff;
+  --iq-purple-60:   #8a3ffc;
+  --iq-purple-50:   #a56eff;
+  --iq-purple-40:   #be95ff;
+  --iq-magenta-60:  #d02670;
+  --iq-magenta-50:  #ee5396;
+  --iq-magenta-40:  #ff7eb6;
+
+  /* Hero gradient: Blue 60 → Purple 40 → Magenta 40 */
+  --iq-hero-gradient: linear-gradient(to right, #0f62fe, #be95ff, #ff7eb6);
+
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -17,11 +63,6 @@
   --color-sidebar-primary: var(--sidebar-primary);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -47,73 +88,65 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* ─── Light theme: IBM Quantum white/surface ────────────────────────────────── */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --background: #ffffff;
+  --foreground: #121619;
+  --card: #f4f4f4;
+  --card-foreground: #121619;
+  --popover: #ffffff;
+  --popover-foreground: #121619;
+  --primary: #0f62fe;
+  --primary-foreground: #ffffff;
+  --secondary: #21272a;
+  --secondary-foreground: #f4f4f4;
+  --muted: #e0e0e0;
+  --muted-foreground: #697077;
+  --accent: #be95ff;
+  --accent-foreground: #121619;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --border: #e0e0e0;
+  --input: #e0e0e0;
+  --ring: #0f62fe;
+  --radius: 0rem; /* IBM uses sharp corners for UI components */
+  --sidebar: #f4f4f4;
+  --sidebar-foreground: #121619;
+  --sidebar-primary: #0f62fe;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e0e0e0;
+  --sidebar-accent-foreground: #121619;
+  --sidebar-border: #e0e0e0;
+  --sidebar-ring: #0f62fe;
 }
 
+/* ─── Dark theme: IBM Quantum Cool Gray 90/100 ──────────────────────────────── */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+  --background: #121619;
+  --foreground: #f4f4f4;
+  --card: #21272a;
+  --card-foreground: #f4f4f4;
+  --popover: #21272a;
+  --popover-foreground: #f4f4f4;
+  --primary: #78a9ff;
+  --primary-foreground: #121619;
+  --secondary: #343a3f;
+  --secondary-foreground: #f4f4f4;
+  --muted: #343a3f;
+  --muted-foreground: #a8a8a8;
+  --accent: #be95ff;
+  --accent-foreground: #121619;
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --border: #343a3f;
+  --input: #343a3f;
+  --ring: #78a9ff;
+  --sidebar: #21272a;
+  --sidebar-foreground: #f4f4f4;
+  --sidebar-primary: #78a9ff;
+  --sidebar-primary-foreground: #121619;
+  --sidebar-accent: #343a3f;
+  --sidebar-accent-foreground: #f4f4f4;
+  --sidebar-border: #343a3f;
+  --sidebar-ring: #78a9ff;
 }
 
 @layer base {
