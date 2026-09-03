@@ -66,8 +66,8 @@ function Navbar() {
 function Hero() {
   return (
     <section className="relative overflow-hidden bg-[#121619] min-h-[600px] flex items-center">
-      {/* brand hero illustration — right-anchored, bleeds off edge */}
-      <div className="absolute inset-0 flex items-end justify-end pointer-events-none select-none">
+      {/* brand hero illustration — right-anchored, vertically centered */}
+      <div className="absolute inset-0 flex items-center justify-end pointer-events-none select-none">
         <Image
           src="/assets/illustrations/hero-main.svg"
           alt=""
@@ -81,23 +81,18 @@ function Hero() {
       {/* left-column content */}
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 py-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         <div className="flex flex-col gap-6">
-          {/* label — Purple 40, all-caps tracking */}
-          <span className="text-xs font-semibold tracking-widest uppercase text-[#be95ff]">
-            Novembro · 2026 · Brasil
-          </span>
-
           {/* title — Gray 10 on dark */}
           <h1 className="text-5xl sm:text-6xl font-bold text-[#f4f4f4] leading-tight">
             Qiskit
             <br />
             Fall Fest
             <br />
-            {/* "2026" with hero gradient */}
+            {/* "2026" with purple-to-magenta gradient */}
             <span
               className="bg-clip-text text-transparent"
               style={{
                 backgroundImage:
-                  "linear-gradient(to right, #0f62fe, #be95ff, #ff7eb6)",
+                  "linear-gradient(to right, #be95ff, #ff7eb6)",
               }}
             >
               2026
@@ -105,8 +100,8 @@ function Hero() {
           </h1>
 
           <p className="text-[#a8a8a8] text-lg leading-relaxed max-w-sm">
-            Semana de aprendizado em computação quântica aberta para estudantes
-            e entusiastas de todo o Brasil.
+            Uma semana de computação quântica para estudantes e entusiastas de
+            todo o Brasil.
           </p>
 
           {/* Countdown */}
@@ -171,9 +166,8 @@ function About() {
             Qiskit Fall Fest
           </h2>
           <p className="text-[#a8a8a8] text-lg leading-relaxed">
-            Uma semana global de eventos dedicados à computação quântica,
-            organizada por estudantes para estudantes — e este ano pela primeira
-            vez no Brasil!
+            Uma semana global de eventos de computação quântica, organizada por
+            estudantes para estudantes. Este ano pela primeira vez no Brasil.
           </p>
         </div>
 
@@ -252,8 +246,8 @@ function Schedule() {
           </span>
           <h2 className="text-4xl font-bold text-[#f4f4f4]">Programação</h2>
           <p className="text-[#a8a8a8] text-lg">
-            Três dias de workshops, palestras e labs práticos — online e
-            gratuitos.
+            Três dias de workshops, palestras e labs práticos. Online e
+            gratuito.
           </p>
         </div>
 
@@ -358,8 +352,8 @@ function Registration() {
         />
         <h2 className="text-4xl font-bold text-[#f4f4f4]">Garanta sua vaga</h2>
         <p className="text-[#a8a8a8] text-lg leading-relaxed max-w-md">
-          As inscrições são gratuitas e abertas para estudantes de graduação,
-          pós-graduação e entusiastas de computação quântica.
+          Gratuito e aberto para estudantes de graduação, pós-graduação e
+          entusiastas de computação quântica.
         </p>
         {/* Magenta 40 CTA */}
         <a
@@ -371,7 +365,7 @@ function Registration() {
           Inscrever-se agora →
         </a>
         <p className="text-[#697077] text-sm">
-          Vagas limitadas · Evento online e gratuito
+          Vagas limitadas. Evento online e gratuito.
         </p>
       </div>
     </section>
