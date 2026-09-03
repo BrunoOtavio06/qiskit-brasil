@@ -47,7 +47,9 @@ function Navbar() {
           </a>
           {/* Primary CTA — Blue 60, sharp IBM corners */}
           <a
-            href="/inscricao"
+            href="https://forms.cloud.microsoft/r/YuW1uLvY6m"
+            target="_blank"
+            rel="noopener noreferrer"
             className="bg-[#0f62fe] px-4 py-2 text-white font-medium hover:bg-[#4589ff] transition-colors"
           >
             Inscreva-se
@@ -114,7 +116,9 @@ function Hero() {
           <div className="flex flex-wrap gap-3 mt-2">
             {/* primary — Magenta 40 */}
             <a
-              href="/inscricao"
+              href="https://forms.cloud.microsoft/r/YuW1uLvY6m"
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-[#ff7eb6] px-6 py-3 text-[#121619] font-semibold hover:bg-[#ee5396] transition-colors"
             >
               Quero participar
@@ -359,7 +363,9 @@ function Registration() {
         </p>
         {/* Magenta 40 CTA */}
         <a
-          href="/inscricao"
+          href="https://forms.cloud.microsoft/r/YuW1uLvY6m"
+          target="_blank"
+          rel="noopener noreferrer"
           className="bg-[#ff7eb6] px-8 py-4 text-[#121619] font-semibold text-lg hover:bg-[#ee5396] transition-colors"
         >
           Inscrever-se agora →
