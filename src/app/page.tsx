@@ -1,23 +1,26 @@
 import Image from "next/image";
 import Countdown from "@/components/Countdown";
 
-// ─── IBM Quantum brand color reference (see globals.css for full token list) ──
-// Cool Gray 100  #121619  — deepest background
-// Cool Gray 90   #21272a  — surface / card
-// Gray 10        #f4f4f4  — body text on dark
-// Blue 60        #0f62fe  — primary action / links
-// Purple 40      #be95ff  — accent / labels
-// Magenta 40     #ff7eb6  — CTA buttons
+// next/image does not auto-apply basePath, so we prefix every src manually
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
+// IBM Quantum brand colors (full token list in globals.css)
+// Cool Gray 100  #121619  background
+// Cool Gray 90   #21272a  surface/card
+// Gray 10        #f4f4f4  body text on dark
+// Blue 60        #0f62fe  primary action/links
+// Purple 40      #be95ff  accent/labels
+// Magenta 40     #ff7eb6  CTA buttons
 // Hero gradient  Blue 60 → Purple 40 → Magenta 40
 
-// ─── Section: Navbar ──────────────────────────────────────────────────────────
+// Navbar
 function Navbar() {
   return (
     <header className="sticky top-0 z-50 bg-[#121619]/90 backdrop-blur border-b border-[#343a3f]">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <div className="flex items-center gap-3">
           <Image
-            src="/assets/badges/badge-pink.svg"
+            src={`${BASE}/assets/badges/badge-pink.svg`}
             alt="Qiskit Fall Fest 2026 badge"
             width={36}
             height={36}
@@ -60,16 +63,14 @@ function Navbar() {
   );
 }
 
-// ─── Section: Hero ────────────────────────────────────────────────────────────
-// Dark Cool Gray 100 bg + brand SVG illustration fills the right side.
-// Text anchored to a left column, IBM "Dynamic" asymmetric composition.
+// Hero
 function Hero() {
   return (
     <section className="relative overflow-hidden bg-[#121619] min-h-[600px] flex items-center">
-      {/* brand hero illustration — right-anchored, vertically centered */}
+      {/* hero illustration, right-anchored */}
       <div className="absolute inset-0 flex items-center justify-end pointer-events-none select-none">
         <Image
-          src="/assets/illustrations/hero-main.svg"
+          src={`${BASE}/assets/illustrations/hero-main.svg`}
           alt=""
           width={900}
           height={480}
@@ -78,16 +79,14 @@ function Hero() {
         />
       </div>
 
-      {/* left-column content */}
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 py-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         <div className="flex flex-col gap-6">
-          {/* title — Gray 10 on dark */}
           <h1 className="text-5xl sm:text-6xl font-bold text-[#f4f4f4] leading-tight">
             Qiskit
             <br />
             Fall Fest
             <br />
-            {/* "2026" with purple-to-magenta gradient */}
+            {/* purple-to-magenta gradient */}
             <span
               className="bg-clip-text text-transparent"
               style={{
@@ -104,12 +103,9 @@ function Hero() {
             todo o Brasil.
           </p>
 
-          {/* Countdown */}
           <Countdown />
 
-          {/* CTA row */}
           <div className="flex flex-wrap gap-3 mt-2">
-            {/* primary — Magenta 40 */}
             <a
               href="https://forms.cloud.microsoft/r/YuW1uLvY6m"
               target="_blank"
@@ -118,7 +114,6 @@ function Hero() {
             >
               Quero participar
             </a>
-            {/* secondary — outlined */}
             <a
               href="#sobre"
               className="border border-[#697077] px-6 py-3 text-[#f4f4f4] font-medium hover:border-[#be95ff] hover:text-[#be95ff] transition-colors"
@@ -132,23 +127,21 @@ function Hero() {
   );
 }
 
-// ─── Section: About ───────────────────────────────────────────────────────────
-// Modular grid: 3 cards on Cool Gray 90 surface, flat bird illustrations.
-// IBM "Modular" composition — systematic, aligned to grid, consistent proportions.
+// About
 function About() {
   const cards = [
     {
-      illustration: "/assets/illustrations/birds/hummingbird.png",
+      illustration: `${BASE}/assets/illustrations/birds/hummingbird.png`,
       title: "Computação Quântica",
       body: "Explore os princípios de superposição, entrelaçamento e interferência que tornam computadores quânticos tão poderosos.",
     },
     {
-      illustration: "/assets/illustrations/birds/falcon.png",
+      illustration: `${BASE}/assets/illustrations/birds/falcon.png`,
       title: "Qiskit na Prática",
       body: "Escreva seus primeiros circuitos quânticos com o SDK open-source Qiskit e execute em simuladores ou hardware real da IBM.",
     },
     {
-      illustration: "/assets/illustrations/birds/flamingo.png",
+      illustration: `${BASE}/assets/illustrations/birds/flamingo.png`,
       title: "Comunidade",
       body: "Conecte-se com estudantes e pesquisadores de todo o Brasil que compartilham a mesma curiosidade pelo mundo quântico.",
     },
@@ -157,7 +150,6 @@ function About() {
   return (
     <section id="sobre" className="bg-[#21272a] py-20 px-6">
       <div className="mx-auto max-w-6xl">
-        {/* section header */}
         <div className="flex flex-col gap-3 mb-14 max-w-xl">
           <span className="text-xs font-semibold tracking-widest uppercase text-[#be95ff]">
             O que é
@@ -171,7 +163,6 @@ function About() {
           </p>
         </div>
 
-        {/* 3-column modular grid — 16px gutter (Carbon narrow) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {cards.map((c) => (
             <div
@@ -201,8 +192,7 @@ function About() {
   );
 }
 
-// ─── Section: Schedule ────────────────────────────────────────────────────────
-// IBM "Essential" — form follows function, generous negative space.
+// Schedule
 const days = [
   {
     day: "Dia 1",
@@ -300,16 +290,15 @@ function Schedule() {
   );
 }
 
-// ─── Section: Illustration strip ──────────────────────────────────────────────
-// Shows flat Qiskit bird illustrations in a horizontal row on Cool Gray 90.
+// IllustrationStrip
 function IllustrationStrip() {
   const birds = [
-    { src: "/assets/illustrations/birds/condor.png", label: "Condor" },
-    { src: "/assets/illustrations/birds/eagle.png", label: "Eagle" },
-    { src: "/assets/illustrations/birds/heron.png", label: "Heron" },
-    { src: "/assets/illustrations/birds/kookaburra.png", label: "Kookaburra" },
-    { src: "/assets/illustrations/birds/osprey.png", label: "Osprey" },
-    { src: "/assets/illustrations/birds/starling.png", label: "Starling" },
+    { src: `${BASE}/assets/illustrations/birds/condor.png`, label: "Condor" },
+    { src: `${BASE}/assets/illustrations/birds/eagle.png`, label: "Eagle" },
+    { src: `${BASE}/assets/illustrations/birds/heron.png`, label: "Heron" },
+    { src: `${BASE}/assets/illustrations/birds/kookaburra.png`, label: "Kookaburra" },
+    { src: `${BASE}/assets/illustrations/birds/osprey.png`, label: "Osprey" },
+    { src: `${BASE}/assets/illustrations/birds/starling.png`, label: "Starling" },
   ];
 
   return (
@@ -330,12 +319,10 @@ function IllustrationStrip() {
   );
 }
 
-// ─── Section: Registration CTA ────────────────────────────────────────────────
-// Hero gradient bar + dark CTA block — IBM "Dynamic" expressive moment.
+// Registration
 function Registration() {
   return (
     <section id="inscricao" className="bg-[#121619] py-24 px-6">
-      {/* hero gradient accent bar */}
       <div
         className="h-1 max-w-6xl mx-auto mb-16"
         style={{
@@ -345,7 +332,7 @@ function Registration() {
 
       <div className="mx-auto max-w-2xl flex flex-col items-center text-center gap-6">
         <Image
-          src="/assets/badges/badge-pink.svg"
+          src={`${BASE}/assets/badges/badge-pink.svg`}
           alt="Qiskit Fall Fest 2026"
           width={80}
           height={80}
@@ -372,15 +359,14 @@ function Registration() {
   );
 }
 
-// ─── Section: Footer ──────────────────────────────────────────────────────────
+// Footer
 function Footer() {
   return (
     <footer className="bg-[#21272a] border-t border-[#343a3f] py-12 px-6 text-[#697077] text-sm">
       <div className="mx-auto max-w-6xl flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-        {/* brand */}
         <div className="flex items-center gap-3">
           <Image
-            src="/assets/badges/badge-pink.svg"
+            src={`${BASE}/assets/badges/badge-pink.svg`}
             alt="Qiskit Fall Fest 2026"
             width={40}
             height={40}
@@ -393,7 +379,6 @@ function Footer() {
           </div>
         </div>
 
-        {/* links */}
         <nav className="flex flex-wrap gap-6 text-sm">
           <a href="#sobre" className="hover:text-[#be95ff] transition-colors">
             Sobre
@@ -412,17 +397,16 @@ function Footer() {
           </a>
         </nav>
 
-        {/* svg sticker accent */}
         <div className="flex items-center gap-3 opacity-50">
           <Image
-            src="/assets/stickers/svg/qiskit-purple.svg"
+            src={`${BASE}/assets/stickers/svg/qiskit-purple.svg`}
             alt=""
             width={48}
             height={24}
             className="h-6 w-auto"
           />
           <Image
-            src="/assets/stickers/svg/quantum-blue.svg"
+            src={`${BASE}/assets/stickers/svg/quantum-blue.svg`}
             alt=""
             width={72}
             height={24}
@@ -438,7 +422,7 @@ function Footer() {
   );
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
+// Page
 export default function Home() {
   return (
     <>
