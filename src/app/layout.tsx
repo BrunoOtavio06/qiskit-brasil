@@ -16,7 +16,7 @@ const ibmPlexMono = IBM_Plex_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://qff2026.vercel.app"),
-  title: "Qiskit Fall Fest 2026 — Brasil",
+  title: "Qiskit Fall Fest 2026",
   description:
     "O maior evento de computação quântica do Brasil. Aprenda, explore e conecte-se com a comunidade Qiskit.",
   openGraph: {
