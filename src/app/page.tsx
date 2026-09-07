@@ -67,18 +67,16 @@ function Navbar() {
 function Hero() {
   return (
     <section className="relative overflow-hidden bg-[#121619] min-h-[600px] flex items-center">
-      {/* hero illustration, right-anchored with light outline and hover effect */}
+      {/* hero illustration, right-anchored */}
       <div className="absolute inset-y-0 right-0 max-w-full flex items-center justify-end select-none pointer-events-none pr-0 sm:pr-6 lg:pr-12">
-        <div className="pointer-events-auto group relative border-[3px] border-[#e0e0e0]/70 hover:border-[#be95ff] transition-all duration-300 overflow-hidden shadow-2xl bg-[#121619]">
-          <Image
-            src={`${BASE}/assets/illustrations/hero-main.svg`}
-            alt="Ilustração Qiskit Fall Fest Brasil 2026"
-            width={900}
-            height={480}
-            className="w-auto max-h-[480px] max-w-full object-contain"
-            priority
-          />
-        </div>
+        <Image
+          src={`${BASE}/assets/illustrations/hero-main.svg`}
+          alt="Ilustração Qiskit Fall Fest Brasil 2026"
+          width={900}
+          height={480}
+          className="w-auto max-h-[480px] max-w-full object-contain"
+          priority
+        />
       </div>
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 py-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center pointer-events-none">
