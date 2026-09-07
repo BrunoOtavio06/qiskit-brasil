@@ -66,9 +66,9 @@ function Navbar() {
 // Hero
 function Hero() {
   return (
-    <section className="relative overflow-hidden bg-[#121619] min-h-[600px] flex items-center">
-      {/* hero illustration, right-anchored */}
-      <div className="absolute inset-y-0 right-0 max-w-full flex items-center justify-end select-none pointer-events-none pr-0 sm:pr-6 lg:pr-12">
+    <section className="relative overflow-hidden bg-[#121619] min-h-[480px] lg:min-h-[600px] flex items-center">
+      {/* hero illustration, right-anchored — hidden on mobile to avoid overlap */}
+      <div className="hidden lg:flex absolute inset-y-0 right-0 max-w-full items-center justify-end select-none pointer-events-none lg:pr-12">
         <Image
           src={`${BASE}/assets/illustrations/hero-main.svg`}
           alt="Ilustração Qiskit Fall Fest Brasil 2026"
@@ -79,14 +79,17 @@ function Hero() {
         />
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-6 py-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center pointer-events-none">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-6 py-14 lg:py-24 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center pointer-events-none">
         <div className="flex flex-col gap-6 pointer-events-auto">
-          <h1 className="text-5xl sm:text-7xl font-light text-[#e0e0e0] leading-tight">
-            Qiskit
-            <br />
-            Fall Fest
-            <br />
-            {/* purple-to-magenta gradient */}
+          <h1 className="text-[13vw] sm:text-5xl lg:text-7xl font-light text-[#e0e0e0] leading-tight">
+            {/* On mobile: single flowing line. On sm+: stacked with breaks. */}
+            <span className="sm:hidden">Qiskit Fall Fest </span>
+            <span className="hidden sm:inline">
+              Qiskit
+              <br />
+              Fall Fest
+              <br />
+            </span>
             <span
               className="bg-clip-text text-transparent"
               style={{
@@ -147,13 +150,13 @@ function About() {
   ];
 
   return (
-    <section id="sobre" className="bg-[#21272a] py-20 px-6 scroll-mt-16">
+    <section id="sobre" className="bg-[#21272a] py-14 md:py-20 px-6 scroll-mt-16">
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-3 mb-14 max-w-xl">
           <span className="text-xs font-medium tracking-widest uppercase text-[#be95ff]">
             O que é
           </span>
-          <h2 className="text-4xl font-light text-[#f4f4f4]">
+          <h2 className="text-3xl md:text-4xl font-light text-[#f4f4f4]">
             Qiskit Fall Fest
           </h2>
           <p className="text-[#a8a8a8] text-lg leading-relaxed">
@@ -166,7 +169,7 @@ function About() {
           {cards.map((c) => (
             <div
               key={c.title}
-              className="bg-[#121619] border border-[#343a3f] p-8 flex flex-col gap-6 hover:border-[#4589ff] transition-colors"
+              className="bg-[#121619] border border-[#343a3f] p-6 md:p-8 flex flex-col gap-6 hover:border-[#4589ff] transition-colors"
             >
               <Image
                 src={c.illustration}
@@ -228,13 +231,13 @@ const days = [
 
 function Schedule() {
   return (
-    <section id="programacao" className="bg-[#121619] py-20 px-6 scroll-mt-16">
+    <section id="programacao" className="bg-[#121619] py-14 md:py-20 px-6 scroll-mt-16">
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-3 mb-14 max-w-xl">
           <span className="text-xs font-medium tracking-widest uppercase text-[#be95ff]">
             24 – 26 de Novembro de 2026
           </span>
-          <h2 className="text-4xl font-light text-[#f4f4f4]">Programação</h2>
+          <h2 className="text-3xl md:text-4xl font-light text-[#f4f4f4]">Programação</h2>
           <p className="text-[#a8a8a8] text-lg">
             Três dias de workshops, palestras e labs práticos. Online e
             gratuito.
@@ -284,7 +287,7 @@ function Schedule() {
 // Registration
 function Registration() {
   return (
-    <section id="inscricao" className="bg-[#121619] py-24 px-6">
+    <section id="inscricao" className="bg-[#121619] py-16 md:py-24 px-6">
       <div
         className="h-1 max-w-6xl mx-auto mb-16"
         style={{
@@ -294,28 +297,30 @@ function Registration() {
 
       <div className="mx-auto max-w-2xl flex flex-col items-center text-center gap-6">
         {/* sticker-01 (flamingo, faces right) · badge · sticker-03 (flipped to face left) */}
-        <div className="flex items-center justify-center gap-10">
+        <div className="flex items-center justify-center gap-4 sm:gap-10">
           <Image
             src={`${BASE}/assets/stickers/svg/sticker-01.svg`}
             alt=""
             width={96}
             height={96}
+            className="w-16 sm:w-24"
           />
           <Image
             src={`${BASE}/assets/badges/badge-pink.svg`}
             alt="Qiskit Fall Fest 2026"
             width={150}
             height={150}
+            className="w-24 sm:w-[150px]"
           />
           <Image
             src={`${BASE}/assets/stickers/svg/sticker-03.svg`}
             alt=""
             width={96}
             height={96}
-            className=""
+            className="w-16 sm:w-24"
           />
         </div>
-        <h2 className="text-4xl font-light text-[#f4f4f4]">Garanta sua vaga</h2>
+        <h2 className="text-3xl md:text-4xl font-light text-[#f4f4f4]">Garanta sua vaga</h2>
         <p className="text-[#a8a8a8] text-lg leading-relaxed max-w-md">
           Aberto para estudantes de graduação, pós-graduação e entusiastas de
           computação quântica.
@@ -337,7 +342,7 @@ function Registration() {
 // Footer
 function Footer() {
   return (
-    <footer className="bg-[#21272a] border-t border-[#343a3f] py-12 px-6 text-[#697077] text-sm">
+    <footer className="bg-[#21272a] border-t border-[#343a3f] py-10 md:py-12 px-6 text-[#697077] text-sm">
       <div className="mx-auto max-w-6xl flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
         <div className="flex items-center gap-3">
           <Image
