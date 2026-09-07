@@ -25,11 +25,11 @@ function Navbar() {
             width={36}
             height={36}
           />
-          <span className="font-semibold text-[#f4f4f4] text-sm tracking-wide hidden sm:block">
+          <span className="font-normal text-[#f4f4f4] text-sm tracking-wide hidden sm:block">
             Qiskit Fall Fest Brasil
           </span>
         </div>
-        <div className="flex items-center gap-6 text-sm font-medium text-[#a8a8a8]">
+        <div className="flex items-center gap-6 text-sm font-normal text-[#a8a8a8]">
           <a
             href="#sobre"
             className="hover:text-[#be95ff] transition-colors hidden md:block"
@@ -81,7 +81,7 @@ function Hero() {
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 py-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         <div className="flex flex-col gap-6">
-          <h1 className="text-5xl sm:text-6xl font-bold text-[#f4f4f4] leading-tight">
+          <h1 className="text-5xl sm:text-6xl font-light text-[#f4f4f4] leading-tight">
             Qiskit
             <br />
             Fall Fest
@@ -90,8 +90,7 @@ function Hero() {
             <span
               className="bg-clip-text text-transparent"
               style={{
-                backgroundImage:
-                  "linear-gradient(to right, #be95ff, #ff7eb6)",
+                backgroundImage: "linear-gradient(to right, #be95ff, #ff7eb6)",
               }}
             >
               2026
@@ -110,7 +109,7 @@ function Hero() {
               href="https://forms.cloud.microsoft/r/YuW1uLvY6m"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-[#ff7eb6] px-6 py-3 text-[#121619] font-semibold hover:bg-[#ee5396] transition-colors"
+              className="bg-[#ff7eb6] px-6 py-3 text-[#121619] font-medium hover:bg-[#ee5396] transition-colors"
             >
               Quero participar
             </a>
@@ -148,13 +147,13 @@ function About() {
   ];
 
   return (
-    <section id="sobre" className="bg-[#21272a] py-20 px-6">
+    <section id="sobre" className="bg-[#21272a] py-20 px-6 scroll-mt-16">
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-3 mb-14 max-w-xl">
-          <span className="text-xs font-semibold tracking-widest uppercase text-[#be95ff]">
+          <span className="text-xs font-medium tracking-widest uppercase text-[#be95ff]">
             O que é
           </span>
-          <h2 className="text-4xl font-bold text-[#f4f4f4]">
+          <h2 className="text-4xl font-light text-[#f4f4f4]">
             Qiskit Fall Fest
           </h2>
           <p className="text-[#a8a8a8] text-lg leading-relaxed">
@@ -177,7 +176,7 @@ function About() {
                 className="w-32 h-32 object-contain"
               />
               <div className="flex flex-col gap-2">
-                <h3 className="text-lg font-semibold text-[#f4f4f4]">
+                <h3 className="text-lg font-normal text-[#f4f4f4]">
                   {c.title}
                 </h3>
                 <p className="text-[#a8a8a8] leading-relaxed text-sm">
@@ -228,13 +227,13 @@ const days = [
 
 function Schedule() {
   return (
-    <section id="programacao" className="bg-[#121619] py-20 px-6">
+    <section id="programacao" className="bg-[#121619] py-20 px-6 scroll-mt-16">
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-3 mb-14 max-w-xl">
-          <span className="text-xs font-semibold tracking-widest uppercase text-[#be95ff]">
+          <span className="text-xs font-medium tracking-widest uppercase text-[#be95ff]">
             24 – 26 de Novembro de 2026
           </span>
-          <h2 className="text-4xl font-bold text-[#f4f4f4]">Programação</h2>
+          <h2 className="text-4xl font-light text-[#f4f4f4]">Programação</h2>
           <p className="text-[#a8a8a8] text-lg">
             Três dias de workshops, palestras e labs práticos. Online e
             gratuito.
@@ -245,29 +244,18 @@ function Schedule() {
           {days.map((d, i) => (
             <div
               key={d.day}
-              className="bg-[#21272a] border border-[#343a3f] p-6 flex flex-col gap-4"
+              className="bg-[#21272a] border border-[#343a3f] hover:border-[#be95ff] p-6 flex flex-col gap-4 transition-colors"
             >
-              {/* coloured top-border accent — Blue 60 / Purple 60 / Magenta 40 */}
-              <div
-                className="h-1 w-12"
-                style={{
-                  background:
-                    i === 0
-                      ? "#0f62fe"
-                      : i === 1
-                        ? "#8a3ffc"
-                        : "#ff7eb6",
-                }}
-              />
+              <div className="h-1 w-12 bg-[#be95ff]" />
               <div className="flex items-baseline justify-between">
-                <span className="text-xs font-semibold uppercase tracking-widest text-[#be95ff]">
+                <span className="text-xs font-medium uppercase tracking-widest text-[#be95ff]">
                   {d.day}
                 </span>
-                <span className="text-xs text-[#697077] font-medium">
+                <span className="text-xs text-[#697077] font-normal">
                   {d.date}
                 </span>
               </div>
-              <h3 className="text-base font-semibold text-[#f4f4f4] leading-snug">
+              <h3 className="text-base font-normal text-[#f4f4f4] leading-snug">
                 {d.title}
               </h3>
               <ul className="flex flex-col gap-2 mt-1">
@@ -276,8 +264,7 @@ function Schedule() {
                     key={item}
                     className="flex items-start gap-2 text-sm text-[#a8a8a8]"
                   >
-                    {/* Blue 60 bullet */}
-                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-[#0f62fe]" />
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-[#be95ff]" />
                     {item}
                   </li>
                 ))}
@@ -285,35 +272,6 @@ function Schedule() {
             </div>
           ))}
         </div>
-      </div>
-    </section>
-  );
-}
-
-// IllustrationStrip
-function IllustrationStrip() {
-  const birds = [
-    { src: `${BASE}/assets/illustrations/birds/condor.png`, label: "Condor" },
-    { src: `${BASE}/assets/illustrations/birds/eagle.png`, label: "Eagle" },
-    { src: `${BASE}/assets/illustrations/birds/heron.png`, label: "Heron" },
-    { src: `${BASE}/assets/illustrations/birds/kookaburra.png`, label: "Kookaburra" },
-    { src: `${BASE}/assets/illustrations/birds/osprey.png`, label: "Osprey" },
-    { src: `${BASE}/assets/illustrations/birds/starling.png`, label: "Starling" },
-  ];
-
-  return (
-    <section aria-hidden className="bg-[#21272a] py-12 overflow-hidden border-y border-[#343a3f]">
-      <div className="flex gap-8 px-6 justify-center flex-wrap">
-        {birds.map((b) => (
-          <Image
-            key={b.src}
-            src={b.src}
-            alt={b.label}
-            width={96}
-            height={96}
-            className="w-24 h-24 object-contain opacity-90 hover:opacity-100 transition-opacity"
-          />
-        ))}
       </div>
     </section>
   );
@@ -337,23 +295,20 @@ function Registration() {
           width={80}
           height={80}
         />
-        <h2 className="text-4xl font-bold text-[#f4f4f4]">Garanta sua vaga</h2>
+        <h2 className="text-4xl font-light text-[#f4f4f4]">Garanta sua vaga</h2>
         <p className="text-[#a8a8a8] text-lg leading-relaxed max-w-md">
-          Gratuito e aberto para estudantes de graduação, pós-graduação e
-          entusiastas de computação quântica.
+          Aberto para estudantes de graduação, pós-graduação e entusiastas de
+          computação quântica.
         </p>
         {/* Magenta 40 CTA */}
         <a
           href="https://forms.cloud.microsoft/r/YuW1uLvY6m"
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-[#ff7eb6] px-8 py-4 text-[#121619] font-semibold text-lg hover:bg-[#ee5396] transition-colors"
+          className="bg-[#ff7eb6] px-8 py-4 text-[#121619] font-medium text-lg hover:bg-[#ee5396] transition-colors"
         >
           Inscrever-se agora →
         </a>
-        <p className="text-[#697077] text-sm">
-          Vagas limitadas. Evento online e gratuito.
-        </p>
       </div>
     </section>
   );
@@ -372,7 +327,7 @@ function Footer() {
             height={40}
           />
           <div>
-            <p className="font-semibold text-[#f4f4f4] text-sm">
+            <p className="font-normal text-[#f4f4f4] text-sm">
               Qiskit Fall Fest 2026
             </p>
             <p className="text-xs text-[#697077]">Brasil</p>
@@ -396,23 +351,6 @@ function Footer() {
             Inscrição
           </a>
         </nav>
-
-        <div className="flex items-center gap-3 opacity-50">
-          <Image
-            src={`${BASE}/assets/stickers/svg/qiskit-purple.svg`}
-            alt=""
-            width={48}
-            height={24}
-            className="h-6 w-auto"
-          />
-          <Image
-            src={`${BASE}/assets/stickers/svg/quantum-blue.svg`}
-            alt=""
-            width={72}
-            height={24}
-            className="h-6 w-auto"
-          />
-        </div>
       </div>
 
       <div className="mt-8 border-t border-[#343a3f] pt-6 text-center text-xs text-[#697077]">
@@ -431,7 +369,6 @@ export default function Home() {
         <Hero />
         <About />
         <Schedule />
-        <IllustrationStrip />
         <Registration />
       </main>
       <Footer />
