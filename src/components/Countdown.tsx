@@ -16,11 +16,11 @@ function getTimeLeft() {
 }
 
 export default function Countdown() {
-  // Start as null so SSR and first client render agree, then hydrate on mount.
-  const [timeLeft, setTimeLeft] = useState<ReturnType<typeof getTimeLeft>>(null);
+  const [timeLeft, setTimeLeft] = useState<ReturnType<typeof getTimeLeft>>(() =>
+    getTimeLeft(),
+  );
 
   useEffect(() => {
-    setTimeLeft(getTimeLeft());
     const interval = setInterval(() => setTimeLeft(getTimeLeft()), 1000);
     return () => clearInterval(interval);
   }, []);

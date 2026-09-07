@@ -67,21 +67,23 @@ function Navbar() {
 function Hero() {
   return (
     <section className="relative overflow-hidden bg-[#121619] min-h-[600px] flex items-center">
-      {/* hero illustration, right-anchored */}
-      <div className="absolute inset-0 flex items-center justify-end pointer-events-none select-none">
-        <Image
-          src={`${BASE}/assets/illustrations/hero-main.svg`}
-          alt=""
-          width={900}
-          height={480}
-          className="object-cover object-right opacity-90 max-h-full"
-          priority
-        />
+      {/* hero illustration, right-anchored with light outline and hover effect */}
+      <div className="absolute inset-y-0 right-0 max-w-full flex items-center justify-end select-none pointer-events-none pr-0 sm:pr-6 lg:pr-12">
+        <div className="pointer-events-auto group relative border-[3px] border-[#e0e0e0]/70 hover:border-[#be95ff] transition-all duration-300 overflow-hidden shadow-2xl bg-[#121619]">
+          <Image
+            src={`${BASE}/assets/illustrations/hero-main.svg`}
+            alt="Ilustração Qiskit Fall Fest Brasil 2026"
+            width={900}
+            height={480}
+            className="w-auto max-h-[480px] max-w-full object-contain"
+            priority
+          />
+        </div>
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-6 py-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        <div className="flex flex-col gap-6">
-          <h1 className="text-5xl sm:text-6xl font-light text-[#f4f4f4] leading-tight">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-6 py-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center pointer-events-none">
+        <div className="flex flex-col gap-6 pointer-events-auto">
+          <h1 className="text-5xl sm:text-7xl font-light text-[#e0e0e0] leading-tight">
             Qiskit
             <br />
             Fall Fest
@@ -157,8 +159,8 @@ function About() {
             Qiskit Fall Fest
           </h2>
           <p className="text-[#a8a8a8] text-lg leading-relaxed">
-            Uma semana global de eventos de computação quântica, organizada por
-            estudantes para estudantes. Este ano pela primeira vez no Brasil.
+            Uma coletânia global de eventos de computação quântica, organizada
+            por estudantes para estudantes.
           </p>
         </div>
 
@@ -198,9 +200,9 @@ const days = [
     date: "24 Nov",
     title: "Introdução",
     items: [
-      "Abertura do evento",
-      "O que é computação quântica",
-      "Apresentações e comunidade",
+      "Abertura",
+      "O que é a computação quântica",
+      "Momentum da tecnologia",
     ],
   },
   {
@@ -208,8 +210,8 @@ const days = [
     date: "25 Nov",
     title: "Workshop & Hackathon",
     items: [
-      "Labs práticos com Qiskit",
-      "Início do hackathon",
+      "Workshop prático com Qiskit",
+      "Hackathon com um projeto real",
       "Networking entre participantes",
     ],
   },
@@ -218,9 +220,10 @@ const days = [
     date: "26 Nov",
     title: "Pitches & Encerramento",
     items: [
-      "Apresentações de grupos de pesquisa",
+      "Pitches de grupos de pesquisa",
       "Anúncio dos vencedores",
-      "Mercado quântico: onde estamos",
+      "Dinâmicas valendo prêmios*",
+      "Mercado: onde estamos e onde iremos",
     ],
   },
 ];
@@ -241,7 +244,7 @@ function Schedule() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {days.map((d, i) => (
+          {days.map((d) => (
             <div
               key={d.day}
               className="bg-[#21272a] border border-[#343a3f] hover:border-[#be95ff] p-6 flex flex-col gap-4 transition-colors"
@@ -272,6 +275,9 @@ function Schedule() {
             </div>
           ))}
         </div>
+        <p className="mt-4 text-sm text-[#a8a8a8]">
+          * Apenas para alunos da FIAP no formato presencial.
+        </p>
       </div>
     </section>
   );
@@ -289,12 +295,28 @@ function Registration() {
       />
 
       <div className="mx-auto max-w-2xl flex flex-col items-center text-center gap-6">
-        <Image
-          src={`${BASE}/assets/badges/badge-pink.svg`}
-          alt="Qiskit Fall Fest 2026"
-          width={80}
-          height={80}
-        />
+        {/* sticker-01 (flamingo, faces right) · badge · sticker-03 (flipped to face left) */}
+        <div className="flex items-center justify-center gap-10">
+          <Image
+            src={`${BASE}/assets/stickers/svg/sticker-01.svg`}
+            alt=""
+            width={96}
+            height={96}
+          />
+          <Image
+            src={`${BASE}/assets/badges/badge-pink.svg`}
+            alt="Qiskit Fall Fest 2026"
+            width={150}
+            height={150}
+          />
+          <Image
+            src={`${BASE}/assets/stickers/svg/sticker-03.svg`}
+            alt=""
+            width={96}
+            height={96}
+            className=""
+          />
+        </div>
         <h2 className="text-4xl font-light text-[#f4f4f4]">Garanta sua vaga</h2>
         <p className="text-[#a8a8a8] text-lg leading-relaxed max-w-md">
           Aberto para estudantes de graduação, pós-graduação e entusiastas de
