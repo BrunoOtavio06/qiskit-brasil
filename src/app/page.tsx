@@ -322,8 +322,7 @@ function Registration() {
         </div>
         <h2 className="text-3xl md:text-4xl font-light text-[#f4f4f4]">Garanta sua vaga</h2>
         <p className="text-[#a8a8a8] text-lg leading-relaxed max-w-md">
-          Aberto para estudantes de graduação, pós-graduação e entusiastas de
-          computação quântica.
+          Aberto para todos os níveis.
         </p>
         {/* Magenta 40 CTA */}
         <a
@@ -334,6 +333,9 @@ function Registration() {
         >
           Inscrever-se agora →
         </a>
+        <p className="text-[#697077] text-xs leading-relaxed max-w-sm">
+          Ao se inscrever, você concorda com o uso e divulgação pública da sua imagem.
+        </p>
       </div>
     </section>
   );
