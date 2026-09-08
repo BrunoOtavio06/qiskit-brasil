@@ -10,15 +10,11 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 ## Context
 
-The website you're working in is for Qiskit Fall Fest 2026. It's an event by the Qiskit community that is hosted on universities across the world.
+The website you're working in is for Qiskit Fall Fest 2026, a Qiskit community event hosted at universities across the world.
 
-The event will be hosted in São Paulo at FIAP (Faculdade de Informática e Administração Paulista), and we'll also bring USP (Universidade de São Paulo) and UFABC (Universidade Federal do ABC).
+This edition runs November 24–26 in a hybrid format. The in-person venue is FIAP (Faculdade de Informática e Administração Paulista) in São Paulo. The virtual format is open to students from any university.
 
-The event will be hosted on November 24, 25, and 26. It will be hybrid, we'll have both a digital transmission and an in-person format.
-
-We'll also have a workshop and hackathon.
-
-The event is made for beginners in Quantum Computing. All materials, presentations, and even the hackathon itself are aimed at people who have genuine interest in the field, but aren't familiar with mathematics, physics, or even programming.
+The program includes talks, a workshop, and a hackathon, all aimed at beginners. Materials and activities are designed for people genuinely curious about Quantum Computing but unfamiliar with math, physics, or programming.
 
 If there's specific information you don't know, ask me directly.
 
