@@ -493,25 +493,27 @@ function Location() {
         </div>
 
         {/* Calendar CTAs — below both cards, for everyone */}
-        <div className="mt-8 flex flex-wrap items-center gap-4">
+        <div className="mt-8 flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-3">
           <span className="text-[#697077] text-sm">
             Adicionar ao calendário:
           </span>
-          <a
-            href={gcalUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="border border-[#343a3f] px-4 py-2 text-sm text-[#a8a8a8] hover:border-[#be95ff] hover:text-[#be95ff] transition-colors"
-          >
-            + Google Calendar
-          </a>
-          <a
-            href={icsUrl}
-            download="qiskit-fall-fest-2026.ics"
-            className="border border-[#343a3f] px-4 py-2 text-sm text-[#a8a8a8] hover:border-[#be95ff] hover:text-[#be95ff] transition-colors"
-          >
-            + Outlook / Apple
-          </a>
+          <div className="flex gap-3">
+            <a
+              href={gcalUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="border border-[#343a3f] px-4 py-2 text-sm text-[#a8a8a8] hover:border-[#be95ff] hover:text-[#be95ff] transition-colors"
+            >
+              + Google Calendar
+            </a>
+            <a
+              href={icsUrl}
+              download="qiskit-fall-fest-2026.ics"
+              className="border border-[#343a3f] px-4 py-2 text-sm text-[#a8a8a8] hover:border-[#be95ff] hover:text-[#be95ff] transition-colors"
+            >
+              + Outlook / Apple
+            </a>
+          </div>
         </div>
       </div>
     </section>
