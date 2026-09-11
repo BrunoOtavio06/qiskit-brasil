@@ -502,14 +502,14 @@ function Location() {
               href={gcalUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="border border-[#343a3f] px-4 py-2 text-sm text-[#a8a8a8] hover:border-[#be95ff] hover:text-[#be95ff] transition-colors"
+              className="border border-[#343a3f] px-4 py-2 text-sm text-[#a8a8a8] hover:border-[#0f62fe] hover:text-[#0f62fe] transition-colors"
             >
               + Google Calendar
             </a>
             <a
               href={icsUrl}
               download="qiskit-fall-fest-2026.ics"
-              className="border border-[#343a3f] px-4 py-2 text-sm text-[#a8a8a8] hover:border-[#be95ff] hover:text-[#be95ff] transition-colors"
+              className="border border-[#343a3f] px-4 py-2 text-sm text-[#a8a8a8] hover:border-[#0f62fe] hover:text-[#0f62fe] transition-colors"
             >
               + Outlook / Apple
             </a>
