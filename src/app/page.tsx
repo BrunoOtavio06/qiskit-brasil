@@ -139,32 +139,134 @@ function Hero() {
 }
 
 // About
-function About() {
-  const cards = [
-    {
-      illustration: `${BASE}/assets/illustrations/birds/hummingbird.png`,
-      title: "Computação Quântica",
-      body: "Explore os princípios de superposição, entrelaçamento e interferência que tornam computadores quânticos tão poderosos.",
-    },
-    {
-      illustration: `${BASE}/assets/illustrations/birds/falcon.png`,
-      title: "Qiskit na Prática",
-      body: "Escreva seus primeiros circuitos quânticos com o SDK open-source Qiskit e execute em simuladores ou hardware real da IBM.",
-    },
-    {
-      illustration: `${BASE}/assets/illustrations/birds/flamingo.png`,
-      title: "Comunidade",
-      body: "Conecte-se com estudantes e pesquisadores de todo o Brasil que compartilham a mesma curiosidade pelo mundo quântico.",
-    },
-  ];
+const aboutPanels = [
+  {
+    image: `${BASE}/assets/illustrations/qiskit/qiskit-01-wide.png`,
+    title: "Computação Quântica",
+    body: "Você não precisa ser físico ou matemático pra entender computação quântica. A base está em fenômenos como superposição, entrelaçamento e interferência, e é isso que permite resolver problemas que computadores clássicos não conseguem resolver. O nome assusta, mas dá pra entender a ideia com calma, começando do zero.",
+  },
+  {
+    image: `${BASE}/assets/illustrations/qiskit/qiskit-04-wide.png`,
+    title: "Qiskit",
+    body: "Qiskit é o SDK open-source da IBM pra computação quântica. É a porta de entrada pra quem quer sair da teoria e começar a programar de verdade: você escreve circuitos quânticos em Python, testa em simuladores no seu próprio notebook e, quando estiver pronto, roda em hardware quântico real da IBM direto pela nuvem. Além disso, é completamente gratuito.",
+  },
+  {
+    image: `${BASE}/assets/illustrations/qiskit/qiskit-05-wide.png`,
+    title: "Comunidade",
+    body: "O Fall Fest reúne estudantes e entusiastas de vários lugares interessados no mundo quântico, desde quem já mexeu com Qiskit a quem nunca ouviu falar de qubit. Acontece de 24 a 26 de novembro, presencial na FIAP em São Paulo e online para qualquer lugar do país. Não é preciso ser de faculdade parceira nem já saber o assunto: basta curiosidade.",
+  },
+];
+
+function AboutCarousel() {
+  const [current, setCurrent] = useState(0);
+  const [dir, setDir] = useState<"left" | "right">("right");
+  const total = aboutPanels.length;
+
+  const goTo = (idx: number) => {
+    setDir(idx > current ? "right" : "left");
+    setCurrent(idx);
+  };
+
+  const p = aboutPanels[current];
+  // Even panels (0, 2): image left, text right. Odd (1): text left, image right.
+  const imageLeft = current % 2 === 0;
+  // key changes on every navigation, forcing React to remount and replay the animation
+  const slideClass =
+    dir === "right" ? "animate-slide-in-right" : "animate-slide-in-left";
 
   return (
-    <section
-      id="sobre"
-      className="bg-[#21272a] py-14 md:py-20 px-6 scroll-mt-16"
-    >
-      <div className="mx-auto max-w-6xl">
-        <div className="flex flex-col gap-3 mb-14 max-w-xl">
+    <div className="flex flex-col gap-6">
+      {/* key remounts the panel on each navigation, replaying the slide animation */}
+      <div
+        key={current}
+        className={`${slideClass} bg-[#121619] border border-[#343a3f] hover:border-[#0f62fe] transition-colors`}
+      >
+        <div className="flex flex-col md:flex-row">
+          {imageLeft ? (
+            <>
+              <div className="w-full md:w-1/2">
+                <Image
+                  src={p.image}
+                  alt={p.title}
+                  width={1456}
+                  height={816}
+                  className="w-full h-52 md:h-full object-cover"
+                  priority={current === 0}
+                />
+              </div>
+              <div className="w-full md:w-1/2 flex flex-col justify-center gap-4 p-6 md:p-10">
+                <h3 className="text-xl font-normal text-[#f4f4f4]">
+                  {p.title}
+                </h3>
+                <p className="text-[#a8a8a8] leading-relaxed text-sm">
+                  {p.body}
+                </p>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="w-full md:w-1/2 flex flex-col justify-center gap-4 p-6 md:p-10">
+                <h3 className="text-xl font-normal text-[#f4f4f4]">
+                  {p.title}
+                </h3>
+                <p className="text-[#a8a8a8] leading-relaxed text-sm">
+                  {p.body}
+                </p>
+              </div>
+              <div className="w-full md:w-1/2">
+                <Image
+                  src={p.image}
+                  alt={p.title}
+                  width={1456}
+                  height={816}
+                  className="w-full h-52 md:h-full object-cover"
+                />
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+
+      {/* Controls: arrows + dot indicators */}
+      <div className="flex items-center gap-4">
+        <button
+          onClick={() => goTo(Math.max(0, current - 1))}
+          disabled={current === 0}
+          aria-label="Anterior"
+          className="w-10 h-10 flex items-center justify-center border border-[#343a3f] text-[#a8a8a8] hover:border-[#4589ff] hover:text-[#f4f4f4] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+        >
+          ←
+        </button>
+
+        <div className="flex gap-2">
+          {aboutPanels.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => goTo(i)}
+              aria-label={`Ir para painel ${i + 1}`}
+              className={`w-2 h-2 transition-colors ${i === current ? "bg-[#4589ff]" : "bg-[#343a3f] hover:bg-[#697077]"}`}
+            />
+          ))}
+        </div>
+
+        <button
+          onClick={() => goTo(Math.min(total - 1, current + 1))}
+          disabled={current === total - 1}
+          aria-label="Próximo"
+          className="w-10 h-10 flex items-center justify-center border border-[#343a3f] text-[#a8a8a8] hover:border-[#4589ff] hover:text-[#f4f4f4] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+        >
+          →
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function About() {
+  return (
+    <section id="sobre" className="bg-[#21272a] py-14 md:py-20 scroll-mt-16">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="flex flex-col gap-3 mb-10 max-w-xl">
           <span className="text-xs font-medium tracking-widest uppercase text-[#be95ff]">
             O que é
           </span>
@@ -172,35 +274,12 @@ function About() {
             Qiskit Fall Fest
           </h2>
           <p className="text-[#a8a8a8] text-lg leading-relaxed">
-            Uma coletânia global de eventos de computação quântica, organizada
+            Uma coletânea global de eventos de computação quântica, organizada
             por estudantes para estudantes.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {cards.map((c) => (
-            <div
-              key={c.title}
-              className="bg-[#121619] border border-[#343a3f] p-6 md:p-8 flex flex-col gap-6 hover:border-[#4589ff] transition-colors"
-            >
-              <Image
-                src={c.illustration}
-                alt={c.title}
-                width={128}
-                height={128}
-                className="w-32 h-32 object-contain"
-              />
-              <div className="flex flex-col gap-2">
-                <h3 className="text-lg font-normal text-[#f4f4f4]">
-                  {c.title}
-                </h3>
-                <p className="text-[#a8a8a8] leading-relaxed text-sm">
-                  {c.body}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
+        <AboutCarousel />
       </div>
     </section>
   );
@@ -450,7 +529,9 @@ function Location() {
                 </span>
               </div>
               <div>
-                <p className="text-[#f4f4f4] text-xl font-light">FIAP Paulista</p>
+                <p className="text-[#f4f4f4] text-xl font-light">
+                  FIAP Paulista
+                </p>
                 <p className="text-[#a8a8a8] text-sm mt-1">
                   Av. Paulista, 1106 — Edifício Paulista, 1100
                 </p>
@@ -486,7 +567,9 @@ function Location() {
               </span>
             </div>
             <div>
-              <p className="text-[#f4f4f4] text-xl font-light">Transmissão ao vivo</p>
+              <p className="text-[#f4f4f4] text-xl font-light">
+                Transmissão ao vivo
+              </p>
               <p className="text-[#a8a8a8] text-sm mt-1">Aberto a todos.</p>
             </div>
           </div>
