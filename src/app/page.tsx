@@ -46,6 +46,12 @@ function Navbar() {
             Programação
           </a>
           <a
+            href="#local"
+            className="hover:text-[#be95ff] transition-colors hidden md:block"
+          >
+            Local
+          </a>
+          <a
             href="#inscricao"
             className="hover:text-[#be95ff] transition-colors hidden md:block"
           >
@@ -396,6 +402,122 @@ function Schedule() {
 }
 
 // Registration
+// Location
+function Location() {
+  // Google Calendar link — Nov 24–26 2026, all-day event
+  const gcalUrl =
+    "https://calendar.google.com/calendar/render?action=TEMPLATE" +
+    "&text=Qiskit+Fall+Fest+2026+Brasil" +
+    "&dates=20261124/20261127" +
+    "&details=Evento+h%C3%ADbrido+de+Computa%C3%A7%C3%A3o+Qu%C3%E2ntica.+Transmiss%C3%A3o+online+aberta+a+todos." +
+    "&location=FIAP+Paulista,+Av.+Paulista,+1106,+S%C3%A3o+Paulo";
+
+  // ICS download (works for Apple Calendar, Outlook, etc.)
+  const icsContent = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "BEGIN:VEVENT",
+    "DTSTART;VALUE=DATE:20261124",
+    "DTEND;VALUE=DATE:20261127",
+    "SUMMARY:Qiskit Fall Fest 2026 Brasil",
+    "DESCRIPTION:Evento híbrido de Computação Quântica. Transmissão online aberta a todos.",
+    "LOCATION:FIAP Paulista\\, Av. Paulista\\, 1106\\, São Paulo",
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ].join("\r\n");
+
+  const icsUrl =
+    "data:text/calendar;charset=utf-8," + encodeURIComponent(icsContent);
+
+  return (
+    <section id="local" className="bg-[#21272a] py-16 md:py-24 px-6">
+      <div className="mx-auto max-w-6xl">
+        <h2 className="text-3xl md:text-4xl font-light text-[#f4f4f4] mb-12">
+          Local
+        </h2>
+
+        <div className="flex flex-col gap-6">
+          {/* In-person — text left, map right */}
+          <div className="bg-[#121619] flex flex-col md:flex-row overflow-hidden">
+            <div className="p-8 flex flex-col gap-4 md:w-1/2">
+              <div className="flex items-center gap-3">
+                <span
+                  className="w-2 h-2 rounded-full flex-shrink-0"
+                  style={{ background: "#be95ff" }}
+                />
+                <span className="text-[#be95ff] text-sm font-medium uppercase tracking-widest">
+                  Presencial
+                </span>
+              </div>
+              <div>
+                <p className="text-[#f4f4f4] text-xl font-light">FIAP Paulista</p>
+                <p className="text-[#a8a8a8] text-sm mt-1">
+                  Av. Paulista, 1106 — Edifício Paulista, 1100
+                </p>
+                <p className="text-[#a8a8a8] text-sm">São Paulo, SP</p>
+              </div>
+              <p className="text-[#697077] text-sm">
+                Vagas presenciais reservadas a estudantes FIAP.
+              </p>
+            </div>
+            <div className="md:w-1/2 min-h-[220px]">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.12136423712!2d-46.65496142432668!3d-23.56408427879798!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c7dbf9ff57%3A0x4ca8eb5c4f7ecca9!2sFIAP%20-%20Paulista!5e0!3m2!1spt-BR!2sbr!4v1789130579285!5m2!1spt-BR!2sbr"
+                width="100%"
+                height="100%"
+                style={{ border: 0, display: "block", minHeight: "220px" }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="strict-origin-when-cross-origin"
+                title="FIAP Paulista no Google Maps"
+              />
+            </div>
+          </div>
+
+          {/* Online — horizontal compact card */}
+          <div className="bg-[#121619] p-8 flex flex-col sm:flex-row sm:items-center gap-4">
+            <div className="flex items-center gap-3 sm:w-32 flex-shrink-0">
+              <span
+                className="w-2 h-2 rounded-full flex-shrink-0"
+                style={{ background: "#ff7eb6" }}
+              />
+              <span className="text-[#ff7eb6] text-sm font-medium uppercase tracking-widest">
+                Online
+              </span>
+            </div>
+            <div>
+              <p className="text-[#f4f4f4] text-xl font-light">Transmissão ao vivo</p>
+              <p className="text-[#a8a8a8] text-sm mt-1">Aberto a todos.</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Calendar CTAs — below both cards, for everyone */}
+        <div className="mt-8 flex flex-wrap items-center gap-4">
+          <span className="text-[#697077] text-sm">
+            Adicionar ao calendário:
+          </span>
+          <a
+            href={gcalUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="border border-[#343a3f] px-4 py-2 text-sm text-[#a8a8a8] hover:border-[#be95ff] hover:text-[#be95ff] transition-colors"
+          >
+            + Google Calendar
+          </a>
+          <a
+            href={icsUrl}
+            download="qiskit-fall-fest-2026.ics"
+            className="border border-[#343a3f] px-4 py-2 text-sm text-[#a8a8a8] hover:border-[#be95ff] hover:text-[#be95ff] transition-colors"
+          >
+            + Outlook / Apple
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Registration() {
   return (
     <section id="inscricao" className="bg-[#121619] py-16 md:py-24 px-6">
@@ -435,7 +557,7 @@ function Registration() {
           Garanta sua vaga
         </h2>
         <p className="text-[#a8a8a8] text-lg leading-relaxed max-w-md">
-          Aberto para todos os níveis.
+          Aberto para todos.
         </p>
         {/* Magenta 40 CTA */}
         <a
@@ -485,6 +607,9 @@ function Footer() {
           >
             Programação
           </a>
+          <a href="#local" className="hover:text-[#be95ff] transition-colors">
+            Local
+          </a>
           <a
             href="#inscricao"
             className="hover:text-[#be95ff] transition-colors"
@@ -510,6 +635,7 @@ export default function Home() {
         <Hero />
         <About />
         <Schedule />
+        <Location />
         <Registration />
       </main>
       <Footer />
