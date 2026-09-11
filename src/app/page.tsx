@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import Countdown from "@/components/Countdown";
 
 // next/image does not auto-apply basePath, so we prefix every src manually
@@ -150,7 +153,10 @@ function About() {
   ];
 
   return (
-    <section id="sobre" className="bg-[#21272a] py-14 md:py-20 px-6 scroll-mt-16">
+    <section
+      id="sobre"
+      className="bg-[#21272a] py-14 md:py-20 px-6 scroll-mt-16"
+    >
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-3 mb-14 max-w-xl">
           <span className="text-xs font-medium tracking-widest uppercase text-[#be95ff]">
@@ -202,18 +208,36 @@ const days = [
     title: "Introdução",
     items: [
       "Abertura",
-      "O que é a computação quântica",
-      "Momentum da tecnologia",
+      "Casos de uso e relevância",
+      "101 de computação quântica",
+    ],
+    schedule: [
+      { time: "17:00 – 17:20", label: "Abertura" },
+      {
+        time: "17:30 – 18:10",
+        label: "Computação Quântica: Casos de Uso e sua Relevância",
+      },
+      { time: "18:15 – 19:00", label: "Quantum 101: Visual e Intuitivo" },
     ],
   },
   {
     day: "Dia 2",
     date: "25 Nov",
     title: "Workshop & Hackathon",
-    items: [
-      "Workshop prático com Qiskit",
-      "Hackathon com um projeto real",
-      "Networking entre participantes",
+    items: ["Workshop com Qiskit", "Hackathon", "AMA e networking"],
+    schedule: [
+      { time: "14:00 – 15:30", label: "Workshop: Primeiros Passos com Qiskit" },
+      { time: "16:00 – 16:45", label: "Sessão de Perguntas e Respostas" },
+      {
+        time: "17:00 – 19:00",
+        label: "Hackathon: Projeto Real com Qiskit",
+        note: "Submissões apenas até o final do hackathon",
+      },
+      {
+        time: "17:00 – 19:00",
+        label: "AMA com Pessoas da Área",
+        note: "Simultâneo ao hackathon",
+      },
     ],
   },
   {
@@ -221,23 +245,105 @@ const days = [
     date: "26 Nov",
     title: "Pitches & Encerramento",
     items: [
-      "Pitches de grupos de pesquisa",
+      "Pitches de estudantes e pesquisadores",
       "Anúncio dos vencedores",
-      "Dinâmicas valendo prêmios*",
-      "Mercado: onde estamos e onde iremos",
+      "Próximos passos",
+    ],
+    schedule: [
+      { time: "17:00 – 17:45", label: "Pitches de Estudantes e Pesquisadores" },
+      { time: "17:45 – 18:10", label: "Anúncio dos Vencedores do Hackathon" },
+      {
+        time: "18:15 – 19:00",
+        label: "Encerramento: Oportunidades, Mercado e Certificações",
+      },
     ],
   },
 ];
 
-function Schedule() {
+// Modal com a agenda detalhada de um dia
+function DayModal({
+  day,
+  onClose,
+}: {
+  day: (typeof days)[0];
+  onClose: () => void;
+}) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [onClose]);
+
   return (
-    <section id="programacao" className="bg-[#121619] py-14 md:py-20 px-6 scroll-mt-16">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#121619]/90"
+      onClick={onClose}
+    >
+      <div
+        className="relative w-full max-w-lg bg-[#21272a] border border-[#343a3f] p-8 flex flex-col gap-6"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Cabeçalho */}
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex flex-col gap-1">
+            <span className="text-xs font-medium uppercase tracking-widest text-[#be95ff]">
+              {day.day} · {day.date}
+            </span>
+            <h3 className="text-xl font-light text-[#f4f4f4]">{day.title}</h3>
+          </div>
+          <button
+            onClick={onClose}
+            className="text-[#697077] hover:text-[#f4f4f4] transition-colors shrink-0 text-lg leading-none"
+            aria-label="Fechar"
+          >
+            ✕
+          </button>
+        </div>
+
+        {/* Lista de itens com horários */}
+        <ul className="flex flex-col divide-y divide-[#343a3f]">
+          {day.schedule.map((item) => (
+            <li
+              key={item.time + item.label}
+              className="flex flex-col gap-1 py-4 first:pt-0 last:pb-0"
+            >
+              <span className="text-xs font-medium tabular-nums text-[#be95ff]">
+                {item.time}
+              </span>
+              <span className="text-sm text-[#f4f4f4]">{item.label}</span>
+              {item.note && (
+                <span className="text-xs text-[#697077]">{item.note}</span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function Schedule() {
+  const [activeDay, setActiveDay] = useState<number | null>(null);
+
+  return (
+    <section
+      id="programacao"
+      className="bg-[#121619] py-14 md:py-20 px-6 scroll-mt-16"
+    >
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-3 mb-14 max-w-xl">
           <span className="text-xs font-medium tracking-widest uppercase text-[#be95ff]">
             24 – 26 de Novembro de 2026
           </span>
-          <h2 className="text-3xl md:text-4xl font-light text-[#f4f4f4]">Programação</h2>
+          <h2 className="text-3xl md:text-4xl font-light text-[#f4f4f4]">
+            Programação
+          </h2>
           <p className="text-[#a8a8a8] text-lg">
             Três dias de workshops, palestras e labs práticos. Online e
             gratuito.
@@ -245,10 +351,11 @@ function Schedule() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {days.map((d) => (
-            <div
+          {days.map((d, i) => (
+            <button
               key={d.day}
-              className="bg-[#21272a] border border-[#343a3f] hover:border-[#be95ff] p-6 flex flex-col gap-4 transition-colors"
+              onClick={() => setActiveDay(i)}
+              className="bg-[#21272a] border border-[#343a3f] hover:border-[#be95ff] p-6 flex flex-col gap-4 transition-colors text-left cursor-pointer"
             >
               <div className="h-1 w-12 bg-[#be95ff]" />
               <div className="flex items-baseline justify-between">
@@ -273,13 +380,17 @@ function Schedule() {
                   </li>
                 ))}
               </ul>
-            </div>
+              <span className="mt-auto text-xs text-[#be95ff] pt-2">
+                Ver agenda →
+              </span>
+            </button>
           ))}
         </div>
-        <p className="mt-4 text-sm text-[#a8a8a8]">
-          * Apenas para alunos da FIAP no formato presencial.
-        </p>
       </div>
+
+      {activeDay !== null && (
+        <DayModal day={days[activeDay]} onClose={() => setActiveDay(null)} />
+      )}
     </section>
   );
 }
@@ -320,7 +431,9 @@ function Registration() {
             className="w-16 sm:w-24"
           />
         </div>
-        <h2 className="text-3xl md:text-4xl font-light text-[#f4f4f4]">Garanta sua vaga</h2>
+        <h2 className="text-3xl md:text-4xl font-light text-[#f4f4f4]">
+          Garanta sua vaga
+        </h2>
         <p className="text-[#a8a8a8] text-lg leading-relaxed max-w-md">
           Aberto para todos os níveis.
         </p>
@@ -334,7 +447,8 @@ function Registration() {
           Inscrever-se agora →
         </a>
         <p className="text-[#697077] text-xs leading-relaxed max-w-sm">
-          Ao se inscrever, você concorda com o uso e divulgação pública da sua imagem.
+          Ao se inscrever, você concorda com o uso e divulgação pública da sua
+          imagem.
         </p>
       </div>
     </section>

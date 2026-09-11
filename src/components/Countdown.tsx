@@ -16,11 +16,11 @@ function getTimeLeft() {
 }
 
 export default function Countdown() {
-  const [timeLeft, setTimeLeft] = useState<ReturnType<typeof getTimeLeft>>(() =>
-    getTimeLeft(),
-  );
+  // Inicia como null para evitar mismatch de hidratação (SSR vs cliente)
+  const [timeLeft, setTimeLeft] = useState<ReturnType<typeof getTimeLeft>>(null);
 
   useEffect(() => {
+    setTimeLeft(getTimeLeft());
     const interval = setInterval(() => setTimeLeft(getTimeLeft()), 1000);
     return () => clearInterval(interval);
   }, []);
