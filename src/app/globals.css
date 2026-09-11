@@ -4,8 +4,8 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* ─── IBM Quantum brand tokens ─────────────────────────────────────────────── */
-/* Primary palette                                                               */
+/* IBM Quantum brand tokens */
+/* Primary palette */
 /* --iq-gray-100  #121619  Cool Gray 100 — deepest bg                           */
 /* --iq-gray-90   #21272a  Cool Gray 90  — surface / card                       */
 /* --iq-gray-10   #f4f4f4  Gray 10       — light text on dark                   */
@@ -13,8 +13,7 @@
 /* --iq-blue-60   #0f62fe  Blue 60       — primary action                       */
 /* --iq-purple-40 #be95ff  Purple 40     — accent / lavender                    */
 /* --iq-magenta-40 #ff7eb6 Magenta 40   — accent / CTA                          */
-/*                                                                               */
-/* Secondary palette                                                             */
+/* Secondary palette */
 /* --iq-gray-80   #343a3f                                                        */
 /* --iq-gray-60   #697077                                                        */
 /* --iq-gray-40   #a8a8a8                                                        */
@@ -27,13 +26,13 @@
 /* --iq-magenta-50 #ee5396                                                       */
 
 @theme inline {
-  /* Map shadcn/Tailwind slots to IBM Quantum tokens */
+  /* Wire shadcn/Tailwind color slots to IBM Quantum tokens */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
 
-  /* IBM brand token shortcuts — usable as `bg-[--iq-blue-60]` etc. */
+  /* IBM brand tokens, usable as `bg-[--iq-blue-60]` etc. */
   --iq-gray-100:    #121619;
   --iq-gray-90:     #21272a;
   --iq-gray-80:     #343a3f;
@@ -88,7 +87,7 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-/* ─── Light theme: IBM Quantum white/surface ────────────────────────────────── */
+/* Light theme: white/surface */
 :root {
   --background: #ffffff;
   --foreground: #121619;
@@ -108,7 +107,7 @@
   --border: #e0e0e0;
   --input: #e0e0e0;
   --ring: #0f62fe;
-  --radius: 0rem; /* IBM uses sharp corners for UI components */
+  --radius: 0rem; /* sharp corners per IBM design */
   --sidebar: #f4f4f4;
   --sidebar-foreground: #121619;
   --sidebar-primary: #0f62fe;
@@ -119,7 +118,7 @@
   --sidebar-ring: #0f62fe;
 }
 
-/* ─── Dark theme: IBM Quantum Cool Gray 90/100 ──────────────────────────────── */
+/* Dark theme: Cool Gray 90/100 */
 .dark {
   --background: #121619;
   --foreground: #f4f4f4;
