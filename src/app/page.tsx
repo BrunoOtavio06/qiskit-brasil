@@ -297,12 +297,12 @@ const days = [
       "101 de computação quântica",
     ],
     schedule: [
-      { time: "17:00 – 17:30", label: "Abertura" },
+      { time: "18:00 – 18:30", label: "Abertura" },
       {
-        time: "17:30 – 18:15",
+        time: "18:30 – 19:15",
         label: "Computação Quântica: Casos de Uso e sua Relevância",
       },
-      { time: "18:15 – 19:00", label: "Quantum 101: Visual e Intuitivo" },
+      { time: "19:15 – 20:00", label: "Quantum 101: Visual e Intuitivo" },
     ],
   },
   {
@@ -311,15 +311,15 @@ const days = [
     title: "Workshop & Hackathon",
     items: ["Workshop com Qiskit", "Hackathon", "AMA e networking"],
     schedule: [
-      { time: "14:00 – 16:00", label: "Workshop: Primeiros Passos com Qiskit" },
-      { time: "16:00 – 17:00", label: "Sessão de Perguntas e Respostas" },
+      { time: "15:00 – 17:00", label: "Workshop: Primeiros Passos com Qiskit" },
+      { time: "17:00 – 18:00", label: "Sessão de Perguntas e Respostas" },
       {
-        time: "17:00 – 19:00",
+        time: "18:00 – 20:00",
         label: "Hackathon: Projeto Real com Qiskit",
         note: "Submissões apenas até o final do hackathon",
       },
       {
-        time: "17:00 – 19:00",
+        time: "18:00 – 20:00",
         label: "AMA com Pessoas da Área",
         note: "Simultâneo ao hackathon",
       },
@@ -335,10 +335,10 @@ const days = [
       "Próximos passos",
     ],
     schedule: [
-      { time: "17:00 – 17:45", label: "Pitches de Estudantes e Pesquisadores" },
-      { time: "17:45 – 18:15", label: "Anúncio dos Vencedores do Hackathon" },
+      { time: "18:00 – 18:45", label: "Pitches de Estudantes e Pesquisadores" },
+      { time: "18:45 – 19:15", label: "Anúncio dos Vencedores do Hackathon" },
       {
-        time: "18:15 – 19:00",
+        time: "19:15 – 20:00",
         label: "Encerramento: Oportunidades, Mercado e Certificações",
       },
     ],
