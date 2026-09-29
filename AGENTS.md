@@ -14,7 +14,7 @@ The website you're working in is for Qiskit Fall Fest 2026, a Qiskit community e
 
 This edition runs November 24–26 in a hybrid format. The in-person venue is FIAP (Faculdade de Informática e Administração Paulista) in São Paulo. The virtual format is open to students from any university.
 
-The program includes talks, a workshop, and a hackathon, all aimed at beginners. Materials and activities are designed for people genuinely curious about Quantum Computing but unfamiliar with math, physics, or programming.
+The program includes talks, a workshop, and the Challenge: Quantum Startup Pitch (a team ideation challenge, no coding required), all aimed at beginners. Materials and activities are designed for people genuinely curious about Quantum Computing but unfamiliar with math, physics, or programming.
 
 If there's specific information you don't know, ask me directly.
 

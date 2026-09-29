@@ -110,7 +110,7 @@ function Hero() {
           </h1>
 
           <p className="text-[#a8a8a8] text-lg leading-relaxed max-w-sm">
-            Uma semana de computação quântica para estudantes e entusiastas de
+            Três dias de computação quântica para estudantes e entusiastas de
             todo o Brasil.
           </p>
 
@@ -292,12 +292,16 @@ const days = [
     date: "24 Nov",
     title: "Introdução",
     items: [
-      "Abertura",
+      "Abertura e lançamento do Challenge",
       "Casos de uso e relevância",
       "101 de computação quântica",
     ],
     schedule: [
-      { time: "18:00 – 18:30", label: "Abertura" },
+      {
+        time: "18:00 – 18:30",
+        label: "Abertura",
+        note: "Lançamento do Challenge: Quantum Startup Pitch",
+      },
       {
         time: "18:30 – 19:15",
         label: "Computação Quântica: Casos de Uso e sua Relevância",
@@ -308,35 +312,39 @@ const days = [
   {
     day: "Dia 2",
     date: "25 Nov",
-    title: "Workshop & Hackathon",
-    items: ["Workshop com Qiskit", "Hackathon", "AMA e networking"],
+    title: "Workshop & Challenge",
+    items: ["Workshop com Qiskit", "Challenge", "AMA e networking"],
     schedule: [
       { time: "15:00 – 17:00", label: "Workshop: Primeiros Passos com Qiskit" },
       { time: "17:00 – 18:00", label: "Sessão de Perguntas e Respostas" },
       {
         time: "18:00 – 20:00",
-        label: "Hackathon: Projeto Real com Qiskit",
-        note: "Submissões apenas até o final do hackathon",
+        label: "Challenge: Quantum Startup Pitch",
+        note: "Idealização de uma aplicação com os conceitos do evento · entregas até o final do dia",
       },
       {
         time: "18:00 – 20:00",
         label: "AMA com Pessoas da Área",
-        note: "Simultâneo ao hackathon",
+        note: "Simultâneo ao Challenge",
       },
     ],
   },
   {
     day: "Dia 3",
     date: "26 Nov",
-    title: "Pitches & Encerramento",
+    title: "Grupos de Pesquisa & Encerramento",
     items: [
-      "Pitches de estudantes e pesquisadores",
+      "Apresentações de grupos de pesquisa e estudo",
       "Anúncio dos vencedores",
       "Próximos passos",
     ],
     schedule: [
-      { time: "18:00 – 18:45", label: "Pitches de Estudantes e Pesquisadores" },
-      { time: "18:45 – 19:15", label: "Anúncio dos Vencedores do Hackathon" },
+      {
+        time: "18:00 – 18:45",
+        label: "Apresentações de Grupos de Pesquisa e Estudo",
+        note: "Projetos e mentoria para quem está começando",
+      },
+      { time: "18:45 – 19:15", label: "Anúncio dos Vencedores do Challenge" },
       {
         time: "19:15 – 20:00",
         label: "Encerramento: Oportunidades, Mercado e Certificações",
@@ -430,8 +438,8 @@ function Schedule() {
             Programação
           </h2>
           <p className="text-[#a8a8a8] text-lg">
-            Três dias de workshops, palestras e labs práticos. Online e
-            gratuito.
+            Três dias de palestras, workshop e desafio. Presencial na FIAP,
+            online para todo o Brasil e gratuito.
           </p>
         </div>
 
