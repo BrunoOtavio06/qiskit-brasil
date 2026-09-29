@@ -335,6 +335,7 @@ const days = [
     title: "Grupos de Pesquisa & Encerramento",
     items: [
       "Apresentações de grupos de pesquisa e estudo",
+      "Dinâmica",
       "Anúncio dos vencedores",
       "Próximos passos",
     ],
@@ -344,9 +345,14 @@ const days = [
         label: "Apresentações de Grupos de Pesquisa e Estudo",
         note: "Projetos e mentoria para quem está começando",
       },
-      { time: "18:45 – 19:15", label: "Anúncio dos Vencedores do Challenge" },
       {
-        time: "19:15 – 20:00",
+        time: "18:45 – 19:00",
+        label: "Dinâmica",
+        note: "Valendo prêmios da IBM Quantum (somente para o público presencial)",
+      },
+      { time: "19:00 – 19:20", label: "Anúncio dos Vencedores do Challenge" },
+      {
+        time: "19:20 – 20:00",
         label: "Encerramento: Oportunidades, Mercado e Certificações",
       },
     ],
