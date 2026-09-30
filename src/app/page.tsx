@@ -300,7 +300,7 @@ const days = [
       {
         time: "18:00 – 18:30",
         label: "Abertura",
-        note: "Lançamento do Challenge: Quantum Startup Pitch",
+        note: "Lançamento do Challenge",
       },
       {
         time: "18:30 – 19:15",
@@ -320,7 +320,6 @@ const days = [
       {
         time: "18:00 – 20:00",
         label: "Challenge: Quantum Startup Pitch",
-        note: "Idealização de uma aplicação com os conceitos do evento · entregas até o final do dia",
       },
       {
         time: "18:00 – 20:00",
