@@ -298,15 +298,15 @@ const days = [
     ],
     schedule: [
       {
-        time: "18:00 – 18:30",
+        time: "18:00 - 18:30",
         label: "Abertura",
         note: "Lançamento do Challenge",
       },
       {
-        time: "18:30 – 19:15",
+        time: "18:30 - 19:45",
         label: "Computação Quântica: Casos de Uso e sua Relevância",
       },
-      { time: "19:15 – 20:00", label: "Quantum 101: Visual e Intuitivo" },
+      { time: "19:45 - 20:30", label: "Quantum 101: Visual e Intuitivo" },
     ],
   },
   {
@@ -315,14 +315,14 @@ const days = [
     title: "Workshop & Challenge",
     items: ["Workshop com Qiskit", "Challenge", "AMA e networking"],
     schedule: [
-      { time: "15:00 – 17:00", label: "Workshop: Primeiros Passos com Qiskit" },
-      { time: "17:00 – 18:00", label: "Sessão de Perguntas e Respostas" },
+      { time: "15:00 - 17:00", label: "Workshop: Primeiros Passos com Qiskit" },
+      { time: "17:00 - 18:00", label: "Sessão de Perguntas e Respostas" },
       {
-        time: "18:00 – 20:00",
+        time: "18:00 - 20:00",
         label: "Challenge: Quantum Startup Pitch",
       },
       {
-        time: "18:00 – 20:00",
+        time: "18:00 - 20:00",
         label: "AMA com Pessoas da Área",
         note: "Simultâneo ao Challenge",
       },
@@ -340,18 +340,18 @@ const days = [
     ],
     schedule: [
       {
-        time: "18:00 – 18:45",
+        time: "18:00 - 19:00",
         label: "Apresentações de Grupos de Pesquisa e Estudo",
         note: "Projetos e mentoria para quem está começando",
       },
       {
-        time: "18:45 – 19:00",
+        time: "19:00 - 19:30",
         label: "Dinâmica",
         note: "Valendo prêmios da IBM Quantum (somente para o público presencial)",
       },
-      { time: "19:00 – 19:20", label: "Anúncio dos Vencedores do Challenge" },
+      { time: "19:30 - 19:50", label: "Anúncio dos Vencedores do Challenge" },
       {
-        time: "19:20 – 20:00",
+        time: "19:50 - 20:30",
         label: "Encerramento: Oportunidades, Mercado e Certificações",
       },
     ],
@@ -437,7 +437,7 @@ function Schedule() {
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-3 mb-14 max-w-xl">
           <span className="text-xs font-medium tracking-widest uppercase text-[#be95ff]">
-            24 – 26 de Novembro de 2026
+            24 - 26 de Novembro de 2026
           </span>
           <h2 className="text-3xl md:text-4xl font-light text-[#f4f4f4]">
             Programação
@@ -496,7 +496,7 @@ function Schedule() {
 // Registration
 // Location
 function Location() {
-  // Google Calendar link — Nov 24–26 2026, all-day event
+  // Google Calendar link — Nov 24-26 2026, all-day event
   const gcalUrl =
     "https://calendar.google.com/calendar/render?action=TEMPLATE" +
     "&text=Qiskit+Fall+Fest+2026+Brasil" +
