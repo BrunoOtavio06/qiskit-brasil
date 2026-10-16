@@ -293,7 +293,7 @@ const days = [
     title: "Introdução",
     items: [
       "Abertura e lançamento do Challenge",
-      "Casos de uso e relevância",
+      "Casos de uso e Quantum Safe",
       "101 de computação quântica",
     ],
     schedule: [
@@ -304,7 +304,8 @@ const days = [
       },
       {
         time: "18:30 - 19:45",
-        label: "Computação Quântica: Casos de Uso e sua Relevância",
+        label: "Computação Quântica: Casos de Uso e Quantum Safe",
+        note: "Parte 1: caso de uso. Parte 2: Quantum Safe",
       },
       { time: "19:45 - 20:30", label: "Quantum 101: Visual e Intuitivo" },
     ],
