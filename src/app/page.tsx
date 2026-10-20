@@ -820,26 +820,55 @@ function Speakers() {
 
 // Registration
 // Location
-function Location() {
-  // Google Calendar link — Nov 24-26 2026, all-day event
-  const gcalUrl =
-    "https://calendar.google.com/calendar/render?action=TEMPLATE" +
-    "&text=Qiskit+Fall+Fest+2026+Brasil" +
-    "&dates=20261124/20261127" +
-    "&details=Evento+h%C3%ADbrido+de+Computa%C3%A7%C3%A3o+Qu%C3%E2ntica.+Transmiss%C3%A3o+online+aberta+a+todos." +
-    "&location=FIAP+Paulista,+Av.+Paulista,+1106,+S%C3%A3o+Paulo";
+// One calendar event per day, using the first and last times in `days`
+const CALENDAR_DETAILS =
+  "Evento híbrido de Computação Quântica. Transmissão online aberta a todos.";
+const CALENDAR_LOCATION = "FIAP Paulista, Av. Paulista, 1106, São Paulo";
 
-  // ICS download (works for Apple Calendar, Outlook, etc.)
+// "24 Nov" + "18:00" -> "20261124T210000Z" (São Paulo is UTC-3, no DST)
+function toUtcStamp(date: string, time: string) {
+  const iso = `2026-11-${date.slice(0, 2)}T${time}:00-03:00`;
+  return new Date(iso).toISOString().replace(/[-:]/g, "").slice(0, 15) + "Z";
+}
+
+const calendarEvents = days.map((d) => ({
+  label: d.date.slice(0, 2) + "/11",
+  title: `Qiskit Fall Fest 2026 · ${d.day}: ${d.title}`,
+  start: toUtcStamp(d.date, d.schedule[0].time.split(" - ")[0]),
+  end: toUtcStamp(d.date, d.schedule[d.schedule.length - 1].time.split(" - ")[1]),
+}));
+
+function googleCalendarUrl(e: (typeof calendarEvents)[0]) {
+  const params = new URLSearchParams({
+    action: "TEMPLATE",
+    text: e.title,
+    dates: `${e.start}/${e.end}`,
+    details: CALENDAR_DETAILS,
+    location: CALENDAR_LOCATION,
+  });
+  return `https://calendar.google.com/calendar/render?${params}`;
+}
+
+// ICS escapes commas with a backslash
+const icsEscape = (s: string) => s.replace(/,/g, "\\,");
+
+function Location() {
+  // ICS download with all three days (works for Apple Calendar, Outlook, etc.)
   const icsContent = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "BEGIN:VEVENT",
-    "DTSTART;VALUE=DATE:20261124",
-    "DTEND;VALUE=DATE:20261127",
-    "SUMMARY:Qiskit Fall Fest 2026 Brasil",
-    "DESCRIPTION:Evento híbrido de Computação Quântica. Transmissão online aberta a todos.",
-    "LOCATION:FIAP Paulista\\, Av. Paulista\\, 1106\\, São Paulo",
-    "END:VEVENT",
+    "PRODID:-//Qiskit Fall Fest Brasil//PT-BR",
+    ...calendarEvents.flatMap((e, i) => [
+      "BEGIN:VEVENT",
+      `UID:qff2026-dia${i + 1}@qiskitbrasil.com.br`,
+      "DTSTAMP:20261020T000000Z",
+      `DTSTART:${e.start}`,
+      `DTEND:${e.end}`,
+      `SUMMARY:${icsEscape(e.title)}`,
+      `DESCRIPTION:${icsEscape(CALENDAR_DETAILS)}`,
+      `LOCATION:${icsEscape(CALENDAR_LOCATION)}`,
+      "END:VEVENT",
+    ]),
     "END:VCALENDAR",
   ].join("\r\n");
 
@@ -918,15 +947,18 @@ function Location() {
           <span className="text-[#697077] text-sm">
             Adicionar ao calendário:
           </span>
-          <div className="flex gap-3">
-            <a
-              href={gcalUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="border border-[#343a3f] px-4 py-2 text-sm text-[#a8a8a8] hover:border-[#78a9ff] hover:text-[#78a9ff] transition-colors"
-            >
-              + Google Calendar
-            </a>
+          <div className="flex flex-wrap gap-3">
+            {calendarEvents.map((e) => (
+              <a
+                key={e.label}
+                href={googleCalendarUrl(e)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border border-[#343a3f] px-4 py-2 text-sm text-[#a8a8a8] hover:border-[#78a9ff] hover:text-[#78a9ff] transition-colors"
+              >
+                + Google: {e.label}
+              </a>
+            ))}
             <a
               href={icsUrl}
               download="qiskit-fall-fest-2026.ics"
