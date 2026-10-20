@@ -38,7 +38,7 @@ function Navbar() {
             Qiskit Fall Fest Brasil
           </span>
         </div>
-        <div className="flex items-center gap-6 text-sm font-normal text-[#a8a8a8]">
+        <div className="flex items-center gap-4 lg:gap-6 whitespace-nowrap text-sm font-normal text-[#a8a8a8]">
           <a
             href="#sobre"
             className="hover:text-[#be95ff] transition-colors hidden md:block"
@@ -62,6 +62,12 @@ function Navbar() {
             className="hover:text-[#be95ff] transition-colors hidden md:block"
           >
             Local
+          </a>
+          <a
+            href="#faq"
+            className="hover:text-[#be95ff] transition-colors hidden md:block"
+          >
+            Dúvidas
           </a>
           <a
             href="#inscricao"
@@ -1111,6 +1117,9 @@ function Footer() {
           </a>
           <a href="#local" className="hover:text-[#be95ff] transition-colors">
             Local
+          </a>
+          <a href="#faq" className="hover:text-[#be95ff] transition-colors">
+            Dúvidas
           </a>
           <a
             href="#inscricao"
