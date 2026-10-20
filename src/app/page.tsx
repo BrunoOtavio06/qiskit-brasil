@@ -162,17 +162,17 @@ function Hero() {
 // About
 const aboutPanels = [
   {
-    image: `${BASE}/assets/illustrations/qiskit/qiskit-01-wide.png`,
+    image: `${BASE}/assets/illustrations/qiskit/qiskit-01-wide.webp`,
     title: "Computação Quântica",
     body: "Você não precisa ser físico ou matemático pra entender computação quântica. A base está em fenômenos como superposição, entrelaçamento e interferência, e é isso que permite resolver problemas que computadores clássicos não conseguem resolver. O nome assusta, mas dá pra entender a ideia com calma, começando do zero.",
   },
   {
-    image: `${BASE}/assets/illustrations/qiskit/qiskit-04-wide.png`,
+    image: `${BASE}/assets/illustrations/qiskit/qiskit-04-wide.webp`,
     title: "Qiskit",
     body: "Qiskit é o SDK open-source da IBM pra computação quântica. É a porta de entrada pra quem quer sair da teoria e começar a programar de verdade: você escreve circuitos quânticos em Python, testa em simuladores no seu próprio notebook e, quando estiver pronto, roda em hardware quântico real da IBM direto pela nuvem. Além disso, é completamente gratuito.",
   },
   {
-    image: `${BASE}/assets/illustrations/qiskit/qiskit-05-wide.png`,
+    image: `${BASE}/assets/illustrations/qiskit/qiskit-05-wide.webp`,
     title: "Comunidade",
     body: "O Fall Fest reúne estudantes e entusiastas de vários lugares interessados no mundo quântico, desde quem já mexeu com Qiskit a quem nunca ouviu falar de qubit. Acontece de 24 a 26 de novembro, presencial na FIAP em São Paulo, para estudantes da FIAP, e online para qualquer lugar do país. Para participar online, não é preciso ser de faculdade parceira nem já saber o assunto: basta curiosidade.",
   },
@@ -531,24 +531,24 @@ type SpeakerBlock = { label?: string; speakers: Speaker[] };
 const hosts: Speaker[] = [
   {
     name: "Bruno Otávio Carvalho",
-    photo: "bruno-otavio-carvalho.png",
+    photo: "bruno-otavio-carvalho.webp",
     linkedin: "https://www.linkedin.com/in/bruno-otavio-carvalho/",
   },
   {
     name: "Alexandre Russi",
-    photo: "alexandre-russi.jpeg",
+    photo: "alexandre-russi.webp",
     linkedin: "https://www.linkedin.com/in/alexandrerussi/",
   },
 ];
 
 const marcelo: Speaker = {
   name: "Marcelo Morales",
-  photo: "marcelo-morales.jpeg",
+  photo: "marcelo-morales.webp",
   linkedin: "https://www.linkedin.com/in/professor-mecchi/",
 };
 const pfeifer: Speaker = {
   name: "Alexandre Pfeifer",
-  photo: "alexandre-pfeifer.jpeg",
+  photo: "alexandre-pfeifer.webp",
   linkedin: "https://www.linkedin.com/in/alexandre-pfeifer-a4a47/",
 };
 
@@ -559,7 +559,7 @@ const speakersByDay: SpeakerBlock[][] = [
       speakers: [
         {
           name: "Diogo Novo",
-          photo: "diogo-novo.jpeg",
+          photo: "diogo-novo.webp",
           linkedin: "https://www.linkedin.com/in/diogonascimentonovo/",
           talk: "Abertura",
         },
@@ -573,7 +573,7 @@ const speakersByDay: SpeakerBlock[][] = [
         },
         {
           name: "Carlos Rischioto",
-          photo: "carlos-rischioto.png",
+          photo: "carlos-rischioto.webp",
           linkedin: "https://www.linkedin.com/in/rischioto/",
           talk: "Quantum Safe",
         },
@@ -583,7 +583,7 @@ const speakersByDay: SpeakerBlock[][] = [
       speakers: [
         {
           name: "Ana Paula Appel",
-          photo: "ana-paula-appel.png",
+          photo: "ana-paula-appel.webp",
           linkedin: "https://www.linkedin.com/in/paulinhaappel/",
           talk: "Quantum 101: Visual e Intuitivo",
         },
@@ -595,7 +595,7 @@ const speakersByDay: SpeakerBlock[][] = [
       speakers: [
         {
           name: "Glauco Reis",
-          photo: "glauco-reis.jpeg",
+          photo: "glauco-reis.webp",
           linkedin: "https://www.linkedin.com/in/glaucoreis/",
           talk: "Primeiros passos com Qiskit",
           tags: ["Workshop", "AMA"],
@@ -611,27 +611,27 @@ const speakersByDay: SpeakerBlock[][] = [
       speakers: [
         {
           name: "Wildisley Filho",
-          photo: "wildisley-filho.png",
+          photo: "wildisley-filho.webp",
           linkedin: "https://www.linkedin.com/in/wildis-filho/",
           orgs: ["Inteli"],
         },
         {
           name: "Jaime Guedes",
-          photo: "jaime-guedes.jpeg",
+          photo: "jaime-guedes.webp",
           linkedin:
             "https://www.linkedin.com/in/jaime-cavalcanti-guedes-7b55b2278/",
           orgs: ["USP"],
         },
         {
           name: "Júlia Santos",
-          photo: "julia-santos.jpeg",
+          photo: "julia-santos.webp",
           linkedin: "https://www.linkedin.com/in/julia-vic-santos/",
           talk: "Escala de Dados na Computação Quântica aplicada a Saúde",
           orgs: ["FIAP", "UNESP"],
         },
         {
           name: "Pedro Merino",
-          photo: "pedro-merino.jpeg",
+          photo: "pedro-merino.webp",
           linkedin: "https://www.linkedin.com/in/pedrommerino/",
           orgs: ["ITA", "USP"],
         },
