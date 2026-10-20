@@ -335,7 +335,7 @@ const days = [
       { time: "17:00 - 18:00", label: "Sessão de Perguntas e Respostas" },
       {
         time: "18:00 - 20:00",
-        label: "Challenge: Quantum Startup Pitch",
+        label: "Challenge: Quantum Pitch",
       },
       {
         time: "18:00 - 20:00",
