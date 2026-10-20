@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { MenuIcon, XIcon } from "lucide-react";
 import Countdown from "@/components/Countdown";
 import {
   Accordion,
@@ -22,8 +23,20 @@ const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 // Magenta 40     #ff7eb6  CTA buttons
 // Hero gradient  Blue 60 → Purple 40 → Magenta 40
 
+// Section links shared by the navbar (desktop + mobile menu) and the footer
+const navLinks = [
+  { href: "#sobre", label: "Sobre" },
+  { href: "#programacao", label: "Programação" },
+  { href: "#palestrantes", label: "Palestrantes" },
+  { href: "#local", label: "Local" },
+  { href: "#faq", label: "Dúvidas" },
+  { href: "#inscricao", label: "Inscrição" },
+];
+
 // Navbar
 function Navbar() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <header className="sticky top-0 z-50 bg-[#121619]/90 backdrop-blur border-b border-[#343a3f]">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
@@ -39,42 +52,25 @@ function Navbar() {
           </span>
         </div>
         <div className="flex items-center gap-4 lg:gap-6 whitespace-nowrap text-sm font-normal text-[#a8a8a8]">
-          <a
-            href="#sobre"
-            className="hover:text-[#be95ff] transition-colors hidden md:block"
+          {navLinks.map((l) => (
+            <a
+              key={l.href}
+              href={l.href}
+              className="hover:text-[#be95ff] transition-colors hidden md:block"
+            >
+              {l.label}
+            </a>
+          ))}
+          {/* Mobile menu toggle, below md the links live in the panel below */}
+          <button
+            onClick={() => setMenuOpen((o) => !o)}
+            aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+            className="md:hidden text-[#f4f4f4] hover:text-[#be95ff] transition-colors"
           >
-            Sobre
-          </a>
-          <a
-            href="#programacao"
-            className="hover:text-[#be95ff] transition-colors hidden md:block"
-          >
-            Programação
-          </a>
-          <a
-            href="#palestrantes"
-            className="hover:text-[#be95ff] transition-colors hidden md:block"
-          >
-            Palestrantes
-          </a>
-          <a
-            href="#local"
-            className="hover:text-[#be95ff] transition-colors hidden md:block"
-          >
-            Local
-          </a>
-          <a
-            href="#faq"
-            className="hover:text-[#be95ff] transition-colors hidden md:block"
-          >
-            Dúvidas
-          </a>
-          <a
-            href="#inscricao"
-            className="hover:text-[#be95ff] transition-colors hidden md:block"
-          >
-            Inscrição
-          </a>
+            {menuOpen ? <XIcon className="size-6" /> : <MenuIcon className="size-6" />}
+          </button>
           {/* Primary CTA — Blue 60, sharp IBM corners */}
           <a
             href="https://forms.cloud.microsoft/r/YuW1uLvY6m"
@@ -86,6 +82,27 @@ function Navbar() {
           </a>
         </div>
       </nav>
+
+      {menuOpen && (
+        <div
+          id="mobile-menu"
+          className="md:hidden absolute top-full inset-x-0 bg-[#121619] border-b border-[#343a3f]"
+        >
+          <ul className="flex flex-col px-6 py-2">
+            {navLinks.map((l) => (
+              <li key={l.href}>
+                <a
+                  href={l.href}
+                  onClick={() => setMenuOpen(false)}
+                  className="block py-3 text-[#f4f4f4] hover:text-[#be95ff] transition-colors"
+                >
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </header>
   );
 }
@@ -1059,33 +1076,15 @@ function Footer() {
         </div>
 
         <nav className="flex flex-wrap gap-6 text-sm">
-          <a href="#sobre" className="hover:text-[#be95ff] transition-colors">
-            Sobre
-          </a>
-          <a
-            href="#programacao"
-            className="hover:text-[#be95ff] transition-colors"
-          >
-            Programação
-          </a>
-          <a
-            href="#palestrantes"
-            className="hover:text-[#be95ff] transition-colors"
-          >
-            Palestrantes
-          </a>
-          <a href="#local" className="hover:text-[#be95ff] transition-colors">
-            Local
-          </a>
-          <a href="#faq" className="hover:text-[#be95ff] transition-colors">
-            Dúvidas
-          </a>
-          <a
-            href="#inscricao"
-            className="hover:text-[#be95ff] transition-colors"
-          >
-            Inscrição
-          </a>
+          {navLinks.map((l) => (
+            <a
+              key={l.href}
+              href={l.href}
+              className="hover:text-[#be95ff] transition-colors"
+            >
+              {l.label}
+            </a>
+          ))}
         </nav>
       </div>
 
