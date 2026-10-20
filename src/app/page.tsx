@@ -178,107 +178,34 @@ const aboutPanels = [
   },
 ];
 
-function AboutCarousel() {
-  const [current, setCurrent] = useState(0);
-  const [dir, setDir] = useState<"left" | "right">("right");
-  const total = aboutPanels.length;
-
-  const goTo = (idx: number) => {
-    setDir(idx > current ? "right" : "left");
-    setCurrent(idx);
-  };
-
-  const p = aboutPanels[current];
-  // Even panels (0, 2): image left, text right. Odd (1): text left, image right.
-  const imageLeft = current % 2 === 0;
-  // key changes on every navigation, forcing React to remount and replay the animation
-  const slideClass =
-    dir === "right" ? "animate-slide-in-right" : "animate-slide-in-left";
-
+function AboutPanels() {
   return (
     <div className="flex flex-col gap-6">
-      {/* key remounts the panel on each navigation, replaying the slide animation */}
-      <div
-        key={current}
-        className={`${slideClass} bg-[#121619] border border-[#343a3f] hover:border-[#0f62fe] transition-colors`}
-      >
-        <div className="flex flex-col md:flex-row">
-          {imageLeft ? (
-            <>
-              <div className="w-full md:w-1/2">
-                <Image
-                  src={p.image}
-                  alt={p.title}
-                  width={1456}
-                  height={816}
-                  className="w-full h-52 md:h-full object-cover"
-                  priority={current === 0}
-                />
-              </div>
-              <div className="w-full md:w-1/2 flex flex-col justify-center gap-4 p-6 md:p-10">
-                <h3 className="text-xl font-normal text-[#f4f4f4]">
-                  {p.title}
-                </h3>
-                <p className="text-[#a8a8a8] leading-relaxed text-sm">
-                  {p.body}
-                </p>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="w-full md:w-1/2 flex flex-col justify-center gap-4 p-6 md:p-10">
-                <h3 className="text-xl font-normal text-[#f4f4f4]">
-                  {p.title}
-                </h3>
-                <p className="text-[#a8a8a8] leading-relaxed text-sm">
-                  {p.body}
-                </p>
-              </div>
-              <div className="w-full md:w-1/2">
-                <Image
-                  src={p.image}
-                  alt={p.title}
-                  width={1456}
-                  height={816}
-                  className="w-full h-52 md:h-full object-cover"
-                />
-              </div>
-            </>
-          )}
-        </div>
-      </div>
-
-      {/* Controls: arrows + dot indicators */}
-      <div className="flex items-center gap-4">
-        <button
-          onClick={() => goTo(Math.max(0, current - 1))}
-          disabled={current === 0}
-          aria-label="Anterior"
-          className="w-10 h-10 flex items-center justify-center border border-[#343a3f] text-[#a8a8a8] hover:border-[#4589ff] hover:text-[#f4f4f4] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+      {aboutPanels.map((p, i) => (
+        <div
+          key={p.title}
+          className="bg-[#121619] border border-[#343a3f] hover:border-[#0f62fe] transition-colors"
         >
-          ←
-        </button>
-
-        <div className="flex gap-2">
-          {aboutPanels.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => goTo(i)}
-              aria-label={`Ir para painel ${i + 1}`}
-              className={`w-2 h-2 transition-colors ${i === current ? "bg-[#4589ff]" : "bg-[#343a3f] hover:bg-[#697077]"}`}
-            />
-          ))}
+          {/* Even panels (0, 2): image left, text right. Odd (1): text left, image right. */}
+          <div
+            className={`flex flex-col ${i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"}`}
+          >
+            <div className="w-full md:w-1/2">
+              <Image
+                src={p.image}
+                alt={p.title}
+                width={1456}
+                height={819}
+                className="w-full h-52 md:h-full object-cover"
+              />
+            </div>
+            <div className="w-full md:w-1/2 flex flex-col justify-center gap-4 p-6 md:p-10">
+              <h3 className="text-xl font-normal text-[#f4f4f4]">{p.title}</h3>
+              <p className="text-[#a8a8a8] leading-relaxed text-sm">{p.body}</p>
+            </div>
+          </div>
         </div>
-
-        <button
-          onClick={() => goTo(Math.min(total - 1, current + 1))}
-          disabled={current === total - 1}
-          aria-label="Próximo"
-          className="w-10 h-10 flex items-center justify-center border border-[#343a3f] text-[#a8a8a8] hover:border-[#4589ff] hover:text-[#f4f4f4] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-        >
-          →
-        </button>
-      </div>
+      ))}
     </div>
   );
 }
@@ -300,7 +227,7 @@ function About() {
           </p>
         </div>
 
-        <AboutCarousel />
+        <AboutPanels />
       </div>
     </section>
   );
