@@ -102,6 +102,9 @@ function Hero() {
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 py-14 lg:py-24 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center pointer-events-none">
         <div className="flex flex-col gap-6 pointer-events-auto">
+          <span className="text-xs font-medium tracking-widest uppercase text-[#be95ff]">
+            24–26 de novembro · FIAP + online · Gratuito
+          </span>
           <h1 className="text-[13vw] sm:text-5xl lg:text-7xl font-light text-[#e0e0e0] leading-tight">
             {/* On mobile: single flowing line. On sm+: stacked with breaks. */}
             <span className="sm:hidden">Qiskit Fall Fest </span>
