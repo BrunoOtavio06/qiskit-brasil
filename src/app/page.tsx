@@ -165,7 +165,7 @@ const aboutPanels = [
   {
     image: `${BASE}/assets/illustrations/qiskit/qiskit-05-wide.png`,
     title: "Comunidade",
-    body: "O Fall Fest reúne estudantes e entusiastas de vários lugares interessados no mundo quântico, desde quem já mexeu com Qiskit a quem nunca ouviu falar de qubit. Acontece de 24 a 26 de novembro, presencial na FIAP em São Paulo e online para qualquer lugar do país. Não é preciso ser de faculdade parceira nem já saber o assunto: basta curiosidade.",
+    body: "O Fall Fest reúne estudantes e entusiastas de vários lugares interessados no mundo quântico, desde quem já mexeu com Qiskit a quem nunca ouviu falar de qubit. Acontece de 24 a 26 de novembro, presencial na FIAP em São Paulo, para estudantes da FIAP, e online para qualquer lugar do país. Para participar online, não é preciso ser de faculdade parceira nem já saber o assunto: basta curiosidade.",
   },
 ];
 
@@ -456,8 +456,8 @@ function Schedule() {
             Programação
           </h2>
           <p className="text-[#a8a8a8] text-lg">
-            Três dias de palestras, workshop e desafio. Presencial na FIAP,
-            online para todo o Brasil e gratuito.
+            Três dias de palestras, workshop e desafio. Presencial para estudantes
+            da FIAP, online para todo o Brasil e gratuito.
           </p>
         </div>
 
