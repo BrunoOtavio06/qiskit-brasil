@@ -876,7 +876,7 @@ function Location() {
     "data:text/calendar;charset=utf-8," + encodeURIComponent(icsContent);
 
   return (
-    <section id="local" className="bg-[#21272a] py-16 md:py-24 px-6">
+    <section id="local" className="bg-[#21272a] py-16 md:py-24 px-6 scroll-mt-16">
       <div className="mx-auto max-w-6xl">
         <h2 className="text-3xl md:text-4xl font-light text-[#f4f4f4] mb-12">
           Local
@@ -1054,7 +1054,7 @@ function Faq() {
 
 function Registration() {
   return (
-    <section id="inscricao" className="bg-[#121619] py-16 md:py-24 px-6">
+    <section id="inscricao" className="bg-[#121619] py-16 md:py-24 px-6 scroll-mt-16">
       <div
         className="h-1 max-w-6xl mx-auto mb-16"
         style={{
