@@ -15,3 +15,7 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to see the result.
+
+## Planned after the event
+
+- Upgrade `next` and `eslint-config-next` from 16.3.1 to 16.3.8 or later. `npm audit` flags 16.3.1 as critical, but the advisories are about Next's server, which the static GitHub Pages export doesn't run, so it was left for after the event.
