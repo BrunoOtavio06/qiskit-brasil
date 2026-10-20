@@ -16,6 +16,19 @@ This edition runs November 24–26 in a hybrid format. The in-person venue is FI
 
 The program includes talks, a workshop, and the Challenge: Quantum Pitch (teams pitch a project idea that uses quantum computing, no coding required; how it works is only revealed at the event, so don't publish rules or prizes), all aimed at beginners. Materials and activities are designed for people genuinely curious about Quantum Computing but unfamiliar with math, physics, or programming.
 
+### Event decisions
+
+- In-person attendance is for FIAP students only; online is open to anyone.
+- Everyone who attends (in person or online) gets a participation certificate. Challenge winners also get a special certificate.
+- Talks are streamed live on YouTube and recorded. Stream links are only released during the event, one per presentation block, so don't add YouTube links or "where to watch" copy to the site.
+- In-person attendees don't need a laptop (FIAP labs have computers), but can bring one.
+- There's no registration deadline yet; don't mention one until it's decided.
+- Questions go to bruno.otavio@ibm.com (listed in the site's FAQ).
+
+### Workflow
+
+- Claude Code: commit finished work locally without asking; never push. Pushing to `main` deploys the live site (GitHub Pages, qiskitbrasil.com.br).
+
 If there's specific information you don't know, ask me directly.
 
 ## IBM Quantum Brand Colors
