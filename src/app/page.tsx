@@ -935,6 +935,85 @@ function Location() {
   );
 }
 
+// FAQ
+const faqs: { question: string; answer: React.ReactNode }[] = [
+  {
+    question: "Preciso saber física, matemática ou programar?",
+    answer:
+      "Não. Toda a programação foi pensada para quem está começando do zero.",
+  },
+  {
+    question: "Quanto custa?",
+    answer: "Nada. O evento é gratuito.",
+  },
+  {
+    question: "Quem pode participar presencialmente?",
+    answer:
+      "O presencial, na FIAP Paulista, é para estudantes da FIAP. Online, qualquer pessoa pode participar.",
+  },
+  {
+    question: "Tem certificado?",
+    answer:
+      "Sim. Todo mundo que participar, presencial ou online, recebe um certificado de participação. Os vencedores do Challenge também recebem um certificado especial.",
+  },
+  {
+    question: "As palestras ficam gravadas?",
+    answer:
+      "Sim. As palestras são transmitidas ao vivo pelo YouTube e ficam gravadas.",
+  },
+  {
+    question: "Preciso levar notebook para o workshop?",
+    answer:
+      "No presencial, não: os laboratórios da FIAP já têm computadores. Mas você pode levar o seu, se preferir.",
+  },
+  {
+    question: "Ainda tenho dúvidas. Com quem falo?",
+    answer: (
+      <>
+        Mande um e-mail para{" "}
+        <a href="mailto:bruno.otavio@ibm.com">bruno.otavio@ibm.com</a>.
+      </>
+    ),
+  },
+];
+
+function Faq() {
+  return (
+    <section
+      id="faq"
+      className="bg-[#121619] py-16 md:py-24 px-6 scroll-mt-16"
+    >
+      <div className="mx-auto max-w-6xl">
+        <div className="flex flex-col gap-3 mb-12 max-w-xl">
+          <span className="text-xs font-medium tracking-widest uppercase text-[#be95ff]">
+            Dúvidas
+          </span>
+          <h2 className="text-3xl md:text-4xl font-light text-[#f4f4f4]">
+            Perguntas frequentes
+          </h2>
+        </div>
+
+        <Accordion multiple className="gap-4">
+          {faqs.map((f) => (
+            <AccordionItem
+              key={f.question}
+              value={f.question}
+              className="bg-[#21272a] border border-[#343a3f]"
+            >
+              <AccordionTrigger className="items-center rounded-none px-6 py-5 text-base font-normal text-[#f4f4f4] hover:no-underline">
+                {f.question}
+              </AccordionTrigger>
+              <AccordionContent className="px-6 pb-5 text-[#a8a8a8] leading-relaxed [&_a]:text-[#78a9ff] [&_a]:hover:text-[#be95ff]">
+                {f.answer}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </div>
+    </section>
+  );
+}
+
 function Registration() {
   return (
     <section id="inscricao" className="bg-[#121619] py-16 md:py-24 px-6">
@@ -1060,6 +1139,7 @@ export default function Home() {
         <Schedule />
         <Speakers />
         <Location />
+        <Faq />
         <Registration />
       </main>
       <Footer />
