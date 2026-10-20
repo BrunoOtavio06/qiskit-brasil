@@ -43,5 +43,8 @@ next-env.d.ts
 # bob (AI assistant state)
 .bob/
 
+# claude
+.claude/
+
 # external repos
 materials-resources/
