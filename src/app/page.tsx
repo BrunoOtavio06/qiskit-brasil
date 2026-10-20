@@ -3,6 +3,12 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Countdown from "@/components/Countdown";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 // next/image does not auto-apply basePath, so we prefix every src manually
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -44,6 +50,12 @@ function Navbar() {
             className="hover:text-[#be95ff] transition-colors hidden md:block"
           >
             Programação
+          </a>
+          <a
+            href="#palestrantes"
+            className="hover:text-[#be95ff] transition-colors hidden md:block"
+          >
+            Palestrantes
           </a>
           <a
             href="#local"
@@ -494,6 +506,309 @@ function Schedule() {
   );
 }
 
+// Speakers
+type Speaker = {
+  name: string;
+  photo: string;
+  linkedin: string;
+  talk?: string; // sem talk e sem tags = "Tema a definir"
+  tags?: string[]; // papéis na programação, ex.: "Workshop", "AMA" (caixinha roxa)
+  orgs?: string[]; // faculdades (caixinha rosa)
+};
+
+// Palestrantes lado a lado no desktop quando há mais de um no bloco.
+type SpeakerBlock = { label?: string; speakers: Speaker[] };
+
+const hosts: Speaker[] = [
+  {
+    name: "Bruno Otávio Carvalho",
+    photo: "bruno-otavio-carvalho.png",
+    linkedin: "https://www.linkedin.com/in/bruno-otavio-carvalho/",
+  },
+  {
+    name: "Alexandre Russi",
+    photo: "alexandre-russi.jpeg",
+    linkedin: "https://www.linkedin.com/in/alexandrerussi/",
+  },
+];
+
+const marcelo: Speaker = {
+  name: "Marcelo Morales",
+  photo: "marcelo-morales.jpeg",
+  linkedin: "https://www.linkedin.com/in/professor-mecchi/",
+};
+const pfeifer: Speaker = {
+  name: "Alexandre Pfeifer",
+  photo: "alexandre-pfeifer.jpeg",
+  linkedin: "https://www.linkedin.com/in/alexandre-pfeifer-a4a47/",
+};
+
+// Mesma ordem de `days`. Cada dia tem blocos com título opcional.
+const speakersByDay: SpeakerBlock[][] = [
+  [
+    {
+      speakers: [
+        {
+          name: "Diogo Novo",
+          photo: "diogo-novo.jpeg",
+          linkedin: "https://www.linkedin.com/in/diogonascimentonovo/",
+          talk: "Abertura",
+        },
+      ],
+    },
+    {
+      speakers: [
+        {
+          ...marcelo,
+          talk: "Computação Quântica no Mundo Real dos Negócios",
+        },
+        {
+          name: "Carlos Rischioto",
+          photo: "carlos-rischioto.png",
+          linkedin: "https://www.linkedin.com/in/rischioto/",
+          talk: "Quantum Safe",
+        },
+      ],
+    },
+    {
+      speakers: [
+        {
+          name: "Ana Paula Appel",
+          photo: "ana-paula-appel.png",
+          linkedin: "https://www.linkedin.com/in/paulinhaappel/",
+          talk: "Quantum 101: Visual e Intuitivo",
+        },
+      ],
+    },
+  ],
+  [
+    {
+      speakers: [
+        {
+          name: "Glauco Reis",
+          photo: "glauco-reis.jpeg",
+          linkedin: "https://www.linkedin.com/in/glaucoreis/",
+          talk: "Primeiros passos com Qiskit",
+          tags: ["Workshop", "AMA"],
+        },
+        { ...marcelo, tags: ["AMA"] },
+        { ...pfeifer, tags: ["AMA"] },
+      ],
+    },
+  ],
+  [
+    {
+      label: "Apresentação dos grupos de pesquisa",
+      speakers: [
+        {
+          name: "Wildisley Filho",
+          photo: "wildisley-filho.png",
+          linkedin: "https://www.linkedin.com/in/wildis-filho/",
+          orgs: ["Inteli"],
+        },
+        {
+          name: "Jaime Guedes",
+          photo: "jaime-guedes.jpeg",
+          linkedin:
+            "https://www.linkedin.com/in/jaime-cavalcanti-guedes-7b55b2278/",
+          orgs: ["USP"],
+        },
+        {
+          name: "Júlia Santos",
+          photo: "julia-santos.jpeg",
+          linkedin: "https://www.linkedin.com/in/julia-vic-santos/",
+          talk: "Escala de Dados na Computação Quântica aplicada a Saúde",
+          orgs: ["FIAP", "UNESP"],
+        },
+        {
+          name: "Pedro Merino",
+          photo: "pedro-merino.jpeg",
+          linkedin: "https://www.linkedin.com/in/pedrommerino/",
+          orgs: ["ITA", "USP"],
+        },
+      ],
+    },
+    {
+      label: "Encerramento",
+      speakers: [
+        { ...pfeifer, talk: "Oportunidades, Mercado e Certificações" },
+      ],
+    },
+  ],
+];
+
+function LinkedInLink({ href, name }: { href: string; name: string }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`LinkedIn de ${name}`}
+      className="text-xs text-[#78a9ff] hover:text-[#be95ff] transition-colors"
+    >
+      LinkedIn ↗
+    </a>
+  );
+}
+
+// side = lado da foto. Alterna por dia para dar ritmo à lista.
+function SpeakerRow({
+  speaker,
+  side,
+}: {
+  speaker: Speaker;
+  side: "left" | "right";
+}) {
+  // Faculdades em rosa, papéis em roxo
+  const chips = [
+    ...(speaker.orgs ?? []).map((label) => ({ label, color: "#ff7eb6" })),
+    ...(speaker.tags ?? []).map((label) => ({ label, color: "#be95ff" })),
+  ];
+  return (
+    <li
+      className={`flex items-center gap-5 border border-[#343a3f] bg-[#121619] p-5 ${
+        side === "right" ? "flex-row-reverse text-right" : ""
+      }`}
+    >
+      <Image
+        src={`${BASE}/fotos/${speaker.photo}`}
+        alt={speaker.name}
+        width={160}
+        height={160}
+        className="h-20 w-20 sm:h-28 sm:w-28 shrink-0 object-cover"
+      />
+      <div
+        className={`flex flex-col gap-1 ${
+          side === "right" ? "items-end" : "items-start"
+        }`}
+      >
+        <h4 className="text-lg font-normal text-[#f4f4f4]">{speaker.name}</h4>
+        {chips.length > 0 && (
+          <span className="flex flex-wrap gap-2">
+            {chips.map((c) => (
+              <span
+                key={c.label}
+                style={{ borderColor: c.color, color: c.color }}
+                className="border px-2 py-0.5 text-xs font-medium uppercase tracking-widest"
+              >
+                {c.label}
+              </span>
+            ))}
+          </span>
+        )}
+        {(speaker.talk || !speaker.tags) && (
+          <p className="text-sm text-[#a8a8a8]">
+            {speaker.talk ?? "Tema a definir"}
+          </p>
+        )}
+        <LinkedInLink href={speaker.linkedin} name={speaker.name} />
+      </div>
+    </li>
+  );
+}
+
+function Speakers() {
+  return (
+    <section
+      id="palestrantes"
+      className="bg-[#121619] border-t border-[#343a3f] py-14 md:py-20 px-6 scroll-mt-16"
+    >
+      <div className="mx-auto max-w-6xl">
+        <div className="flex flex-col gap-3 mb-12 max-w-xl">
+          <span className="text-xs font-medium tracking-widest uppercase text-[#be95ff]">
+            Quem vai falar
+          </span>
+          <h2 className="text-3xl md:text-4xl font-light text-[#f4f4f4]">
+            Palestrantes
+          </h2>
+        </div>
+
+        {/* Hosts */}
+        <h3 className="text-xs font-medium uppercase tracking-widest text-[#697077] mb-4">
+          Hosts
+        </h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
+          {hosts.map((h) => (
+            <div
+              key={h.name}
+              className="bg-[#21272a] border border-[#343a3f] p-5 flex items-center gap-5"
+            >
+              <Image
+                src={`${BASE}/fotos/${h.photo}`}
+                alt={h.name}
+                width={160}
+                height={160}
+                className="h-20 w-20 sm:h-24 sm:w-24 shrink-0 object-cover"
+              />
+              <div className="flex flex-col gap-1">
+                <span className="text-lg font-normal text-[#f4f4f4]">
+                  {h.name}
+                </span>
+                <LinkedInLink href={h.linkedin} name={h.name} />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Um item expansível por dia; Dia 1 abre por padrão */}
+        <Accordion multiple defaultValue={["dia-1"]} className="gap-4">
+          {days.map((d, i) => (
+            <AccordionItem
+              key={d.day}
+              value={`dia-${i + 1}`}
+              className="bg-[#21272a] border border-[#343a3f]"
+            >
+              <AccordionTrigger className="items-center rounded-none px-6 py-5 hover:no-underline">
+                <span className="flex flex-col gap-1">
+                  <span className="text-xs font-medium uppercase tracking-widest text-[#be95ff]">
+                    {d.day} · {d.date}
+                  </span>
+                  <span className="text-base font-normal text-[#f4f4f4]">
+                    {d.title}
+                  </span>
+                </span>
+              </AccordionTrigger>
+              <AccordionContent className="px-6">
+                <div className="flex flex-col gap-6 pt-2 pb-4">
+                  {speakersByDay[i].map((block, b) => (
+                    <div key={b} className="flex flex-col gap-3">
+                      {block.label && (
+                        <h4 className="text-xs font-medium uppercase tracking-widest text-[#697077]">
+                          {block.label}
+                        </h4>
+                      )}
+                      {/* Desktop: a sessão ocupa a largura toda, dividida entre quem fala nela */}
+                      <ul
+                        className={`grid grid-cols-1 gap-4 ${
+                          block.speakers.length === 2
+                            ? "md:grid-cols-2"
+                            : block.speakers.length === 3
+                              ? "md:grid-cols-2 lg:grid-cols-3"
+                              : block.speakers.length >= 4
+                                ? "md:grid-cols-2"
+                                : ""
+                        }`}
+                      >
+                        {block.speakers.map((s) => (
+                          <SpeakerRow
+                            key={s.name}
+                            speaker={s}
+                            side={i % 2 === 0 ? "left" : "right"}
+                          />
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </div>
+    </section>
+  );
+}
+
 // Registration
 // Location
 function Location() {
@@ -706,6 +1021,12 @@ function Footer() {
           >
             Programação
           </a>
+          <a
+            href="#palestrantes"
+            className="hover:text-[#be95ff] transition-colors"
+          >
+            Palestrantes
+          </a>
           <a href="#local" className="hover:text-[#be95ff] transition-colors">
             Local
           </a>
@@ -734,6 +1055,7 @@ export default function Home() {
         <Hero />
         <About />
         <Schedule />
+        <Speakers />
         <Location />
         <Registration />
       </main>
