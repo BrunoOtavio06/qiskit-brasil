@@ -25,10 +25,6 @@ The program includes talks, a workshop, and the Challenge: Quantum Pitch (teams 
 - There's no registration deadline yet; don't mention one until it's decided.
 - Questions go to bruno.otavio@ibm.com (listed in the site's FAQ).
 
-### Workflow
-
-- Claude Code: commit finished work locally without asking; never push. Pushing to `main` deploys the live site (GitHub Pages, qiskitbrasil.com.br).
-
 If there's specific information you don't know, ask me directly.
 
 ## IBM Quantum Brand Colors
