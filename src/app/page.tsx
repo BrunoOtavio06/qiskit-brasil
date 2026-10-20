@@ -88,8 +88,8 @@ function Navbar() {
 function Hero() {
   return (
     <section className="relative overflow-hidden bg-[#121619] min-h-[480px] lg:min-h-[600px] flex items-center">
-      {/* hero illustration, right-anchored — hidden on mobile to avoid overlap */}
-      <div className="hidden lg:flex absolute inset-y-0 right-0 max-w-full items-center justify-end select-none pointer-events-none lg:pr-12">
+      {/* hero illustration, right-anchored — hidden on mobile, narrower on small laptops, to avoid overlap */}
+      <div className="hidden lg:flex absolute inset-y-0 right-0 lg:max-w-[55%] xl:max-w-full items-center justify-end select-none pointer-events-none lg:pr-12">
         <Image
           src={`${BASE}/assets/illustrations/hero-main.svg`}
           alt="Ilustração Qiskit Fall Fest Brasil 2026"
