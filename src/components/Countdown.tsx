@@ -49,16 +49,17 @@ export default function Countdown() {
     <div className="flex flex-wrap items-center gap-2">
       {units.map(({ label, value }, i) => (
         <div key={label} className="flex items-center gap-2">
-          <div className="flex flex-col items-center bg-white/70 backdrop-blur border border-[#BE95FF]/40 rounded-xl px-3 py-2 min-w-[52px]">
-            <span className="text-xl sm:text-2xl font-semibold text-[#31135E] tabular-nums leading-none">
+          {/* Same look as the site's cards: Cool Gray 90 surface, sharp IBM corners */}
+          <div className="flex flex-col items-center bg-[#21272a] border border-[#343a3f] px-3 py-2 min-w-[52px]">
+            <span className="text-xl sm:text-2xl font-semibold text-[#f4f4f4] tabular-nums leading-none">
               {value === undefined ? "--" : String(value).padStart(2, "0")}
             </span>
-            <span className="text-[10px] font-medium uppercase tracking-widest text-[#8B3FFC] mt-1">
+            <span className="text-[10px] font-medium uppercase tracking-widest text-[#be95ff] mt-1">
               {label}
             </span>
           </div>
           {i < units.length - 1 && (
-            <span className="text-base sm:text-xl font-normal text-[#31135E]/40 -mt-3">:</span>
+            <span className="text-base sm:text-xl font-normal text-[#697077] -mt-3">:</span>
           )}
         </div>
       ))}
