@@ -30,7 +30,8 @@ export default function Countdown() {
 
   if (timeLeft === null) {
     return (
-      <p className="text-[#31135E] font-semibold text-lg">
+      // Purple 40, o mesmo roxo dos rótulos do site, legível no fundo escuro
+      <p className="text-[#be95ff] font-semibold text-lg">
         O evento começou!
       </p>
     );
