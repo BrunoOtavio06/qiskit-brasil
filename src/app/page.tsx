@@ -281,8 +281,7 @@ const days = [
     title: "Workshop & Challenge",
     items: ["Workshop com Qiskit", "Challenge", "AMA e networking"],
     schedule: [
-      { time: "15:00 - 17:00", label: "Workshop: Primeiros Passos com Qiskit" },
-      { time: "17:00 - 18:00", label: "Sessão de Perguntas e Respostas" },
+      { time: "15:00 - 18:00", label: "Workshop: Primeiros Passos com Qiskit" },
       {
         time: "18:00 - 20:00",
         label: "Challenge: Quantum Pitch",
@@ -619,7 +618,7 @@ function SpeakerRow({
   ];
   return (
     <li
-      className={`flex items-center gap-5 border border-[#343a3f] bg-[#121619] p-5 ${
+      className={`flex items-center gap-5 border border-[#343a3f] bg-[#21272a] p-5 ${
         side === "right" ? "flex-row-reverse text-right" : ""
       }`}
     >
@@ -664,7 +663,7 @@ function Speakers() {
   return (
     <section
       id="palestrantes"
-      className="bg-[#121619] border-t border-[#343a3f] py-14 md:py-20 px-6 scroll-mt-16"
+      className="bg-[#21272a] py-14 md:py-20 px-6 scroll-mt-16"
     >
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-3 mb-12 max-w-xl">
@@ -684,7 +683,7 @@ function Speakers() {
           {hosts.map((h) => (
             <div
               key={h.name}
-              className="bg-[#21272a] border border-[#343a3f] p-5 flex items-center gap-5"
+              className="bg-[#121619] border border-[#343a3f] p-5 flex items-center gap-5"
             >
               <Image
                 src={`${BASE}/fotos/${h.photo}`}
@@ -703,13 +702,13 @@ function Speakers() {
           ))}
         </div>
 
-        {/* Um item expansível por dia; Dia 1 abre por padrão */}
-        <Accordion multiple defaultValue={["dia-1"]} className="gap-4">
+        {/* Um item expansível por dia; só um aberto por vez, Dia 1 abre por padrão */}
+        <Accordion defaultValue={["dia-1"]} className="gap-4">
           {days.map((d, i) => (
             <AccordionItem
               key={d.day}
               value={`dia-${i + 1}`}
-              className="bg-[#21272a] border border-[#343a3f]"
+              className="bg-[#121619] border border-[#343a3f]"
             >
               <AccordionTrigger className="items-center rounded-none px-6 py-5 hover:no-underline">
                 <span className="flex flex-col gap-1">
@@ -820,7 +819,7 @@ function Location() {
     "data:text/calendar;charset=utf-8," + encodeURIComponent(icsContent);
 
   return (
-    <section id="local" className="bg-[#21272a] py-16 md:py-24 px-6 scroll-mt-16">
+    <section id="local" className="bg-[#121619] py-16 md:py-24 px-6 scroll-mt-16">
       <div className="mx-auto max-w-6xl">
         <h2 className="text-3xl md:text-4xl font-light text-[#f4f4f4] mb-12">
           Local
@@ -828,7 +827,7 @@ function Location() {
 
         <div className="flex flex-col gap-6">
           {/* In-person — text left, map right */}
-          <div className="bg-[#121619] flex flex-col md:flex-row overflow-hidden">
+          <div className="bg-[#21272a] flex flex-col md:flex-row overflow-hidden">
             <div className="p-8 flex flex-col gap-4 md:w-1/2">
               <div className="flex items-center gap-3">
                 <span
@@ -867,7 +866,7 @@ function Location() {
           </div>
 
           {/* Online — horizontal compact card */}
-          <div className="bg-[#121619] p-8 flex flex-col sm:flex-row sm:items-center gap-4">
+          <div className="bg-[#21272a] p-8 flex flex-col sm:flex-row sm:items-center gap-4">
             <div className="flex items-center gap-3 sm:w-32 flex-shrink-0">
               <span
                 className="w-2 h-2 rounded-full flex-shrink-0"
@@ -963,7 +962,7 @@ function Faq() {
   return (
     <section
       id="faq"
-      className="bg-[#121619] py-16 md:py-24 px-6 scroll-mt-16"
+      className="bg-[#21272a] py-16 md:py-24 px-6 scroll-mt-16"
     >
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-3 mb-12 max-w-xl">
@@ -980,7 +979,7 @@ function Faq() {
             <AccordionItem
               key={f.question}
               value={f.question}
-              className="bg-[#21272a] border border-[#343a3f]"
+              className="bg-[#121619] border border-[#343a3f]"
             >
               <AccordionTrigger className="items-center rounded-none px-6 py-5 text-base font-normal text-[#f4f4f4] hover:no-underline">
                 {f.question}
