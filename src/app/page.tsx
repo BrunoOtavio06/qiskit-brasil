@@ -564,6 +564,7 @@ const speakersByDay: SpeakerBlock[][] = [
           photo: "jaime-guedes.webp",
           linkedin:
             "https://www.linkedin.com/in/jaime-cavalcanti-guedes-7b55b2278/",
+          talk: "Computação Quântica como Você Nunca Viu",
           orgs: ["USP"],
         },
         {
@@ -577,6 +578,7 @@ const speakersByDay: SpeakerBlock[][] = [
           name: "Pedro Merino",
           photo: "pedro-merino.webp",
           linkedin: "https://www.linkedin.com/in/pedrommerino/",
+          talk: "O Grupo de Estudos de Computação Quântica do ITA",
           orgs: ["ITA", "USP"],
         },
       ],
