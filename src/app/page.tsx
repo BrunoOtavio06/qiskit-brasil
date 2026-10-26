@@ -556,6 +556,7 @@ const speakersByDay: SpeakerBlock[][] = [
           name: "Wildisley Filho",
           photo: "wildisley-filho.webp",
           linkedin: "https://www.linkedin.com/in/wildis-filho/",
+          talk: "Segurança de Sistemas Quânticos",
           orgs: ["Inteli"],
         },
         {
