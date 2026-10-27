@@ -553,19 +553,43 @@ const speakersByDay: SpeakerBlock[][] = [
       label: "Apresentação dos grupos de pesquisa",
       speakers: [
         {
+          name: "Jaime Guedes",
+          photo: "jaime-guedes.webp",
+          linkedin:
+            "https://www.linkedin.com/in/jaime-cavalcanti-guedes-7b55b2278/",
+          talk: "Entanglion: Computação Quântica como Você Nunca Viu",
+          orgs: ["USP"],
+        },
+        {
+          name: "Vinicius Cunha",
+          photo: "vinicius-cunha.webp",
+          linkedin: "https://www.linkedin.com/in/vcunhadev/",
+          talk: "Entanglion: Computação Quântica como Você Nunca Viu",
+          orgs: ["USP"],
+        },
+        {
+          name: "Estevon Bonai",
+          photo: "estevon-bonai.webp",
+          linkedin:
+            "https://www.linkedin.com/in/estevon-biazussi-bonai-b0188b302/",
+          talk: "Entanglion: Computação Quântica como Você Nunca Viu",
+          orgs: ["USP"],
+        },
+        {
+          name: "Marcos Chaim",
+          photo: "marcos-chaim.webp",
+          linkedin:
+            "https://www.linkedin.com/in/marcos-lordello-chaim-ba5782382/",
+          talk: "Entanglion: Computação Quântica como Você Nunca Viu",
+          tags: ["Orientador"],
+          orgs: ["USP"],
+        },
+        {
           name: "Wildisley Filho",
           photo: "wildisley-filho.webp",
           linkedin: "https://www.linkedin.com/in/wildis-filho/",
           talk: "Segurança de Sistemas Quânticos",
           orgs: ["Inteli"],
-        },
-        {
-          name: "Jaime Guedes",
-          photo: "jaime-guedes.webp",
-          linkedin:
-            "https://www.linkedin.com/in/jaime-cavalcanti-guedes-7b55b2278/",
-          talk: "Computação Quântica como Você Nunca Viu",
-          orgs: ["USP"],
         },
         {
           name: "Júlia Santos",
