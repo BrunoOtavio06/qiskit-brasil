@@ -733,7 +733,8 @@ function Speakers() {
         </div>
 
         {/* Um item expansível por dia; só um aberto por vez, Dia 1 abre por padrão */}
-        <Accordion defaultValue={["dia-1"]} className="gap-4">
+        {/* hiddenUntilFound keeps closed panels in the static HTML, so search engines and Ctrl+F see them */}
+        <Accordion defaultValue={["dia-1"]} hiddenUntilFound className="gap-4">
           {days.map((d, i) => (
             <AccordionItem
               key={d.day}
@@ -1004,7 +1005,7 @@ function Faq() {
           </h2>
         </div>
 
-        <Accordion multiple className="gap-4">
+        <Accordion multiple hiddenUntilFound className="gap-4">
           {faqs.map((f) => (
             <AccordionItem
               key={f.question}
