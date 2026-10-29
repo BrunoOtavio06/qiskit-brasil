@@ -27,6 +27,8 @@ export const metadata: Metadata = {
   title: "Qiskit Fall Fest 2026 | Computação quântica grátis na FIAP e online",
   description: DESCRIPTION,
   alternates: { canonical: "/" },
+  // Google Search Console ownership check, keep it or the property loses verification
+  verification: { google: "ey6xi0jy5NuAZl02F6rjqOL77eY-QTZFX25FwjmAOdA" },
   openGraph: {
     type: "website",
     locale: "pt_BR",
