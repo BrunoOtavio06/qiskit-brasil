@@ -268,10 +268,10 @@ const days = [
         note: "Lançamento do Challenge",
       },
       {
-        time: "18:30 - 19:45",
-        label: "Computação Quântica: Casos de Uso e Quantum Safe",
-        note: "Parte 1: caso de uso. Parte 2: Quantum Safe",
+        time: "18:30 - 19:00",
+        label: "Computação Quântica no Mundo Real dos Negócios",
       },
+      { time: "19:00 - 19:45", label: "Quantum Safe" },
       { time: "19:45 - 20:30", label: "Quantum 101: Visual e Intuitivo" },
     ],
   },
@@ -282,12 +282,13 @@ const days = [
     items: ["Workshop com Qiskit", "Challenge", "AMA e networking"],
     schedule: [
       { time: "15:00 - 18:00", label: "Workshop: Primeiros Passos com Qiskit" },
+      { time: "18:00 - 18:30", label: "Intervalo" },
       {
-        time: "18:00 - 20:00",
+        time: "18:30 - 20:00",
         label: "Challenge: Quantum Pitch",
       },
       {
-        time: "18:00 - 20:00",
+        time: "18:30 - 20:00",
         label: "AMA com Pessoas da Área",
         note: "Simultâneo ao Challenge",
       },
@@ -299,26 +300,26 @@ const days = [
     title: "Grupos de Pesquisa & Encerramento",
     items: [
       "Apresentações de grupos de pesquisa e estudo",
+      "Próximos passos",
       "Dinâmica",
       "Anúncio dos vencedores",
-      "Próximos passos",
     ],
     schedule: [
       {
-        time: "18:00 - 19:00",
+        time: "18:00 - 19:10",
         label: "Apresentações de Grupos de Pesquisa e Estudo",
         note: "Projetos e mentoria para quem está começando",
       },
       {
-        time: "19:00 - 19:30",
+        time: "19:10 - 19:50",
+        label: "Encerramento: Oportunidades, Mercado e Certificações",
+      },
+      {
+        time: "19:50 - 20:10",
         label: "Dinâmica",
         note: "Valendo prêmios da IBM Quantum (somente para o público presencial)",
       },
-      { time: "19:30 - 19:50", label: "Anúncio dos Vencedores do Challenge" },
-      {
-        time: "19:50 - 20:30",
-        label: "Encerramento: Oportunidades, Mercado e Certificações",
-      },
+      { time: "20:10 - 20:30", label: "Anúncio dos Vencedores do Challenge" },
     ],
   },
 ];
@@ -489,6 +490,11 @@ const marcelo: Speaker = {
   photo: "marcelo-morales.webp",
   linkedin: "https://www.linkedin.com/in/professor-mecchi/",
 };
+const glauco: Speaker = {
+  name: "Glauco Reis",
+  photo: "glauco-reis.webp",
+  linkedin: "https://www.linkedin.com/in/glaucoreis/",
+};
 const pfeifer: Speaker = {
   name: "Alexandre Pfeifer",
   photo: "alexandre-pfeifer.webp",
@@ -524,12 +530,7 @@ const speakersByDay: SpeakerBlock[][] = [
     },
     {
       speakers: [
-        {
-          name: "Ana Paula Appel",
-          photo: "ana-paula-appel.webp",
-          linkedin: "https://www.linkedin.com/in/paulinhaappel/",
-          talk: "Quantum 101: Visual e Intuitivo",
-        },
+        { ...glauco, talk: "Quantum 101: Visual e Intuitivo" },
       ],
     },
   ],
@@ -537,9 +538,7 @@ const speakersByDay: SpeakerBlock[][] = [
     {
       speakers: [
         {
-          name: "Glauco Reis",
-          photo: "glauco-reis.webp",
-          linkedin: "https://www.linkedin.com/in/glaucoreis/",
+          ...glauco,
           talk: "Primeiros passos com Qiskit",
           tags: ["Workshop", "AMA"],
         },
@@ -592,18 +591,18 @@ const speakersByDay: SpeakerBlock[][] = [
           orgs: ["Inteli"],
         },
         {
-          name: "Júlia Santos",
-          photo: "julia-santos.webp",
-          linkedin: "https://www.linkedin.com/in/julia-vic-santos/",
-          talk: "Escala de Dados na Computação Quântica aplicada a Saúde",
-          orgs: ["FIAP", "UNESP"],
-        },
-        {
           name: "Pedro Merino",
           photo: "pedro-merino.webp",
           linkedin: "https://www.linkedin.com/in/pedrommerino/",
           talk: "O Grupo de Estudos de Computação Quântica do ITA",
           orgs: ["ITA", "USP"],
+        },
+        {
+          name: "Júlia Santos",
+          photo: "julia-santos.webp",
+          linkedin: "https://www.linkedin.com/in/julia-vic-santos/",
+          talk: "Escala de Dados na Computação Quântica aplicada a Saúde",
+          orgs: ["FIAP", "UNESP"],
         },
       ],
     },
@@ -797,7 +796,7 @@ function Speakers() {
 // One calendar event per day, using the first and last times in `days`
 const CALENDAR_DETAILS =
   "Evento híbrido de Computação Quântica. Transmissão online aberta a todos.";
-const CALENDAR_LOCATION = "FIAP Paulista, Av. Paulista, 1106, São Paulo";
+const CALENDAR_LOCATION = "FIAP Paulista, Av. Paulista, 1106, 6º andar, São Paulo";
 
 // "24 Nov" + "18:00" -> "20261124T210000Z" (São Paulo is UTC-3, no DST)
 function toUtcStamp(date: string, time: string) {
@@ -874,7 +873,7 @@ function Location() {
                   FIAP Paulista
                 </p>
                 <p className="text-[#a8a8a8] text-sm mt-1">
-                  Av. Paulista, 1106 — Edifício Paulista, 1100
+                  Av. Paulista, 1106 — Edifício Paulista, 1100, 6º andar
                 </p>
                 <p className="text-[#a8a8a8] text-sm">São Paulo, SP</p>
               </div>
