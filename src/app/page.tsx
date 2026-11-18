@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { MenuIcon, XIcon } from "lucide-react";
 import Countdown from "@/components/Countdown";
 import { useNow } from "@/lib/useNow";
@@ -31,11 +31,12 @@ const CHALLENGE_OPENS = new Date("2026-11-24T18:00:00-03:00").getTime();
 const CHALLENGE_HIGHLIGHT_STARTS = new Date("2026-11-25T18:30:00-03:00").getTime();
 const CHALLENGE_CLOSES = new Date("2026-11-25T23:45:00-03:00").getTime();
 
-// Faixa fina fixa no topo enquanto o formulário do Challenge está aberto.
+// Faixa fina no topo, só depois que a pessoa rola para além do painel do topo.
 // Da hora do Challenge até o fechamento ganha o gradiente roxo→rosa. A faixa toda é o link.
 function ChallengeBanner() {
   const now = useNow();
-  if (now === null || now < CHALLENGE_OPENS || now >= CHALLENGE_CLOSES)
+  const panelHidden = usePanelHidden();
+  if (!panelHidden || now === null || now < CHALLENGE_OPENS || now >= CHALLENGE_CLOSES)
     return null;
   const live = now >= CHALLENGE_HIGHLIGHT_STARTS;
   return (
@@ -81,6 +82,7 @@ const navLinks = [
 // Navbar
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const phase = useEventPhase();
 
   return (
     <header className="sticky top-0 z-50 bg-[#121619]/90 backdrop-blur border-b border-[#343a3f]">
@@ -117,14 +119,17 @@ function Navbar() {
             {menuOpen ? <XIcon className="size-6" /> : <MenuIcon className="size-6" />}
           </button>
           {/* Primary CTA — Blue 60, sharp IBM corners */}
-          <a
-            href="https://forms.cloud.microsoft/r/YuW1uLvY6m"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-[#0f62fe] px-4 py-2 text-white font-medium hover:bg-[#4589ff] transition-colors"
-          >
-            Inscreva-se
-          </a>
+          {/* Durante o evento a inscrição fica só na seção do fim da página */}
+          {(phase === null || phase === "before") && (
+            <a
+              href="https://forms.cloud.microsoft/r/YuW1uLvY6m"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[#0f62fe] px-4 py-2 text-white font-medium hover:bg-[#4589ff] transition-colors"
+            >
+              Inscreva-se
+            </a>
+          )}
         </div>
       </nav>
 
@@ -157,6 +162,8 @@ function Navbar() {
 
 // Hero
 function Hero() {
+  const phase = useEventPhase();
+  if (phase === "during") return <EventHero />;
   return (
     <section className="relative overflow-hidden bg-[#121619] min-h-[480px] lg:min-h-[600px] flex items-center">
       {/* hero illustration, right-anchored — hidden on mobile, narrower on small laptops, to avoid overlap */}
@@ -430,6 +437,40 @@ function toMs(date: string, time: string) {
   return new Date(`2026-11-${date.slice(0, 2)}T${time}:00-03:00`).getTime();
 }
 
+// Fim do evento (anúncio dos vencedores)
+const EVENT_ENDS = toMs("26 Nov", "20:30");
+
+// Meia hora antes da abertura o topo do site troca a contagem regressiva pelo painel do evento
+const EVENT_PANEL_STARTS = toMs("24 Nov", "17:30");
+
+function useEventPhase() {
+  const now = useNow();
+  if (now === null) return null;
+  if (now >= EVENT_ENDS) return "over";
+  if (now >= EVENT_PANEL_STARTS) return "during";
+  return "before";
+}
+
+// O painel do topo (data-agora) já saiu da tela? As faixas fixas só aparecem a partir daí.
+function subscribeScroll(onChange: () => void) {
+  window.addEventListener("scroll", onChange, { passive: true });
+  window.addEventListener("resize", onChange);
+  return () => {
+    window.removeEventListener("scroll", onChange);
+    window.removeEventListener("resize", onChange);
+  };
+}
+const getPanelHidden = () => {
+  // Celular e desktop têm cada um o seu painel; vale o que está visível
+  const panel = Array.from(document.querySelectorAll("[data-agora]")).find(
+    (el) => el.getClientRects().length > 0,
+  );
+  return panel !== undefined && panel.getBoundingClientRect().bottom < 80;
+};
+function usePanelHidden() {
+  return useSyncExternalStore(subscribeScroll, getPanelHidden, () => false);
+}
+
 // Todas as sessões com transmissão, em ordem
 const streams = days.flatMap((d, dayIndex) =>
   d.schedule.flatMap((s) => {
@@ -482,11 +523,12 @@ function YouTubeIcon({ className }: { className?: string }) {
   );
 }
 
-// Faixa azul fina fixa no topo enquanto uma sessão está ao vivo.
+// Faixa azul fina no topo, só depois que a pessoa rola para além do painel do topo.
 // A faixa toda é o link.
 function LiveBanner() {
   const { current } = useLiveStream();
-  if (!current) return null;
+  const panelHidden = usePanelHidden();
+  if (!current || !panelHidden) return null;
   return (
     <a
       href={current.url}
@@ -506,6 +548,230 @@ function LiveBanner() {
         </span>
       </div>
     </a>
+  );
+}
+
+// ---- Topo da página durante o evento ----
+
+// O que está acontecendo agora: transmissão (ao vivo, começando em até 30 min, ou a próxima)
+// e se o formulário do Challenge está aberto / em destaque
+function useEventNow() {
+  const now = useNow();
+  const { current, next } = useLiveStream();
+  const stream =
+    now === null ? undefined : (current ?? next ?? streams.find((s) => s.start > now));
+  return {
+    current,
+    next,
+    stream,
+    challengeOpen: now !== null && now >= CHALLENGE_OPENS && now < CHALLENGE_CLOSES,
+    challengeHot: now !== null && now >= CHALLENGE_HIGHLIGHT_STARTS && now < CHALLENGE_CLOSES,
+  };
+}
+
+function Year2026() {
+  return (
+    <span
+      className="bg-clip-text text-transparent"
+      style={{ backgroundImage: "linear-gradient(to right, #be95ff, #ff7eb6)" }}
+    >
+      2026
+    </span>
+  );
+}
+
+// Transmissão: azul quando está ao vivo, neutra quando é só aviso da próxima
+function StreamBlock({
+  className = "",
+  titleClass = "text-lg",
+  buttonClass = "",
+  showFaces = false,
+}: {
+  className?: string;
+  titleClass?: string;
+  buttonClass?: string;
+  showFaces?: boolean;
+}) {
+  const { current, next, stream } = useEventNow();
+  if (!stream) return null;
+  return (
+    <div
+      className={`flex flex-col gap-3 p-5 ${
+        current ? "bg-[#0f62fe] text-white" : "bg-[#21272a] text-[#f4f4f4]"
+      } ${className}`}
+    >
+      <span
+        className={`flex items-center gap-2 text-xs font-semibold uppercase tracking-widest ${
+          current ? "" : "text-[#78a9ff]"
+        }`}
+      >
+        {current ? (
+          <>
+            <LiveDot color="#ffffff" /> Ao vivo agora
+          </>
+        ) : next ? (
+          `Começa às ${stream.startTime}`
+        ) : (
+          `Próxima transmissão · ${days[stream.dayIndex].date.slice(0, 2)}/11, ${stream.startTime}`
+        )}
+      </span>
+      <p className={`font-light leading-snug ${titleClass}`}>{stream.label}</p>
+      {/* Só os rostos de quem fala, sem nomes */}
+      {showFaces && stream.faces.length > 0 && (
+        <div className="flex flex-wrap gap-3">
+          {stream.faces.map((f) => (
+            <Image
+              key={f}
+              src={`${BASE}/fotos/${f}`}
+              alt=""
+              width={160}
+              height={160}
+              className={`size-16 xl:size-20 object-cover border-2 ${
+                current ? "border-white/40" : "border-[#343a3f]"
+              }`}
+            />
+          ))}
+        </div>
+      )}
+      {(current || next) && (
+        <a
+          href={stream.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`inline-flex items-center justify-center gap-2 px-5 py-3 font-medium transition-colors ${
+            current
+              ? "bg-white text-[#0f62fe] hover:bg-[#e0e0e0]"
+              : "bg-[#0f62fe] text-white hover:bg-[#4589ff]"
+          } ${buttonClass}`}
+        >
+          <YouTubeIcon className="size-5" />
+          Assistir no YouTube
+        </a>
+      )}
+    </div>
+  );
+}
+
+// Challenge: só enquanto o formulário está aberto; gradiente a partir do horário do Challenge
+function ChallengeBlock({
+  className = "",
+  buttonClass = "",
+}: {
+  className?: string;
+  buttonClass?: string;
+}) {
+  const { challengeOpen, challengeHot } = useEventNow();
+  if (!challengeOpen) return null;
+  return (
+    <div
+      className={`flex flex-col gap-3 p-5 ${
+        challengeHot ? "text-[#121619]" : "bg-[#21272a] text-[#f4f4f4]"
+      } ${className}`}
+      style={
+        challengeHot
+          ? { backgroundImage: "linear-gradient(to right, #be95ff, #ff7eb6)" }
+          : undefined
+      }
+    >
+      <span
+        className={`text-xs font-semibold uppercase tracking-widest ${
+          challengeHot ? "" : "text-[#be95ff]"
+        }`}
+      >
+        Challenge: Quantum Pitch
+      </span>
+      <p className={challengeHot ? "" : "text-sm text-[#a8a8a8]"}>
+        Envie a entrega da sua equipe até 25/11, às 23h45.
+      </p>
+      <a
+        href={CHALLENGE_FORM_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`${
+          challengeHot
+            ? "inline-flex justify-center bg-[#121619] px-5 py-3 text-white font-medium hover:bg-[#343a3f]"
+            : "self-start font-medium text-[#ff7eb6] hover:text-[#ee5396]"
+        } transition-colors ${buttonClass}`}
+      >
+        Enviar entrega →
+      </a>
+    </div>
+  );
+}
+
+// Painel empilhado: transmissão e Challenge, nessa ordem
+function EventPanel({ className = "" }: { className?: string }) {
+  return (
+    <div
+      data-agora
+      className={`flex w-full flex-col gap-px border border-[#343a3f] bg-[#343a3f] ${className}`}
+    >
+      <StreamBlock />
+      <ChallengeBlock />
+    </div>
+  );
+}
+
+const eventLabel = "24–26 de novembro · FIAP + online";
+
+// Desktop: a sessão ao vivo (ou a próxima) vira a manchete; Challenge numa coluna ao lado.
+// Sem Challenge (dia 3), a manchete ocupa a largura toda.
+function EventHeroDesktop() {
+  const { challengeOpen } = useEventNow();
+  return (
+    <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-16">
+      {/* Badge e nome à esquerda, data e formato no canto direito */}
+      <div className="flex items-center justify-between gap-6">
+        <div className="flex items-center gap-4">
+          <Image
+            src={`${BASE}/assets/badges/badge-dark.png`}
+            alt="Qiskit Fall Fest 2026"
+            width={56}
+            height={56}
+          />
+          <h1 className="text-lg font-normal text-[#f4f4f4]">
+            Qiskit Fall Fest <Year2026 />
+          </h1>
+        </div>
+        <span className="text-xs font-medium tracking-widest uppercase text-[#be95ff]">
+          {eventLabel}
+        </span>
+      </div>
+      <div
+        data-agora
+        className={`grid gap-px border border-[#343a3f] bg-[#343a3f] ${
+          challengeOpen ? "grid-cols-[1fr_22rem] xl:grid-cols-[1fr_26rem]" : "grid-cols-1"
+        }`}
+      >
+        <StreamBlock
+          className="justify-center gap-6 p-10 xl:p-12 min-h-[24rem]"
+          titleClass="text-4xl xl:text-5xl leading-tight"
+          buttonClass="self-start px-8 py-4 text-lg"
+          showFaces
+        />
+        {challengeOpen && <ChallengeBlock className="justify-center gap-4 p-10" />}
+      </div>
+    </div>
+  );
+}
+
+function EventHero() {
+  return (
+    <section className="bg-[#121619]">
+      {/* Celular e tablet: título e painel empilhados */}
+      <div className="mx-auto flex max-w-xl flex-col gap-6 px-6 py-14 lg:hidden">
+        <span className="text-xs font-medium tracking-widest uppercase text-[#be95ff]">
+          {eventLabel}
+        </span>
+        <h1 className="text-[13vw] sm:text-5xl font-light text-[#e0e0e0] leading-tight">
+          Qiskit Fall Fest <Year2026 />
+        </h1>
+        <EventPanel />
+      </div>
+      <div className="hidden lg:block">
+        <EventHeroDesktop />
+      </div>
+    </section>
   );
 }
 
