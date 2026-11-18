@@ -128,6 +128,7 @@ function Navbar() {
         </div>
       </nav>
 
+      <LiveBanner />
       <ChallengeBanner />
 
       {menuOpen && (
@@ -308,18 +309,34 @@ const days = [
       "Casos de uso e Quantum Safe",
       "101 de computação quântica",
     ],
+    // `live`: link da transmissão no YouTube, só aparece na tela durante a sessão
+    // `faces`: fotos (public/fotos) de quem fala, mostradas no destaque do topo no desktop
     schedule: [
       {
         time: "18:00 - 18:30",
         label: "Abertura",
         note: "Lançamento do Challenge",
+        live: "https://youtube.com/live/BNZor37SvbQ",
+        faces: ["diogo-novo.webp", "bruno-otavio-carvalho.webp", "alexandre-russi.webp"],
       },
       {
         time: "18:30 - 19:00",
         label: "Computação Quântica no Mundo Real dos Negócios",
+        live: "https://youtube.com/live/iLDxI7Bc9vo",
+        faces: ["marcelo-morales.webp"],
       },
-      { time: "19:00 - 19:45", label: "Quantum Safe" },
-      { time: "19:45 - 20:30", label: "Quantum 101: Visual e Intuitivo" },
+      {
+        time: "19:00 - 19:45",
+        label: "Quantum Safe",
+        live: "https://youtube.com/live/SEQaYyP7paE",
+        faces: ["carlos-rischioto.webp"],
+      },
+      {
+        time: "19:45 - 20:30",
+        label: "Quantum 101: Visual e Intuitivo",
+        live: "https://youtube.com/live/r-gaiSWuzLE",
+        faces: ["glauco-reis.webp"],
+      },
     ],
   },
   {
@@ -328,7 +345,12 @@ const days = [
     title: "Workshop & Challenge",
     items: ["Workshop com Qiskit", "Challenge", "AMA e networking"],
     schedule: [
-      { time: "15:00 - 18:00", label: "Workshop: Primeiros Passos com Qiskit" },
+      {
+        time: "15:00 - 18:00",
+        label: "Workshop: Primeiros Passos com Qiskit",
+        live: "https://youtube.com/live/w9CU7NASuyI",
+        faces: ["glauco-reis.webp"],
+      },
       { time: "18:00 - 18:30", label: "Intervalo" },
       {
         time: "18:30 - 20:00",
@@ -338,6 +360,8 @@ const days = [
         time: "18:30 - 20:00",
         label: "AMA com Pessoas da Área",
         note: "Simultâneo ao Challenge",
+        live: "https://youtube.com/live/Z4B8qA3yKKM",
+        faces: ["marcelo-morales.webp", "glauco-reis.webp", "alexandre-pfeifer.webp"],
       },
     ],
   },
@@ -352,24 +376,138 @@ const days = [
       "Anúncio dos vencedores",
     ],
     schedule: [
+      // Grupos de pesquisa: uma transmissão por apresentação
       {
-        time: "18:00 - 19:10",
-        label: "Apresentações de Grupos de Pesquisa e Estudo",
-        note: "Projetos e mentoria para quem está começando",
+        time: "18:00 - 18:15",
+        label: "Entanglion: Computação Quântica como Você Nunca Viu",
+        note: "Quanta Tech USP",
+        live: "https://youtube.com/live/YXCl8OG8z3w",
+        faces: ["jaime-guedes.webp", "vinicius-cunha.webp", "estevon-bonai.webp", "marcos-chaim.webp"],
+      },
+      {
+        time: "18:15 - 18:30",
+        label: "Segurança de Sistemas Quânticos",
+        note: "Liga de Quantum do Inteli",
+        live: "https://youtube.com/live/oYGh-b-x0jY",
+        faces: ["wildisley-filho.webp"],
+      },
+      {
+        time: "18:30 - 18:45",
+        label: "O Grupo de Estudos de Computação Quântica do ITA",
+        live: "https://youtube.com/live/DIZOJ8OJWgo",
+        faces: ["pedro-merino.webp"],
+      },
+      {
+        time: "18:45 - 19:10",
+        label: "Escala de Dados na Computação Quântica aplicada a Saúde",
+        note: "FIAP / Unesp",
+        live: "https://youtube.com/live/VwwDTEmsRLo",
+        faces: ["julia-santos.webp"],
       },
       {
         time: "19:10 - 19:50",
         label: "Encerramento: Oportunidades, Mercado e Certificações",
+        live: "https://youtube.com/live/MdghkhpV6nc",
+        faces: ["alexandre-pfeifer.webp"],
       },
       {
         time: "19:50 - 20:10",
         label: "Dinâmica",
         note: "Valendo prêmios da IBM Quantum (somente para o público presencial)",
       },
-      { time: "20:10 - 20:30", label: "Anúncio dos Vencedores do Challenge" },
+      {
+        time: "20:10 - 20:30",
+        label: "Anúncio dos Vencedores do Challenge",
+        live: "https://youtube.com/live/xI8SWILT5JI",
+        faces: ["bruno-otavio-carvalho.webp", "alexandre-russi.webp"],
+      },
     ],
   },
 ];
+
+// "24 Nov" + "18:00" -> timestamp (São Paulo é UTC-3, sem horário de verão)
+function toMs(date: string, time: string) {
+  return new Date(`2026-11-${date.slice(0, 2)}T${time}:00-03:00`).getTime();
+}
+
+// Todas as sessões com transmissão, em ordem
+const streams = days.flatMap((d, dayIndex) =>
+  d.schedule.flatMap((s) => {
+    if (!s.live) return [];
+    const [start, end] = s.time.split(" - ");
+    return [
+      {
+        dayIndex,
+        label: s.label,
+        startTime: start,
+        url: s.live,
+        faces: s.faces ?? [],
+        start: toMs(d.date, start),
+        end: toMs(d.date, end),
+      },
+    ];
+  }),
+);
+
+// Sessão ao vivo agora, ou a próxima se começa em até 30 min
+function useLiveStream() {
+  const now = useNow();
+  if (now === null) return {};
+  const current = streams.find((s) => now >= s.start && now < s.end);
+  const next = current
+    ? undefined
+    : streams.find((s) => s.start > now && s.start - now <= 30 * 60 * 1000);
+  return { current, next };
+}
+
+// Bolinha pulsante de "ao vivo"
+function LiveDot({ color }: { color: string }) {
+  return (
+    <span className="relative flex size-2.5 shrink-0">
+      <span
+        className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"
+        style={{ background: color }}
+      />
+      <span className="relative inline-flex size-2.5 rounded-full" style={{ background: color }} />
+    </span>
+  );
+}
+
+// YouTube logo (path do Simple Icons)
+function YouTubeIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
+      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+    </svg>
+  );
+}
+
+// Faixa azul fina fixa no topo enquanto uma sessão está ao vivo.
+// A faixa toda é o link.
+function LiveBanner() {
+  const { current } = useLiveStream();
+  if (!current) return null;
+  return (
+    <a
+      href={current.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="block bg-[#0f62fe] text-sm text-white hover:bg-[#0050e6] transition-colors"
+    >
+      <div className="mx-auto flex max-w-6xl items-center gap-3 px-6 py-2.5">
+        <LiveDot color="#ffffff" />
+        <span className="shrink-0 text-xs font-semibold uppercase tracking-widest">
+          Ao vivo
+        </span>
+        <span className="min-w-0 flex-1 truncate">{current.label}</span>
+        <span className="shrink-0 inline-flex items-center gap-2 font-medium">
+          <YouTubeIcon className="size-4" />
+          Assistir →
+        </span>
+      </div>
+    </a>
+  );
+}
 
 // Modal com a agenda detalhada de um dia
 function DayModal({
@@ -379,6 +517,7 @@ function DayModal({
   day: (typeof days)[0];
   onClose: () => void;
 }) {
+  const { current } = useLiveStream();
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -397,7 +536,7 @@ function DayModal({
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-lg bg-[#21272a] border border-[#343a3f] p-8 flex flex-col gap-6"
+        className="relative w-full max-w-lg max-h-full overflow-y-auto bg-[#21272a] border border-[#343a3f] p-8 flex flex-col gap-6"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Cabeçalho */}
@@ -431,6 +570,17 @@ function DayModal({
               {item.note && (
                 <span className="text-xs text-[#697077]">{item.note}</span>
               )}
+              {item.live && current?.url === item.live && (
+                <a
+                  href={item.live}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2 self-start inline-flex items-center gap-2 bg-[#0f62fe] px-4 py-2 text-sm text-white font-medium hover:bg-[#4589ff] transition-colors"
+                >
+                  <LiveDot color="#ffffff" />
+                  Ao vivo agora · Assistir no YouTube
+                </a>
+              )}
             </li>
           ))}
         </ul>
@@ -441,6 +591,7 @@ function DayModal({
 
 function Schedule() {
   const [activeDay, setActiveDay] = useState<number | null>(null);
+  const { current } = useLiveStream();
 
   return (
     <section
@@ -466,7 +617,11 @@ function Schedule() {
             <button
               key={d.day}
               onClick={() => setActiveDay(i)}
-              className="bg-[#21272a] border border-[#343a3f] hover:border-[#be95ff] p-6 flex flex-col gap-4 transition-colors text-left cursor-pointer"
+              className={`bg-[#21272a] border p-6 flex flex-col gap-4 transition-colors text-left cursor-pointer ${
+                current?.dayIndex === i
+                  ? "border-[#0f62fe] border-2 hover:border-[#4589ff]"
+                  : "border-[#343a3f] hover:border-[#be95ff]"
+              }`}
             >
               <div className="h-1 w-12 bg-[#be95ff]" />
               <div className="flex items-baseline justify-between">
@@ -491,9 +646,15 @@ function Schedule() {
                   </li>
                 ))}
               </ul>
-              <span className="mt-auto text-xs text-[#be95ff] pt-2">
-                Ver agenda →
-              </span>
+              {current?.dayIndex === i ? (
+                <span className="mt-auto pt-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-[#78a9ff]">
+                  <LiveDot color="#78a9ff" /> Ao vivo agora · ver link →
+                </span>
+              ) : (
+                <span className="mt-auto text-xs text-[#be95ff] pt-2">
+                  Ver agenda →
+                </span>
+              )}
             </button>
           ))}
         </div>
@@ -845,10 +1006,9 @@ const CALENDAR_DETAILS =
   "Evento híbrido de Computação Quântica. Transmissão online aberta a todos.";
 const CALENDAR_LOCATION = "FIAP Paulista, Av. Paulista, 1106, 6º andar, São Paulo";
 
-// "24 Nov" + "18:00" -> "20261124T210000Z" (São Paulo is UTC-3, no DST)
+// "24 Nov" + "18:00" -> "20261124T210000Z"
 function toUtcStamp(date: string, time: string) {
-  const iso = `2026-11-${date.slice(0, 2)}T${time}:00-03:00`;
-  return new Date(iso).toISOString().replace(/[-:]/g, "").slice(0, 15) + "Z";
+  return new Date(toMs(date, time)).toISOString().replace(/[-:]/g, "").slice(0, 15) + "Z";
 }
 
 const calendarEvents = days.map((d) => ({
