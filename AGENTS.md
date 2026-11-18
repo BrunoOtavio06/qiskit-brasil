@@ -21,6 +21,7 @@ The program includes talks, a workshop, and the Challenge: Quantum Pitch (teams 
 - In-person attendance is for FIAP students only; online is open to anyone.
 - Everyone who attends (in person or online) gets a participation certificate. Challenge winners also get a special certificate.
 - Talks are streamed live on YouTube and recorded. Each session's live link lives in `days` (`page.tsx`) and only shows on screen while that session is on (or 30 min before). The live links stop working after the event; recording links come later and are different.
+- After 26/11 20:30 the site switches to a thank-you version (no registration or calendar buttons).
 - In-person attendees don't need a laptop (FIAP labs have computers), but can bring one.
 - There's no registration deadline yet; don't mention one until it's decided.
 - Questions go to bruno.otavio@ibm.com (listed in the site's FAQ).

@@ -83,6 +83,8 @@ const navLinks = [
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const phase = useEventPhase();
+  const over = phase === "over";
+  const links = over ? navLinks.filter((l) => l.href !== "#inscricao") : navLinks;
 
   return (
     <header className="sticky top-0 z-50 bg-[#121619]/90 backdrop-blur border-b border-[#343a3f]">
@@ -99,7 +101,7 @@ function Navbar() {
           </span>
         </div>
         <div className="flex items-center gap-4 lg:gap-6 whitespace-nowrap text-sm font-normal text-[#a8a8a8]">
-          {navLinks.map((l) => (
+          {links.map((l) => (
             <a
               key={l.href}
               href={l.href}
@@ -142,7 +144,7 @@ function Navbar() {
           className="md:hidden absolute top-full inset-x-0 bg-[#121619] border-b border-[#343a3f]"
         >
           <ul className="flex flex-col px-6 py-2">
-            {navLinks.map((l) => (
+            {links.map((l) => (
               <li key={l.href}>
                 <a
                   href={l.href}
@@ -163,6 +165,7 @@ function Navbar() {
 // Hero
 function Hero() {
   const phase = useEventPhase();
+  const over = phase === "over";
   if (phase === "during") return <EventHero />;
   return (
     <section className="relative overflow-hidden bg-[#121619] min-h-[480px] lg:min-h-[600px] flex items-center">
@@ -181,7 +184,9 @@ function Hero() {
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 py-14 lg:py-24 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center pointer-events-none">
         <div className="flex flex-col gap-6 pointer-events-auto">
           <span className="text-xs font-medium tracking-widest uppercase text-[#be95ff]">
-            24–26 de novembro · FIAP + online · Gratuito
+            {over
+              ? "24–26 de novembro · FIAP + online"
+              : "24–26 de novembro · FIAP + online · Gratuito"}
           </span>
           <h1 className="text-[13vw] sm:text-5xl lg:text-7xl font-light text-[#e0e0e0] leading-tight">
             {/* On mobile: single flowing line. On sm+: stacked with breaks. */}
@@ -202,29 +207,38 @@ function Hero() {
             </span>
           </h1>
 
-          <p className="text-[#a8a8a8] text-lg leading-relaxed max-w-sm">
-            Três dias de computação quântica para estudantes e entusiastas de
-            todo o Brasil.
-          </p>
+          {over ? (
+            <p className="text-[#a8a8a8] text-lg leading-relaxed max-w-sm">
+              Obrigado a todo mundo que participou, na FIAP e online. Nos vemos
+              no ano que vem!
+            </p>
+          ) : (
+            <>
+              <p className="text-[#a8a8a8] text-lg leading-relaxed max-w-sm">
+                Três dias de computação quântica para estudantes e entusiastas de
+                todo o Brasil.
+              </p>
 
-          <Countdown />
+              <Countdown />
 
-          <div className="flex flex-wrap gap-3 mt-2">
-            <a
-              href="https://forms.cloud.microsoft/r/YuW1uLvY6m"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-[#ff7eb6] px-6 py-3 text-[#121619] font-medium hover:bg-[#ee5396] transition-colors"
-            >
-              Quero participar
-            </a>
-            <a
-              href="#sobre"
-              className="border border-[#697077] px-6 py-3 text-[#f4f4f4] font-medium hover:border-[#be95ff] hover:text-[#be95ff] transition-colors"
-            >
-              Saiba mais
-            </a>
-          </div>
+              <div className="flex flex-wrap gap-3 mt-2">
+                <a
+                  href="https://forms.cloud.microsoft/r/YuW1uLvY6m"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-[#ff7eb6] px-6 py-3 text-[#121619] font-medium hover:bg-[#ee5396] transition-colors"
+                >
+                  Quero participar
+                </a>
+                <a
+                  href="#sobre"
+                  className="border border-[#697077] px-6 py-3 text-[#f4f4f4] font-medium hover:border-[#be95ff] hover:text-[#be95ff] transition-colors"
+                >
+                  Saiba mais
+                </a>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </section>
@@ -437,7 +451,7 @@ function toMs(date: string, time: string) {
   return new Date(`2026-11-${date.slice(0, 2)}T${time}:00-03:00`).getTime();
 }
 
-// Fim do evento (anúncio dos vencedores)
+// Fim do anúncio dos vencedores: a partir daqui o site vira a versão de agradecimento
 const EVENT_ENDS = toMs("26 Nov", "20:30");
 
 // Meia hora antes da abertura o topo do site troca a contagem regressiva pelo painel do evento
@@ -449,6 +463,10 @@ function useEventPhase() {
   if (now >= EVENT_ENDS) return "over";
   if (now >= EVENT_PANEL_STARTS) return "during";
   return "before";
+}
+
+function useEventOver() {
+  return useEventPhase() === "over";
 }
 
 // O painel do topo (data-agora) já saiu da tela? As faixas fixas só aparecem a partir daí.
@@ -1299,6 +1317,7 @@ function googleCalendarUrl(e: (typeof calendarEvents)[0]) {
 const icsEscape = (s: string) => s.replace(/,/g, "\\,");
 
 function Location() {
+  const over = useEventOver();
   // ICS download with all three days (works for Apple Calendar, Outlook, etc.)
   const icsContent = [
     "BEGIN:VCALENDAR",
@@ -1388,8 +1407,8 @@ function Location() {
           </div>
         </div>
 
-        {/* Calendar CTAs — below both cards, for everyone */}
-        <div className="mt-8 flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-3">
+        {/* Calendar CTAs — below both cards, for everyone, until the event ends */}
+        <div className={`${over ? "hidden" : "flex"} mt-8 flex-col sm:flex-row sm:flex-wrap sm:items-center gap-3`}>
           <span className="text-[#697077] text-sm">
             Adicionar ao calendário:
           </span>
@@ -1499,6 +1518,7 @@ function Faq() {
 }
 
 function Registration() {
+  const over = useEventOver();
   return (
     <section id="inscricao" className="bg-[#121619] py-16 md:py-24 px-6 scroll-mt-16">
       <div
@@ -1533,25 +1553,39 @@ function Registration() {
             className="w-16 sm:w-24"
           />
         </div>
-        <h2 className="text-3xl md:text-4xl font-light text-[#f4f4f4]">
-          Garanta sua vaga
-        </h2>
-        <p className="text-[#a8a8a8] text-lg leading-relaxed max-w-md">
-          Aberto para todos.
-        </p>
-        {/* Magenta 40 CTA */}
-        <a
-          href="https://forms.cloud.microsoft/r/YuW1uLvY6m"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-[#ff7eb6] px-8 py-4 text-[#121619] font-medium text-lg hover:bg-[#ee5396] transition-colors"
-        >
-          Inscrever-se agora →
-        </a>
-        <p className="text-[#697077] text-xs leading-relaxed max-w-sm">
-          Ao se inscrever, você concorda com o uso e divulgação pública da sua
-          imagem.
-        </p>
+        {over ? (
+          <>
+            <h2 className="text-3xl md:text-4xl font-light text-[#f4f4f4]">
+              Obrigado por fazer parte
+            </h2>
+            <p className="text-[#a8a8a8] text-lg leading-relaxed max-w-md">
+              Foram três dias de computação quântica com gente de todo o Brasil.
+              Nos vemos no Qiskit Fall Fest do ano que vem!
+            </p>
+          </>
+        ) : (
+          <>
+            <h2 className="text-3xl md:text-4xl font-light text-[#f4f4f4]">
+              Garanta sua vaga
+            </h2>
+            <p className="text-[#a8a8a8] text-lg leading-relaxed max-w-md">
+              Aberto para todos.
+            </p>
+            {/* Magenta 40 CTA */}
+            <a
+              href="https://forms.cloud.microsoft/r/YuW1uLvY6m"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[#ff7eb6] px-8 py-4 text-[#121619] font-medium text-lg hover:bg-[#ee5396] transition-colors"
+            >
+              Inscrever-se agora →
+            </a>
+            <p className="text-[#697077] text-xs leading-relaxed max-w-sm">
+              Ao se inscrever, você concorda com o uso e divulgação pública da
+              sua imagem.
+            </p>
+          </>
+        )}
       </div>
     </section>
   );
@@ -1559,6 +1593,8 @@ function Registration() {
 
 // Footer
 function Footer() {
+  const over = useEventOver();
+  const links = over ? navLinks.filter((l) => l.href !== "#inscricao") : navLinks;
   return (
     <footer className="bg-[#21272a] border-t border-[#343a3f] py-10 md:py-12 px-6 text-[#697077] text-sm">
       <div className="mx-auto max-w-6xl flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
@@ -1578,7 +1614,7 @@ function Footer() {
         </div>
 
         <nav className="flex flex-wrap gap-6 text-sm">
-          {navLinks.map((l) => (
+          {links.map((l) => (
             <a
               key={l.href}
               href={l.href}
