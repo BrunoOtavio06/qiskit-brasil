@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { MenuIcon, XIcon } from "lucide-react";
 import Countdown from "@/components/Countdown";
+import { useNow } from "@/lib/useNow";
 import {
   Accordion,
   AccordionContent,
@@ -22,6 +23,50 @@ const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 // Purple 40      #be95ff  accent/labels
 // Magenta 40     #ff7eb6  CTA buttons
 // Hero gradient  Blue 60 → Purple 40 → Magenta 40
+
+// Challenge: o formulário de entrega fica no ar da abertura (24/11 18h) até 25/11 23h45.
+// Do início do tempo do Challenge (25/11 18h30) até o fechamento o aviso ganha o gradiente.
+const CHALLENGE_FORM_URL = "https://forms.cloud.microsoft/r/LMDE4TscnR";
+const CHALLENGE_OPENS = new Date("2026-11-24T18:00:00-03:00").getTime();
+const CHALLENGE_HIGHLIGHT_STARTS = new Date("2026-11-25T18:30:00-03:00").getTime();
+const CHALLENGE_CLOSES = new Date("2026-11-25T23:45:00-03:00").getTime();
+
+// Faixa fina fixa no topo enquanto o formulário do Challenge está aberto.
+// Da hora do Challenge até o fechamento ganha o gradiente roxo→rosa. A faixa toda é o link.
+function ChallengeBanner() {
+  const now = useNow();
+  if (now === null || now < CHALLENGE_OPENS || now >= CHALLENGE_CLOSES)
+    return null;
+  const live = now >= CHALLENGE_HIGHLIGHT_STARTS;
+  return (
+    <a
+      href={CHALLENGE_FORM_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`block border-t border-[#343a3f] text-sm transition-colors ${
+        live ? "text-[#121619]" : "bg-[#21272a] text-[#a8a8a8] hover:bg-[#343a3f]"
+      }`}
+      style={live ? { backgroundImage: "linear-gradient(to right, #be95ff, #ff7eb6)" } : undefined}
+    >
+      <div className="mx-auto flex max-w-6xl items-center gap-3 px-6 py-2.5">
+        <span
+          className={`shrink-0 text-xs font-semibold uppercase tracking-widest ${
+            live ? "" : "text-[#be95ff]"
+          }`}
+        >
+          Challenge
+        </span>
+        {/* No celular só "Challenge" e o link, para caber numa linha */}
+        <span className="min-w-0 flex-1 truncate">
+          <span className="hidden sm:inline">Entregas até 25/11, 23h45</span>
+        </span>
+        <span className={`shrink-0 font-medium ${live ? "" : "text-[#ff7eb6]"}`}>
+          Enviar entrega →
+        </span>
+      </div>
+    </a>
+  );
+}
 
 // Section links shared by the navbar (desktop + mobile menu) and the footer
 const navLinks = [
@@ -82,6 +127,8 @@ function Navbar() {
           </a>
         </div>
       </nav>
+
+      <ChallengeBanner />
 
       {menuOpen && (
         <div

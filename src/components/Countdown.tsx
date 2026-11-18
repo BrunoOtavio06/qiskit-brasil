@@ -1,6 +1,6 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
+import { useNow } from "@/lib/useNow";
 
 const EVENT_DATE = new Date("2026-11-24T18:00:00-03:00");
 
@@ -15,17 +15,8 @@ function getTimeLeft(now: number) {
   };
 }
 
-// Relógio que avisa o React a cada segundo
-function subscribe(onTick: () => void) {
-  const interval = setInterval(onTick, 1000);
-  return () => clearInterval(interval);
-}
-const getNow = () => Math.floor(Date.now() / 1000) * 1000;
-// No HTML estático (e na hidratação) ainda não sabemos a hora do visitante
-const getServerNow = () => null;
-
 export default function Countdown() {
-  const now = useSyncExternalStore(subscribe, getNow, getServerNow);
+  const now = useNow();
   const timeLeft = now === null ? undefined : getTimeLeft(now);
 
   if (timeLeft === null) {
