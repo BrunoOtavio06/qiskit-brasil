@@ -24,12 +24,23 @@ const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 // Magenta 40     #ff7eb6  CTA buttons
 // Hero gradient  Blue 60 → Purple 40 → Magenta 40
 
+const DISCORD_URL = "https://discord.gg/Hub5RrnXgF";
+
 // Challenge: o formulário de entrega fica no ar da abertura (24/11 18h) até 25/11 23h45.
 // Do início do tempo do Challenge (25/11 18h30) até o fechamento o aviso ganha o gradiente.
 const CHALLENGE_FORM_URL = "https://forms.cloud.microsoft/r/LMDE4TscnR";
 const CHALLENGE_OPENS = new Date("2026-11-24T18:00:00-03:00").getTime();
 const CHALLENGE_HIGHLIGHT_STARTS = new Date("2026-11-25T18:30:00-03:00").getTime();
 const CHALLENGE_CLOSES = new Date("2026-11-25T23:45:00-03:00").getTime();
+
+// Discord logo (lucide-react não tem ícones de marca; path do Simple Icons)
+function DiscordIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
+      <path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.865-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.74 19.74 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.11 13.11 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.3 12.3 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" />
+    </svg>
+  );
+}
 
 // Faixa fina no topo, só depois que a pessoa rola para além do painel do topo.
 // Da hora do Challenge até o fechamento ganha o gradiente roxo→rosa. A faixa toda é o link.
@@ -237,6 +248,17 @@ function Hero() {
                   Saiba mais
                 </a>
               </div>
+
+              {/* Discord como link secundário em linha própria: um 3º botão não cabe ao lado da ilustração */}
+              <a
+                href={DISCORD_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="self-start inline-flex items-center gap-2 text-[#78a9ff] font-medium hover:text-[#be95ff] transition-colors"
+              >
+                <DiscordIcon className="size-5" />
+                Entre no Discord do evento →
+              </a>
             </>
           )}
         </div>
@@ -717,7 +739,22 @@ function ChallengeBlock({
   );
 }
 
-// Painel empilhado: transmissão e Challenge, nessa ordem
+function DiscordRow({ className = "" }: { className?: string }) {
+  return (
+    <a
+      href={DISCORD_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`flex items-center gap-3 bg-[#21272a] p-5 text-sm text-[#a8a8a8] hover:text-[#be95ff] transition-colors ${className}`}
+    >
+      <DiscordIcon className="size-5 shrink-0 text-[#78a9ff]" />
+      <span className="flex-1">Avisos e dúvidas no Discord</span>
+      <span>→</span>
+    </a>
+  );
+}
+
+// Painel empilhado: transmissão, Challenge e Discord, nessa ordem
 function EventPanel({ className = "" }: { className?: string }) {
   return (
     <div
@@ -726,14 +763,15 @@ function EventPanel({ className = "" }: { className?: string }) {
     >
       <StreamBlock />
       <ChallengeBlock />
+      <DiscordRow />
     </div>
   );
 }
 
 const eventLabel = "24–26 de novembro · FIAP + online";
 
-// Desktop: a sessão ao vivo (ou a próxima) vira a manchete; Challenge numa coluna ao lado.
-// Sem Challenge (dia 3), a manchete ocupa a largura toda.
+// Desktop: a sessão ao vivo (ou a próxima) vira a manchete; Challenge e Discord numa coluna ao lado.
+// Sem Challenge (dia 3), o Discord ocupa a coluna como um cartão.
 function EventHeroDesktop() {
   const { challengeOpen } = useEventNow();
   return (
@@ -757,9 +795,7 @@ function EventHeroDesktop() {
       </div>
       <div
         data-agora
-        className={`grid gap-px border border-[#343a3f] bg-[#343a3f] ${
-          challengeOpen ? "grid-cols-[1fr_22rem] xl:grid-cols-[1fr_26rem]" : "grid-cols-1"
-        }`}
+        className="grid grid-cols-[1fr_22rem] xl:grid-cols-[1fr_26rem] gap-px border border-[#343a3f] bg-[#343a3f]"
       >
         <StreamBlock
           className="justify-center gap-6 p-10 xl:p-12 min-h-[24rem]"
@@ -767,7 +803,27 @@ function EventHeroDesktop() {
           buttonClass="self-start px-8 py-4 text-lg"
           showFaces
         />
-        {challengeOpen && <ChallengeBlock className="justify-center gap-4 p-10" />}
+        {challengeOpen ? (
+          <div className="flex flex-col gap-px">
+            <ChallengeBlock className="flex-1 justify-center gap-4 p-10" />
+            <DiscordRow className="px-10 py-6" />
+          </div>
+        ) : (
+          <a
+            href={DISCORD_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-col justify-center gap-5 bg-[#21272a] p-10 text-[#f4f4f4] hover:bg-[#343a3f] transition-colors"
+          >
+            <span className="text-xs font-semibold uppercase tracking-widest text-[#78a9ff]">
+              Discord
+            </span>
+            <p className="text-[#a8a8a8]">Avisos da organização e dúvidas sobre o evento.</p>
+            <span className="inline-flex items-center gap-2 font-medium text-[#78a9ff]">
+              <DiscordIcon className="size-5" /> Entrar no Discord →
+            </span>
+          </a>
+        )}
       </div>
     </div>
   );
@@ -1623,6 +1679,17 @@ function Footer() {
               {l.label}
             </a>
           ))}
+          {!over && (
+            <a
+              href={DISCORD_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 hover:text-[#be95ff] transition-colors"
+            >
+              <DiscordIcon className="size-4" />
+              Discord
+            </a>
+          )}
         </nav>
       </div>
 
