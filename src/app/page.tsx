@@ -353,7 +353,7 @@ const days = [
       "Casos de uso e Quantum Safe",
       "101 de computação quântica",
     ],
-    // `live`: link da transmissão no YouTube, só aparece na tela durante a sessão
+    // `live`: link da transmissão no YouTube (uma por dia; no dia 2, uma para o workshop e outra para o AMA), só aparece na tela durante a sessão
     // `faces`: fotos (public/fotos) de quem fala, mostradas no destaque do topo no desktop
     schedule: [
       {
@@ -366,19 +366,19 @@ const days = [
       {
         time: "18:30 - 19:00",
         label: "Computação Quântica no Mundo Real dos Negócios",
-        live: "https://youtube.com/live/iLDxI7Bc9vo",
+        live: "https://youtube.com/live/BNZor37SvbQ",
         faces: ["marcelo-morales.webp"],
       },
       {
         time: "19:00 - 19:45",
         label: "Quantum Safe",
-        live: "https://youtube.com/live/SEQaYyP7paE",
+        live: "https://youtube.com/live/BNZor37SvbQ",
         faces: ["carlos-rischioto.webp"],
       },
       {
         time: "19:45 - 20:30",
         label: "Quantum 101: Visual e Intuitivo",
-        live: "https://youtube.com/live/r-gaiSWuzLE",
+        live: "https://youtube.com/live/BNZor37SvbQ",
         faces: ["glauco-reis.webp"],
       },
     ],
@@ -404,7 +404,7 @@ const days = [
         time: "18:30 - 20:00",
         label: "AMA com Pessoas da Área",
         note: "Simultâneo ao Challenge",
-        live: "https://youtube.com/live/Z4B8qA3yKKM",
+        live: "https://youtube.com/live/yoDFFdhWdFA",
         faces: ["marcelo-morales.webp", "glauco-reis.webp", "alexandre-pfeifer.webp"],
       },
     ],
@@ -420,7 +420,7 @@ const days = [
       "Anúncio dos vencedores",
     ],
     schedule: [
-      // Grupos de pesquisa: uma transmissão por apresentação
+      // Uma transmissão só para o dia todo
       {
         time: "18:00 - 18:15",
         label: "Entanglion: Computação Quântica como Você Nunca Viu",
@@ -432,26 +432,26 @@ const days = [
         time: "18:15 - 18:30",
         label: "Segurança de Sistemas Quânticos",
         note: "Liga de Quantum do Inteli",
-        live: "https://youtube.com/live/oYGh-b-x0jY",
+        live: "https://youtube.com/live/YXCl8OG8z3w",
         faces: ["wildisley-filho.webp"],
       },
       {
         time: "18:30 - 18:45",
         label: "O Grupo de Estudos de Computação Quântica do ITA",
-        live: "https://youtube.com/live/DIZOJ8OJWgo",
+        live: "https://youtube.com/live/YXCl8OG8z3w",
         faces: ["pedro-merino.webp"],
       },
       {
         time: "18:45 - 19:10",
         label: "Escala de Dados na Computação Quântica aplicada a Saúde",
         note: "FIAP / Unesp",
-        live: "https://youtube.com/live/VwwDTEmsRLo",
+        live: "https://youtube.com/live/YXCl8OG8z3w",
         faces: ["julia-santos.webp"],
       },
       {
         time: "19:10 - 19:50",
         label: "Encerramento: Oportunidades, Mercado e Certificações",
-        live: "https://youtube.com/live/MdghkhpV6nc",
+        live: "https://youtube.com/live/YXCl8OG8z3w",
         faces: ["alexandre-pfeifer.webp"],
       },
       {
@@ -462,7 +462,7 @@ const days = [
       {
         time: "20:10 - 20:30",
         label: "Anúncio dos Vencedores do Challenge",
-        live: "https://youtube.com/live/xI8SWILT5JI",
+        live: "https://youtube.com/live/YXCl8OG8z3w",
         faces: ["bruno-otavio-carvalho.webp", "alexandre-russi.webp"],
       },
     ],
@@ -911,7 +911,7 @@ function DayModal({
               {item.note && (
                 <span className="text-xs text-[#697077]">{item.note}</span>
               )}
-              {item.live && current?.url === item.live && (
+              {item.live && current?.label === item.label && (
                 <a
                   href={item.live}
                   target="_blank"
