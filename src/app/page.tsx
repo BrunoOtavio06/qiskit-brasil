@@ -1640,6 +1640,16 @@ function Registration() {
               Ao se inscrever, você concorda com o uso e divulgação pública da
               sua imagem.
             </p>
+            {/* Secundário em Blue 40 (o azul do hover dos botões de calendário) */}
+            <a
+              href={DISCORD_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-flex items-center gap-2 border border-[#78a9ff] px-4 py-2 text-sm text-[#78a9ff] font-medium hover:bg-[#78a9ff]/10 transition-colors"
+            >
+              <DiscordIcon className="size-4" />
+              Fale com a gente
+            </a>
           </>
         )}
       </div>
