@@ -193,7 +193,8 @@ function Hero() {
       </div>
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 py-14 lg:py-24 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center pointer-events-none">
-        <div className="flex flex-col gap-6 pointer-events-auto">
+        {/* sm→lg: a ilustração some, então o conteúdo fica centralizado em vez de colado à esquerda */}
+        <div className="flex flex-col gap-6 pointer-events-auto sm:items-center sm:text-center lg:items-start lg:text-left">
           <span className="text-xs font-medium tracking-widest uppercase text-[#be95ff]">
             {over
               ? "24–26 de novembro · FIAP + online"
@@ -232,7 +233,7 @@ function Hero() {
 
               <Countdown />
 
-              <div className="flex flex-wrap gap-3 mt-2">
+              <div className="flex flex-wrap gap-3 mt-2 sm:justify-center lg:justify-start">
                 <a
                   href="https://forms.cloud.microsoft/r/YuW1uLvY6m"
                   target="_blank"
@@ -254,7 +255,7 @@ function Hero() {
                 href={DISCORD_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="self-start inline-flex items-center gap-2 text-[#78a9ff] font-medium hover:text-[#be95ff] transition-colors"
+                className="self-start sm:self-center lg:self-start inline-flex items-center gap-2 text-[#78a9ff] font-medium hover:text-[#be95ff] transition-colors"
               >
                 <DiscordIcon className="size-5" />
                 Entre no Discord do evento →
