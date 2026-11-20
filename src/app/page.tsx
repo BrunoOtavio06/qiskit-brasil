@@ -422,31 +422,19 @@ const days = [
     schedule: [
       // Uma transmissão só para o dia todo
       {
-        time: "18:00 - 18:15",
-        label: "Entanglion: Computação Quântica como Você Nunca Viu",
-        note: "Quanta Tech USP",
+        time: "18:00 - 19:10",
+        label: "Apresentações de Grupos de Pesquisa e Estudo",
+        note: "Projetos e mentoria para quem está começando",
         live: "https://youtube.com/live/YXCl8OG8z3w",
-        faces: ["jaime-guedes.webp", "vinicius-cunha.webp", "estevon-bonai.webp", "marcos-chaim.webp"],
-      },
-      {
-        time: "18:15 - 18:30",
-        label: "Segurança de Sistemas Quânticos",
-        note: "Liga de Quantum do Inteli",
-        live: "https://youtube.com/live/YXCl8OG8z3w",
-        faces: ["wildisley-filho.webp"],
-      },
-      {
-        time: "18:30 - 18:45",
-        label: "O Grupo de Estudos de Computação Quântica do ITA",
-        live: "https://youtube.com/live/YXCl8OG8z3w",
-        faces: ["pedro-merino.webp"],
-      },
-      {
-        time: "18:45 - 19:10",
-        label: "Escala de Dados na Computação Quântica aplicada a Saúde",
-        note: "FIAP / Unesp",
-        live: "https://youtube.com/live/YXCl8OG8z3w",
-        faces: ["julia-santos.webp"],
+        faces: [
+          "jaime-guedes.webp",
+          "vinicius-cunha.webp",
+          "estevon-bonai.webp",
+          "marcos-chaim.webp",
+          "wildisley-filho.webp",
+          "pedro-merino.webp",
+          "julia-santos.webp",
+        ],
       },
       {
         time: "19:10 - 19:50",
