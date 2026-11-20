@@ -417,7 +417,7 @@ const days = [
       "Apresentações de grupos de pesquisa e estudo",
       "Próximos passos",
       "Dinâmica",
-      "Anúncio dos vencedores",
+      "Anúncio dos vencedores e encerramento",
     ],
     schedule: [
       // Uma transmissão só para o dia todo
@@ -450,7 +450,7 @@ const days = [
       },
       {
         time: "19:10 - 19:50",
-        label: "Encerramento: Oportunidades, Mercado e Certificações",
+        label: "Oportunidades, Mercado e Certificações",
         live: "https://youtube.com/live/YXCl8OG8z3w",
         faces: ["alexandre-pfeifer.webp"],
       },
@@ -461,7 +461,7 @@ const days = [
       },
       {
         time: "20:10 - 20:30",
-        label: "Anúncio dos Vencedores do Challenge",
+        label: "Anúncio dos Vencedores do Challenge e Encerramento",
         live: "https://youtube.com/live/YXCl8OG8z3w",
         faces: ["bruno-otavio-carvalho.webp", "alexandre-russi.webp"],
       },
@@ -1144,7 +1144,7 @@ const speakersByDay: SpeakerBlock[][] = [
           photo: "pedro-merino.webp",
           linkedin: "https://www.linkedin.com/in/pedrommerino/",
           talk: "O Grupo de Estudos de Computação Quântica do ITA",
-          orgs: ["ITA", "USP"],
+          orgs: ["ITA"],
         },
         {
           name: "Júlia Santos",
@@ -1156,7 +1156,7 @@ const speakersByDay: SpeakerBlock[][] = [
       ],
     },
     {
-      label: "Encerramento",
+      label: "Palestra",
       speakers: [
         { ...pfeifer, talk: "Oportunidades, Mercado e Certificações" },
       ],
