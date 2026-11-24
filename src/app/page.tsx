@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { MenuIcon, XIcon } from "lucide-react";
 import Countdown from "@/components/Countdown";
 import { useNow } from "@/lib/useNow";
@@ -11,6 +11,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Tabs as TabsPrimitive } from "@base-ui/react/tabs";
 
 // next/image does not auto-apply basePath, so we prefix every src manually
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -84,7 +85,6 @@ function ChallengeBanner() {
 const navLinks = [
   { href: "#sobre", label: "Sobre" },
   { href: "#programacao", label: "Programação" },
-  { href: "#palestrantes", label: "Palestrantes" },
   { href: "#local", label: "Local" },
   { href: "#faq", label: "Dúvidas" },
   { href: "#inscricao", label: "Inscrição" },
@@ -343,43 +343,99 @@ function About() {
 }
 
 // Schedule
-const days = [
+// Quem fala. `role` aparece entre parênteses depois do nome; `orgs` são as faculdades.
+type Speaker = {
+  name: string;
+  photo: string; // public/fotos
+  linkedin: string;
+  role?: string;
+  orgs?: string[];
+};
+
+const bruno: Speaker = {
+  name: "Bruno Otávio Carvalho",
+  photo: "bruno-otavio-carvalho.webp",
+  linkedin: "https://www.linkedin.com/in/bruno-otavio-carvalho/",
+  role: "host",
+};
+const russi: Speaker = {
+  name: "Alexandre Russi",
+  photo: "alexandre-russi.webp",
+  linkedin: "https://www.linkedin.com/in/alexandrerussi/",
+  role: "host",
+};
+const marcelo: Speaker = {
+  name: "Marcelo Morales",
+  photo: "marcelo-morales.webp",
+  linkedin: "https://www.linkedin.com/in/professor-mecchi/",
+};
+const glauco: Speaker = {
+  name: "Glauco Reis",
+  photo: "glauco-reis.webp",
+  linkedin: "https://www.linkedin.com/in/glaucoreis/",
+};
+const pfeifer: Speaker = {
+  name: "Alexandre Pfeifer",
+  photo: "alexandre-pfeifer.webp",
+  linkedin: "https://www.linkedin.com/in/alexandre-pfeifer-a4a47/",
+};
+
+type Session = {
+  time: string;
+  label: string;
+  note?: string;
+  live?: string;
+  speakers?: Speaker[];
+  talks?: { label: string; speakers: Speaker[] }[];
+};
+
+const days: { day: string; date: string; title: string; schedule: Session[] }[] = [
   {
     day: "Dia 1",
     date: "24 Nov",
     title: "Introdução",
-    items: [
-      "Abertura e lançamento do Challenge",
-      "Casos de uso e Quantum Safe",
-      "101 de computação quântica",
-    ],
     // `live`: link da transmissão no YouTube (uma por dia; no dia 2, uma para o workshop e outra para o AMA), só aparece na tela durante a sessão
-    // `faces`: fotos (public/fotos) de quem fala, mostradas no destaque do topo no desktop
+    // `speakers`: quem fala na sessão; as fotos também aparecem no destaque do topo no desktop
+    // `talks`: sessões com várias apresentações (grupos de pesquisa), cada uma com quem apresenta
     schedule: [
       {
         time: "18:00 - 18:30",
         label: "Abertura",
         note: "Lançamento do Challenge",
         live: "https://youtube.com/live/BNZor37SvbQ",
-        faces: ["diogo-novo.webp", "bruno-otavio-carvalho.webp", "alexandre-russi.webp"],
+        speakers: [
+          {
+            name: "Diogo Novo",
+            photo: "diogo-novo.webp",
+            linkedin: "https://www.linkedin.com/in/diogonascimentonovo/",
+          },
+          bruno,
+          russi,
+        ],
       },
       {
         time: "18:30 - 19:00",
         label: "Computação Quântica no Mundo Real dos Negócios",
         live: "https://youtube.com/live/BNZor37SvbQ",
-        faces: ["marcelo-morales.webp"],
+        speakers: [marcelo],
       },
       {
         time: "19:00 - 19:45",
         label: "Quantum Safe",
         live: "https://youtube.com/live/BNZor37SvbQ",
-        faces: ["carlos-rischioto.webp"],
+        speakers: [
+          {
+            name: "Carlos Rischioto",
+            photo: "carlos-rischioto.webp",
+            linkedin: "https://www.linkedin.com/in/rischioto/",
+          },
+        ],
       },
       {
         time: "19:45 - 20:30",
         label: "Quantum 101: Visual e Intuitivo",
         live: "https://youtube.com/live/BNZor37SvbQ",
-        faces: ["glauco-reis.webp"],
+        speakers: [glauco],
       },
     ],
   },
@@ -387,13 +443,12 @@ const days = [
     day: "Dia 2",
     date: "25 Nov",
     title: "Workshop & Challenge",
-    items: ["Workshop com Qiskit", "Challenge", "AMA e networking"],
     schedule: [
       {
         time: "15:00 - 18:00",
         label: "Workshop: Primeiros Passos com Qiskit",
         live: "https://youtube.com/live/w9CU7NASuyI",
-        faces: ["glauco-reis.webp"],
+        speakers: [glauco],
       },
       { time: "18:00 - 18:30", label: "Intervalo" },
       {
@@ -405,7 +460,7 @@ const days = [
         label: "AMA com Pessoas da Área",
         note: "Simultâneo ao Challenge",
         live: "https://youtube.com/live/yoDFFdhWdFA",
-        faces: ["marcelo-morales.webp", "glauco-reis.webp", "alexandre-pfeifer.webp"],
+        speakers: [marcelo, glauco, pfeifer],
       },
     ],
   },
@@ -413,12 +468,6 @@ const days = [
     day: "Dia 3",
     date: "26 Nov",
     title: "Grupos de Pesquisa & Encerramento",
-    items: [
-      "Apresentações de grupos de pesquisa e estudo",
-      "Próximos passos",
-      "Dinâmica",
-      "Anúncio dos vencedores e encerramento",
-    ],
     schedule: [
       // Uma transmissão só para o dia todo
       {
@@ -426,21 +475,80 @@ const days = [
         label: "Apresentações de Grupos de Pesquisa e Estudo",
         note: "Projetos e mentoria para quem está começando",
         live: "https://youtube.com/live/YXCl8OG8z3w",
-        faces: [
-          "jaime-guedes.webp",
-          "vinicius-cunha.webp",
-          "estevon-bonai.webp",
-          "marcos-chaim.webp",
-          "wildisley-filho.webp",
-          "pedro-merino.webp",
-          "julia-santos.webp",
+        talks: [
+          {
+            label: "Entanglion: Computação Quântica como Você Nunca Viu",
+            speakers: [
+              {
+                name: "Jaime Guedes",
+                photo: "jaime-guedes.webp",
+                linkedin:
+                  "https://www.linkedin.com/in/jaime-cavalcanti-guedes-7b55b2278/",
+                orgs: ["USP"],
+              },
+              {
+                name: "Vinicius Cunha",
+                photo: "vinicius-cunha.webp",
+                linkedin: "https://www.linkedin.com/in/vcunhadev/",
+                orgs: ["USP"],
+              },
+              {
+                name: "Estevon Bonai",
+                photo: "estevon-bonai.webp",
+                linkedin:
+                  "https://www.linkedin.com/in/estevon-biazussi-bonai-b0188b302/",
+                orgs: ["USP"],
+              },
+              {
+                name: "Marcos Chaim",
+                photo: "marcos-chaim.webp",
+                linkedin:
+                  "https://www.linkedin.com/in/marcos-lordello-chaim-ba5782382/",
+                role: "orientador",
+                orgs: ["USP"],
+              },
+            ],
+          },
+          {
+            label: "Segurança de Sistemas Quânticos",
+            speakers: [
+              {
+                name: "Wildisley Filho",
+                photo: "wildisley-filho.webp",
+                linkedin: "https://www.linkedin.com/in/wildis-filho/",
+                orgs: ["Inteli"],
+              },
+            ],
+          },
+          {
+            label: "O Grupo de Estudos de Computação Quântica do ITA",
+            speakers: [
+              {
+                name: "Pedro Merino",
+                photo: "pedro-merino.webp",
+                linkedin: "https://www.linkedin.com/in/pedrommerino/",
+                orgs: ["ITA"],
+              },
+            ],
+          },
+          {
+            label: "Escala de Dados na Computação Quântica aplicada a Saúde",
+            speakers: [
+              {
+                name: "Júlia Santos",
+                photo: "julia-santos.webp",
+                linkedin: "https://www.linkedin.com/in/julia-vic-santos/",
+                orgs: ["FIAP", "UNESP"],
+              },
+            ],
+          },
         ],
       },
       {
         time: "19:10 - 19:50",
         label: "Oportunidades, Mercado e Certificações",
         live: "https://youtube.com/live/YXCl8OG8z3w",
-        faces: ["alexandre-pfeifer.webp"],
+        speakers: [pfeifer],
       },
       {
         time: "19:50 - 20:10",
@@ -451,7 +559,7 @@ const days = [
         time: "20:10 - 20:30",
         label: "Anúncio dos Vencedores do Challenge e Encerramento",
         live: "https://youtube.com/live/YXCl8OG8z3w",
-        faces: ["bruno-otavio-carvalho.webp", "alexandre-russi.webp"],
+        speakers: [bruno, russi],
       },
     ],
   },
@@ -511,7 +619,7 @@ const streams = days.flatMap((d, dayIndex) =>
         label: s.label,
         startTime: start,
         url: s.live,
-        faces: s.faces ?? [],
+        faces: (s.speakers ?? s.talks?.flatMap((t) => t.speakers) ?? []).map((p) => p.photo),
         start: toMs(d.date, start),
         end: toMs(d.date, end),
       },
@@ -838,89 +946,119 @@ function EventHero() {
   );
 }
 
-// Modal com a agenda detalhada de um dia
-function DayModal({
-  day,
-  onClose,
-}: {
-  day: (typeof days)[0];
-  onClose: () => void;
-}) {
-  const { current } = useLiveStream();
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
-    };
-  }, [onClose]);
-
+// Fotos redondas de quem fala, todas do mesmo tamanho.
+// Celular: uma embaixo da outra. Do tablet para cima: duas por linha.
+function Faces({ speakers }: { speakers: Speaker[] }) {
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#121619]/90"
-      onClick={onClose}
-    >
-      <div
-        className="relative w-full max-w-lg max-h-full overflow-y-auto bg-[#21272a] border border-[#343a3f] p-8 flex flex-col gap-6"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Cabeçalho */}
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex flex-col gap-1">
-            <span className="text-xs font-medium uppercase tracking-widest text-[#be95ff]">
-              {day.day} · {day.date}
-            </span>
-            <h3 className="text-xl font-light text-[#f4f4f4]">{day.title}</h3>
-          </div>
-          <button
-            onClick={onClose}
-            className="text-[#697077] hover:text-[#f4f4f4] transition-colors shrink-0 text-lg leading-none"
-            aria-label="Fechar"
-          >
-            ✕
-          </button>
-        </div>
-
-        {/* Lista de itens com horários */}
-        <ul className="flex flex-col divide-y divide-[#343a3f]">
-          {day.schedule.map((item) => (
-            <li
-              key={item.time + item.label}
-              className="flex flex-col gap-1 py-4 first:pt-0 last:pb-0"
-            >
-              <span className="text-xs font-medium tabular-nums text-[#be95ff]">
-                {item.time}
-              </span>
-              <span className="text-sm text-[#f4f4f4]">{item.label}</span>
-              {item.note && (
-                <span className="text-xs text-[#697077]">{item.note}</span>
-              )}
-              {item.live && current?.label === item.label && (
-                <a
-                  href={item.live}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-2 self-start inline-flex items-center gap-2 bg-[#0f62fe] px-4 py-2 text-sm text-white font-medium hover:bg-[#4589ff] transition-colors"
-                >
-                  <LiveDot color="#ffffff" />
-                  Ao vivo agora · Assistir no YouTube
-                </a>
-              )}
-            </li>
-          ))}
-        </ul>
-      </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+      {speakers.map((s) => (
+        <Image
+          key={s.name}
+          src={`${BASE}/fotos/${s.photo}`}
+          alt={s.name}
+          width={160}
+          height={160}
+          className="size-16 rounded-full object-cover border-2 border-[#be95ff]"
+        />
+      ))}
     </div>
   );
 }
 
+// "Ana, Beto (host) e Caio · USP / FIAP". Cada nome leva ao LinkedIn.
+function Byline({ speakers }: { speakers: Speaker[] }) {
+  const orgs = [...new Set(speakers.flatMap((s) => s.orgs ?? []))];
+  return (
+    <p className="text-sm text-[#a8a8a8] leading-relaxed">
+      {speakers.map((s, i) => (
+        <span key={s.name}>
+          {i > 0 && (i === speakers.length - 1 ? " e " : ", ")}
+          <a
+            href={s.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#c1c7cd] underline-offset-4 hover:text-[#be95ff] hover:underline transition-colors"
+          >
+            {s.name}
+          </a>
+          {s.role && ` (${s.role})`}
+        </span>
+      ))}
+      {orgs.length > 0 && ` · ${orgs.join(" / ")}`}
+    </p>
+  );
+}
+
+// Uma linha da agenda: fotos à esquerda, horário, título e quem fala à direita
+function SessionRow({
+  item,
+  isLive,
+}: {
+  item: Session;
+  isLive: boolean;
+}) {
+  return (
+    <li className="flex flex-col gap-5 py-6 first:pt-0 last:pb-0">
+      <div className="flex gap-4 sm:gap-5">
+        <div className="w-16 sm:w-[136px] shrink-0">
+          {item.speakers && <Faces speakers={item.speakers} />}
+        </div>
+        <div className="flex min-w-0 flex-col gap-1">
+          <span className="text-xs font-medium tabular-nums text-[#be95ff]">
+            {item.time}
+          </span>
+          <h4 className="text-base sm:text-lg font-normal text-[#f4f4f4] leading-snug">
+            {item.label}
+          </h4>
+          {item.speakers && <Byline speakers={item.speakers} />}
+          {item.note && <p className="text-xs text-[#697077]">{item.note}</p>}
+          {item.live && isLive && (
+            <a
+              href={item.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 self-start inline-flex items-center gap-2 bg-[#0f62fe] px-4 py-2 text-sm text-white font-medium hover:bg-[#4589ff] transition-colors"
+            >
+              <LiveDot color="#ffffff" />
+              Ao vivo agora · Assistir no YouTube
+            </a>
+          )}
+        </div>
+      </div>
+      {/* Apresentações dentro da mesma sessão, uma por linha */}
+      {item.talks?.map((t) => (
+        <div key={t.label} className="flex gap-4 sm:gap-5">
+          <div className="w-16 sm:w-[136px] shrink-0">
+            <Faces speakers={t.speakers} />
+          </div>
+          <div className="flex min-w-0 flex-col gap-1">
+            <h5 className="text-base font-normal text-[#f4f4f4] leading-snug">
+              {t.label}
+            </h5>
+            <Byline speakers={t.speakers} />
+          </div>
+        </div>
+      ))}
+    </li>
+  );
+}
+
+// Dia de hoje (0, 1 ou 2), ou -1 fora do evento
+function useTodayIndex() {
+  const now = useNow();
+  if (now === null) return -1;
+  return days.findIndex((d) => {
+    const start = toMs(d.date, "00:00");
+    return now >= start && now < start + 24 * 60 * 60 * 1000;
+  });
+}
+
+// Agenda e palestrantes juntos: uma aba por dia, abre no dia de hoje
 function Schedule() {
-  const [activeDay, setActiveDay] = useState<number | null>(null);
+  const [picked, setPicked] = useState<number | null>(null);
+  const today = useTodayIndex();
   const { current } = useLiveStream();
+  const active = picked ?? Math.max(today, 0);
 
   return (
     <section
@@ -928,7 +1066,7 @@ function Schedule() {
       className="bg-[#121619] py-14 md:py-20 px-6 scroll-mt-16"
     >
       <div className="mx-auto max-w-6xl">
-        <div className="flex flex-col gap-3 mb-14 max-w-xl">
+        <div className="flex flex-col gap-3 mb-10 max-w-xl">
           <span className="text-xs font-medium tracking-widest uppercase text-[#be95ff]">
             24 - 26 de Novembro de 2026
           </span>
@@ -941,388 +1079,49 @@ function Schedule() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {days.map((d, i) => (
-            <button
-              key={d.day}
-              onClick={() => setActiveDay(i)}
-              className={`bg-[#21272a] border p-6 flex flex-col gap-4 transition-colors text-left cursor-pointer ${
-                current?.dayIndex === i
-                  ? "border-[#0f62fe] border-2 hover:border-[#4589ff]"
-                  : "border-[#343a3f] hover:border-[#be95ff]"
-              }`}
-            >
-              <div className="h-1 w-12 bg-[#be95ff]" />
-              <div className="flex items-baseline justify-between">
-                <span className="text-xs font-medium uppercase tracking-widest text-[#be95ff]">
+        <TabsPrimitive.Root
+          value={active}
+          onValueChange={(v) => setPicked(v as number)}
+        >
+          <TabsPrimitive.List className="grid grid-cols-3 border-b border-[#343a3f]">
+            {days.map((d, i) => (
+              <TabsPrimitive.Tab
+                key={d.day}
+                value={i}
+                className="flex flex-col items-start gap-1 border-t-2 border-transparent px-3 py-3 sm:px-5 sm:py-4 text-left cursor-pointer transition-colors hover:bg-[#21272a] data-[active]:border-[#be95ff] data-[active]:bg-[#21272a] outline-none focus-visible:outline-2 focus-visible:outline-[#0f62fe]"
+              >
+                <span className="flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-[#be95ff]">
                   {d.day}
+                  {current?.dayIndex === i && <LiveDot color="#78a9ff" />}
                 </span>
-                <span className="text-xs text-[#697077] font-normal">
-                  {d.date}
-                </span>
-              </div>
-              <h3 className="text-base font-normal text-[#f4f4f4] leading-snug">
+                <span className="text-sm text-[#a8a8a8]">{d.date}</span>
+              </TabsPrimitive.Tab>
+            ))}
+          </TabsPrimitive.List>
+
+          {/* keepMounted deixa os outros dias no HTML (busca e Ctrl+F) */}
+          {days.map((d, i) => (
+            <TabsPrimitive.Panel
+              key={d.day}
+              value={i}
+              keepMounted
+              className="bg-[#21272a] p-6 sm:p-10 outline-none"
+            >
+              <h3 className="text-xl sm:text-2xl font-light text-[#f4f4f4] mb-8">
                 {d.title}
               </h3>
-              <ul className="flex flex-col gap-2 mt-1">
-                {d.items.map((item) => (
-                  <li
-                    key={item}
-                    className="flex items-start gap-2 text-sm text-[#a8a8a8]"
-                  >
-                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-[#be95ff]" />
-                    {item}
-                  </li>
+              <ul className="flex flex-col divide-y divide-[#343a3f]">
+                {d.schedule.map((item) => (
+                  <SessionRow
+                    key={item.time + item.label}
+                    item={item}
+                    isLive={current?.label === item.label}
+                  />
                 ))}
               </ul>
-              {current?.dayIndex === i ? (
-                <span className="mt-auto pt-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-[#78a9ff]">
-                  <LiveDot color="#78a9ff" /> Ao vivo agora · ver link →
-                </span>
-              ) : (
-                <span className="mt-auto text-xs text-[#be95ff] pt-2">
-                  Ver agenda →
-                </span>
-              )}
-            </button>
+            </TabsPrimitive.Panel>
           ))}
-        </div>
-      </div>
-
-      {activeDay !== null && (
-        <DayModal day={days[activeDay]} onClose={() => setActiveDay(null)} />
-      )}
-    </section>
-  );
-}
-
-// Speakers
-type Speaker = {
-  name: string;
-  photo: string;
-  linkedin: string;
-  talk?: string; // sem talk e sem tags = "Tema a definir"
-  tags?: string[]; // papéis na programação, ex.: "Workshop", "AMA" (caixinha roxa)
-  orgs?: string[]; // faculdades (caixinha rosa)
-};
-
-// Palestrantes lado a lado no desktop quando há mais de um no bloco.
-type SpeakerBlock = { label?: string; speakers: Speaker[] };
-
-const hosts: Speaker[] = [
-  {
-    name: "Bruno Otávio Carvalho",
-    photo: "bruno-otavio-carvalho.webp",
-    linkedin: "https://www.linkedin.com/in/bruno-otavio-carvalho/",
-  },
-  {
-    name: "Alexandre Russi",
-    photo: "alexandre-russi.webp",
-    linkedin: "https://www.linkedin.com/in/alexandrerussi/",
-  },
-];
-
-const marcelo: Speaker = {
-  name: "Marcelo Morales",
-  photo: "marcelo-morales.webp",
-  linkedin: "https://www.linkedin.com/in/professor-mecchi/",
-};
-const glauco: Speaker = {
-  name: "Glauco Reis",
-  photo: "glauco-reis.webp",
-  linkedin: "https://www.linkedin.com/in/glaucoreis/",
-};
-const pfeifer: Speaker = {
-  name: "Alexandre Pfeifer",
-  photo: "alexandre-pfeifer.webp",
-  linkedin: "https://www.linkedin.com/in/alexandre-pfeifer-a4a47/",
-};
-
-// Mesma ordem de `days`. Cada dia tem blocos com título opcional.
-const speakersByDay: SpeakerBlock[][] = [
-  [
-    {
-      speakers: [
-        {
-          name: "Diogo Novo",
-          photo: "diogo-novo.webp",
-          linkedin: "https://www.linkedin.com/in/diogonascimentonovo/",
-          talk: "Abertura",
-        },
-      ],
-    },
-    {
-      speakers: [
-        {
-          ...marcelo,
-          talk: "Computação Quântica no Mundo Real dos Negócios",
-        },
-        {
-          name: "Carlos Rischioto",
-          photo: "carlos-rischioto.webp",
-          linkedin: "https://www.linkedin.com/in/rischioto/",
-          talk: "Quantum Safe",
-        },
-      ],
-    },
-    {
-      speakers: [
-        { ...glauco, talk: "Quantum 101: Visual e Intuitivo" },
-      ],
-    },
-  ],
-  [
-    {
-      speakers: [
-        {
-          ...glauco,
-          talk: "Primeiros passos com Qiskit",
-          tags: ["Workshop", "AMA"],
-        },
-        { ...marcelo, tags: ["AMA"] },
-        { ...pfeifer, tags: ["AMA"] },
-      ],
-    },
-  ],
-  [
-    {
-      label: "Apresentação dos grupos de pesquisa",
-      speakers: [
-        {
-          name: "Jaime Guedes",
-          photo: "jaime-guedes.webp",
-          linkedin:
-            "https://www.linkedin.com/in/jaime-cavalcanti-guedes-7b55b2278/",
-          talk: "Entanglion: Computação Quântica como Você Nunca Viu",
-          orgs: ["USP"],
-        },
-        {
-          name: "Vinicius Cunha",
-          photo: "vinicius-cunha.webp",
-          linkedin: "https://www.linkedin.com/in/vcunhadev/",
-          talk: "Entanglion: Computação Quântica como Você Nunca Viu",
-          orgs: ["USP"],
-        },
-        {
-          name: "Estevon Bonai",
-          photo: "estevon-bonai.webp",
-          linkedin:
-            "https://www.linkedin.com/in/estevon-biazussi-bonai-b0188b302/",
-          talk: "Entanglion: Computação Quântica como Você Nunca Viu",
-          orgs: ["USP"],
-        },
-        {
-          name: "Marcos Chaim",
-          photo: "marcos-chaim.webp",
-          linkedin:
-            "https://www.linkedin.com/in/marcos-lordello-chaim-ba5782382/",
-          talk: "Entanglion: Computação Quântica como Você Nunca Viu",
-          tags: ["Orientador"],
-          orgs: ["USP"],
-        },
-        {
-          name: "Wildisley Filho",
-          photo: "wildisley-filho.webp",
-          linkedin: "https://www.linkedin.com/in/wildis-filho/",
-          talk: "Segurança de Sistemas Quânticos",
-          orgs: ["Inteli"],
-        },
-        {
-          name: "Pedro Merino",
-          photo: "pedro-merino.webp",
-          linkedin: "https://www.linkedin.com/in/pedrommerino/",
-          talk: "O Grupo de Estudos de Computação Quântica do ITA",
-          orgs: ["ITA"],
-        },
-        {
-          name: "Júlia Santos",
-          photo: "julia-santos.webp",
-          linkedin: "https://www.linkedin.com/in/julia-vic-santos/",
-          talk: "Escala de Dados na Computação Quântica aplicada a Saúde",
-          orgs: ["FIAP", "UNESP"],
-        },
-      ],
-    },
-    {
-      label: "Palestra",
-      speakers: [
-        { ...pfeifer, talk: "Oportunidades, Mercado e Certificações" },
-      ],
-    },
-  ],
-];
-
-function LinkedInLink({ href, name }: { href: string; name: string }) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={`LinkedIn de ${name}`}
-      className="mt-1 text-[#78a9ff] hover:text-[#be95ff] transition-colors"
-    >
-      {/* lucide-react não tem mais ícones de marca; path do Simple Icons */}
-      <svg viewBox="0 0 24 24" fill="currentColor" className="h-4.5 w-4.5" aria-hidden>
-        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.125 2.062 2.062 0 0 1 0 4.125zM7.119 20.452H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-      </svg>
-    </a>
-  );
-}
-
-// side = lado da foto. Alterna por dia para dar ritmo à lista.
-function SpeakerRow({
-  speaker,
-  side,
-}: {
-  speaker: Speaker;
-  side: "left" | "right";
-}) {
-  // Faculdades em rosa, papéis em roxo
-  const chips = [
-    ...(speaker.orgs ?? []).map((label) => ({ label, color: "#ff7eb6" })),
-    ...(speaker.tags ?? []).map((label) => ({ label, color: "#be95ff" })),
-  ];
-  return (
-    <li
-      className={`flex items-center gap-5 border border-[#343a3f] bg-[#21272a] p-5 ${
-        side === "right" ? "flex-row-reverse text-right" : ""
-      }`}
-    >
-      <Image
-        src={`${BASE}/fotos/${speaker.photo}`}
-        alt={speaker.name}
-        width={160}
-        height={160}
-        className="h-20 w-20 sm:h-28 sm:w-28 shrink-0 object-cover"
-      />
-      <div
-        className={`flex flex-col gap-1 ${
-          side === "right" ? "items-end" : "items-start"
-        }`}
-      >
-        <h4 className="text-lg font-normal text-[#f4f4f4]">{speaker.name}</h4>
-        {chips.length > 0 && (
-          <span className="flex flex-wrap gap-2">
-            {chips.map((c) => (
-              <span
-                key={c.label}
-                style={{ borderColor: c.color, color: c.color }}
-                className="border px-2 py-0.5 text-xs font-medium uppercase tracking-widest"
-              >
-                {c.label}
-              </span>
-            ))}
-          </span>
-        )}
-        {(speaker.talk || !speaker.tags) && (
-          <p className="text-sm text-[#a8a8a8]">
-            {speaker.talk ?? "Tema a definir"}
-          </p>
-        )}
-        <LinkedInLink href={speaker.linkedin} name={speaker.name} />
-      </div>
-    </li>
-  );
-}
-
-function Speakers() {
-  return (
-    <section
-      id="palestrantes"
-      className="bg-[#21272a] py-14 md:py-20 px-6 scroll-mt-16"
-    >
-      <div className="mx-auto max-w-6xl">
-        <div className="flex flex-col gap-3 mb-12 max-w-xl">
-          <span className="text-xs font-medium tracking-widest uppercase text-[#be95ff]">
-            Quem vai falar
-          </span>
-          <h2 className="text-3xl md:text-4xl font-light text-[#f4f4f4]">
-            Palestrantes
-          </h2>
-        </div>
-
-        {/* Hosts */}
-        <h3 className="text-xs font-medium uppercase tracking-widest text-[#697077] mb-4">
-          Hosts
-        </h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
-          {hosts.map((h) => (
-            <div
-              key={h.name}
-              className="bg-[#121619] border border-[#343a3f] p-5 flex items-center gap-5"
-            >
-              <Image
-                src={`${BASE}/fotos/${h.photo}`}
-                alt={h.name}
-                width={160}
-                height={160}
-                className="h-20 w-20 sm:h-24 sm:w-24 shrink-0 object-cover"
-              />
-              <div className="flex flex-col gap-1">
-                <span className="text-lg font-normal text-[#f4f4f4]">
-                  {h.name}
-                </span>
-                <LinkedInLink href={h.linkedin} name={h.name} />
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Um item expansível por dia; só um aberto por vez, Dia 1 abre por padrão */}
-        {/* hiddenUntilFound keeps closed panels in the static HTML, so search engines and Ctrl+F see them */}
-        <Accordion defaultValue={["dia-1"]} hiddenUntilFound className="gap-4">
-          {days.map((d, i) => (
-            <AccordionItem
-              key={d.day}
-              value={`dia-${i + 1}`}
-              className="bg-[#121619] border border-[#343a3f]"
-            >
-              <AccordionTrigger className="items-center rounded-none px-6 py-5 hover:no-underline">
-                <span className="flex flex-col gap-1">
-                  <span className="text-xs font-medium uppercase tracking-widest text-[#be95ff]">
-                    {d.day} · {d.date}
-                  </span>
-                  <span className="text-base font-normal text-[#f4f4f4]">
-                    {d.title}
-                  </span>
-                </span>
-              </AccordionTrigger>
-              <AccordionContent className="px-6">
-                <div className="flex flex-col gap-6 pt-2 pb-4">
-                  {speakersByDay[i].map((block, b) => (
-                    <div key={b} className="flex flex-col gap-3">
-                      {block.label && (
-                        <h4 className="text-xs font-medium uppercase tracking-widest text-[#697077]">
-                          {block.label}
-                        </h4>
-                      )}
-                      {/* Desktop: a sessão ocupa a largura toda, dividida entre quem fala nela */}
-                      <ul
-                        className={`grid grid-cols-1 gap-4 ${
-                          block.speakers.length === 2
-                            ? "md:grid-cols-2"
-                            : block.speakers.length === 3
-                              ? "md:grid-cols-2 lg:grid-cols-3"
-                              : block.speakers.length >= 4
-                                ? "md:grid-cols-2"
-                                : ""
-                        }`}
-                      >
-                        {block.speakers.map((s) => (
-                          <SpeakerRow
-                            key={s.name}
-                            speaker={s}
-                            side={i % 2 === 0 ? "left" : "right"}
-                          />
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+        </TabsPrimitive.Root>
       </div>
     </section>
   );
@@ -1708,7 +1507,6 @@ export default function Home() {
         <Hero />
         <About />
         <Schedule />
-        <Speakers />
         <Location />
         <Faq />
         <Registration />
