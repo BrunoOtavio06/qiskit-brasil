@@ -26,6 +26,8 @@ const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 // Hero gradient  Blue 60 → Purple 40 → Magenta 40
 
 const DISCORD_URL = "https://discord.gg/Hub5RrnXgF";
+// Slides e materiais de todas as apresentações
+const DRIVE_URL = "https://drive.google.com/drive/folders/17p2GqY2bfR1mcfBeH6d2vHymrjG_uKAQ?usp=sharing";
 
 // Challenge: o formulário de entrega fica no ar da abertura (24/11 18h) até 25/11 23h45.
 // Do início do tempo do Challenge (25/11 18h30) até o fechamento o aviso ganha o gradiente.
@@ -90,12 +92,17 @@ const navLinks = [
   { href: "#inscricao", label: "Inscrição" },
 ];
 
+// Depois do evento: sem inscrição, e a agenda vira "Gravações"
+const postEventLinks = navLinks
+  .filter((l) => l.href !== "#inscricao")
+  .map((l) => (l.href === "#programacao" ? { ...l, label: "Gravações" } : l));
+
 // Navbar
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const phase = useEventPhase();
   const over = phase === "over";
-  const links = over ? navLinks.filter((l) => l.href !== "#inscricao") : navLinks;
+  const links = over ? postEventLinks : navLinks;
 
   return (
     <header className="sticky top-0 z-50 bg-[#121619]/90 backdrop-blur border-b border-[#343a3f]">
@@ -385,6 +392,7 @@ type Session = {
   label: string;
   note?: string;
   live?: string;
+  notebook?: string;
   speakers?: Speaker[];
   talks?: { label: string; speakers: Speaker[] }[];
 };
@@ -394,7 +402,9 @@ const days: { day: string; date: string; title: string; schedule: Session[] }[] 
     day: "Dia 1",
     date: "24 Nov",
     title: "Introdução",
-    // `live`: link da transmissão no YouTube (uma por dia; no dia 2, uma para o workshop e outra para o AMA), só aparece na tela durante a sessão
+    // `live`: link da transmissão no YouTube (uma por dia; no dia 2, uma para o workshop e outra para o AMA).
+    // Durante a sessão vira o botão "ao vivo"; depois que ela termina, o mesmo link guarda a gravação.
+    // `notebook`: link do notebook no Colab; aparece na manchete durante a sessão e fica sempre na agenda
     // `speakers`: quem fala na sessão; as fotos também aparecem no destaque do topo no desktop
     // `talks`: sessões com várias apresentações (grupos de pesquisa), cada uma com quem apresenta
     schedule: [
@@ -448,6 +458,7 @@ const days: { day: string; date: string; title: string; schedule: Session[] }[] 
         time: "15:00 - 18:00",
         label: "Workshop: Primeiros Passos com Qiskit",
         live: "https://youtube.com/live/w9CU7NASuyI",
+        notebook: "https://colab.research.google.com/drive/1Q9nsaA1-ukRqV4JtVREry0VcYedAyfru?usp=sharing",
         speakers: [glauco],
       },
       { time: "18:00 - 18:30", label: "Intervalo" },
@@ -619,6 +630,7 @@ const streams = days.flatMap((d, dayIndex) =>
         label: s.label,
         startTime: start,
         url: s.live,
+        notebook: s.notebook,
         faces: (s.speakers ?? s.talks?.flatMap((t) => t.speakers) ?? []).map((p) => p.photo),
         start: toMs(d.date, start),
         end: toMs(d.date, end),
@@ -770,21 +782,33 @@ function StreamBlock({
           ))}
         </div>
       )}
-      {(current || next) && (
-        <a
-          href={stream.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={`inline-flex items-center justify-center gap-2 px-5 py-3 font-medium transition-colors ${
-            current
-              ? "bg-white text-[#0f62fe] hover:bg-[#e0e0e0]"
-              : "bg-[#0f62fe] text-white hover:bg-[#4589ff]"
-          } ${buttonClass}`}
-        >
-          <YouTubeIcon className="size-5" />
-          Assistir no YouTube
-        </a>
-      )}
+      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+        {(current || next) && (
+          <a
+            href={stream.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`inline-flex items-center justify-center gap-2 px-5 py-3 font-medium transition-colors ${
+              current
+                ? "bg-white text-[#0f62fe] hover:bg-[#e0e0e0]"
+                : "bg-[#0f62fe] text-white hover:bg-[#4589ff]"
+            } ${buttonClass}`}
+          >
+            <YouTubeIcon className="size-5" />
+            Assistir no YouTube
+          </a>
+        )}
+        {current && stream.notebook && (
+          <a
+            href={stream.notebook}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`inline-flex items-center justify-center gap-2 border border-white px-5 py-3 font-medium text-white hover:bg-white/10 transition-colors ${buttonClass}`}
+          >
+            Abrir o notebook no Colab →
+          </a>
+        )}
+      </div>
     </div>
   );
 }
@@ -993,9 +1017,13 @@ function Byline({ speakers }: { speakers: Speaker[] }) {
 function SessionRow({
   item,
   isLive,
+  ended,
+  over,
 }: {
   item: Session;
   isLive: boolean;
+  ended: boolean;
+  over: boolean;
 }) {
   return (
     <li className="flex flex-col gap-5 py-6 first:pt-0 last:pb-0">
@@ -1004,9 +1032,11 @@ function SessionRow({
           {item.speakers && <Faces speakers={item.speakers} />}
         </div>
         <div className="flex min-w-0 flex-col gap-1">
-          <span className="text-xs font-medium tabular-nums text-[#be95ff]">
-            {item.time}
-          </span>
+          {!over && (
+            <span className="text-xs font-medium tabular-nums text-[#be95ff]">
+              {item.time}
+            </span>
+          )}
           <h4 className="text-base sm:text-lg font-normal text-[#f4f4f4] leading-snug">
             {item.label}
           </h4>
@@ -1021,6 +1051,31 @@ function SessionRow({
             >
               <LiveDot color="#ffffff" />
               Ao vivo agora · Assistir no YouTube
+            </a>
+          )}
+          {item.live && ended && (
+            <a
+              href={item.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={
+                over
+                  ? "mt-2 self-start inline-flex items-center gap-2 bg-[#0f62fe] px-4 py-2 text-sm text-white font-medium hover:bg-[#4589ff] transition-colors"
+                  : "mt-1 self-start inline-flex items-center gap-2 text-sm font-medium text-[#78a9ff] hover:text-[#be95ff] transition-colors"
+              }
+            >
+              <YouTubeIcon className="size-4" />
+              Assistir à gravação →
+            </a>
+          )}
+          {item.notebook && (
+            <a
+              href={item.notebook}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-1 self-start text-sm font-medium text-[#78a9ff] hover:text-[#be95ff] transition-colors"
+            >
+              Abrir o notebook no Colab →
             </a>
           )}
         </div>
@@ -1058,6 +1113,8 @@ function Schedule() {
   const [picked, setPicked] = useState<number | null>(null);
   const today = useTodayIndex();
   const { current } = useLiveStream();
+  const now = useNow();
+  const over = useEventOver();
   const active = picked ?? Math.max(today, 0);
 
   return (
@@ -1071,12 +1128,21 @@ function Schedule() {
             24 - 26 de Novembro de 2026
           </span>
           <h2 className="text-3xl md:text-4xl font-light text-[#f4f4f4]">
-            Programação
+            {over ? "Gravações" : "Programação"}
           </h2>
           <p className="text-[#a8a8a8] text-lg">
-            Três dias de palestras, workshop e desafio. Presencial para estudantes
-            da FIAP, online para todo o Brasil e gratuito.
+            {over
+              ? "Assista às palestras e ao workshop quando quiser."
+              : "Três dias de palestras, workshop e desafio. Presencial para estudantes da FIAP, online para todo o Brasil e gratuito."}
           </p>
+          <a
+            href={DRIVE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-2 self-start inline-flex items-center gap-2 border border-[#78a9ff] px-5 py-3 font-medium text-[#78a9ff] hover:bg-[#78a9ff] hover:text-[#121619] transition-colors"
+          >
+            Slides e materiais no Drive →
+          </a>
         </div>
 
         <TabsPrimitive.Root
@@ -1111,11 +1177,14 @@ function Schedule() {
                 {d.title}
               </h3>
               <ul className="flex flex-col divide-y divide-[#343a3f]">
-                {d.schedule.map((item) => (
+                {/* Depois do evento, só as sessões que têm vídeo */}
+                {d.schedule.filter((item) => !over || item.live).map((item) => (
                   <SessionRow
                     key={item.time + item.label}
                     item={item}
                     isLive={current?.label === item.label}
+                    ended={now !== null && now >= toMs(d.date, item.time.split(" - ")[1])}
+                    over={over}
                   />
                 ))}
               </ul>
@@ -1448,7 +1517,7 @@ function Registration() {
 // Footer
 function Footer() {
   const over = useEventOver();
-  const links = over ? navLinks.filter((l) => l.href !== "#inscricao") : navLinks;
+  const links = over ? postEventLinks : navLinks;
   return (
     <footer className="bg-[#21272a] border-t border-[#343a3f] py-10 md:py-12 px-6 text-[#697077] text-sm">
       <div className="mx-auto max-w-6xl flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
