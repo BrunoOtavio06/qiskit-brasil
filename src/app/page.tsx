@@ -30,6 +30,7 @@ const DISCORD_URL = "https://discord.gg/Hub5RrnXgF";
 const DRIVE_URL = "https://drive.google.com/drive/folders/17p2GqY2bfR1mcfBeH6d2vHymrjG_uKAQ?usp=sharing";
 // Material complementar: Quantum Enigmas no IBM SkillsBuild
 const ENIGMAS_URL = "https://skills.yourlearning.ibm.com/activity/PLAN-034A5530450D";
+const IBM_LEARNING_URL = "https://quantum.cloud.ibm.com/learning/en/courses";
 
 // Challenge: o formulário de entrega fica no ar da abertura (24/11 18h) até 25/11 23h45.
 // Do início do tempo do Challenge (25/11 18h30) até o fechamento o aviso ganha o gradiente.
@@ -229,10 +230,13 @@ function Hero() {
           </h1>
 
           {over ? (
-            <p className="text-[#a8a8a8] text-lg leading-relaxed max-w-sm">
-              Obrigado a todo mundo que participou, na FIAP e online. Nos vemos
-              no ano que vem!
-            </p>
+            <>
+              <p className="text-[#a8a8a8] text-lg leading-relaxed max-w-sm">
+                Obrigado a todo mundo que participou, na FIAP e online. Nos vemos
+                no ano que vem!
+              </p>
+              <MaterialsBlock className="w-full max-w-sm gap-4 p-6 text-left" />
+            </>
           ) : (
             <>
               <p className="text-[#a8a8a8] text-lg leading-relaxed max-w-sm">
@@ -862,6 +866,38 @@ function ChallengeBlock({
   );
 }
 
+// Materiais para continuar estudando: gradiente roxo→rosa na diagonal, na manchete
+function MaterialsBlock({ className = "" }: { className?: string }) {
+  const links = [
+    { href: ENIGMAS_URL, label: "Quantum Enigmas" },
+    { href: IBM_LEARNING_URL, label: "IBM Quantum Learning" },
+  ];
+  return (
+    <div
+      className={`flex flex-col gap-3 p-5 text-[#121619] ${className}`}
+      style={{ backgroundImage: "linear-gradient(135deg, #be95ff, #ff7eb6)" }}
+    >
+      <span className="text-xs font-semibold uppercase tracking-widest">
+        Continue aprendendo
+      </span>
+      <p>Cursos gratuitos da IBM para seguir estudando computação quântica.</p>
+      <div className="flex flex-wrap gap-2">
+        {links.map((l) => (
+          <a
+            key={l.href}
+            href={l.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex justify-center bg-[#121619] px-5 py-3 text-white font-medium hover:bg-[#343a3f] transition-colors"
+          >
+            {l.label} →
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function DiscordRow({ className = "" }: { className?: string }) {
   return (
     <a
@@ -886,6 +922,7 @@ function EventPanel({ className = "" }: { className?: string }) {
     >
       <StreamBlock />
       <ChallengeBlock />
+      <MaterialsBlock />
       <DiscordRow />
     </div>
   );
@@ -894,7 +931,7 @@ function EventPanel({ className = "" }: { className?: string }) {
 const eventLabel = "24–26 de novembro · FIAP + online";
 
 // Desktop: a sessão ao vivo (ou a próxima) vira a manchete; Challenge e Discord numa coluna ao lado.
-// Sem Challenge (dia 3), o Discord ocupa a coluna como um cartão.
+// Sem Challenge (dia 3), os materiais para continuar estudando ocupam o lugar dele.
 function EventHeroDesktop() {
   const { challengeOpen } = useEventNow();
   return (
@@ -932,20 +969,10 @@ function EventHeroDesktop() {
             <DiscordRow className="px-10 py-6" />
           </div>
         ) : (
-          <a
-            href={DISCORD_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex flex-col justify-center gap-5 bg-[#21272a] p-10 text-[#f4f4f4] hover:bg-[#343a3f] transition-colors"
-          >
-            <span className="text-xs font-semibold uppercase tracking-widest text-[#78a9ff]">
-              Discord
-            </span>
-            <p className="text-[#a8a8a8]">Avisos da organização e dúvidas sobre o evento.</p>
-            <span className="inline-flex items-center gap-2 font-medium text-[#78a9ff]">
-              <DiscordIcon className="size-5" /> Entrar no Discord →
-            </span>
-          </a>
+          <div className="flex flex-col gap-px">
+            <MaterialsBlock className="flex-1 justify-center gap-4 p-10" />
+            <DiscordRow className="px-10 py-6" />
+          </div>
         )}
       </div>
     </div>
