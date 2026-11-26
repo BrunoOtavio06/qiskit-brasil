@@ -28,6 +28,8 @@ const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const DISCORD_URL = "https://discord.gg/Hub5RrnXgF";
 // Slides e materiais de todas as apresentações
 const DRIVE_URL = "https://drive.google.com/drive/folders/17p2GqY2bfR1mcfBeH6d2vHymrjG_uKAQ?usp=sharing";
+// Material complementar: Quantum Enigmas no IBM SkillsBuild
+const ENIGMAS_URL = "https://skills.yourlearning.ibm.com/activity/PLAN-034A5530450D";
 
 // Challenge: o formulário de entrega fica no ar da abertura (24/11 18h) até 25/11 23h45.
 // Do início do tempo do Challenge (25/11 18h30) até o fechamento o aviso ganha o gradiente.
@@ -1135,14 +1137,24 @@ function Schedule() {
               ? "Assista às palestras e ao workshop quando quiser."
               : "Três dias de palestras, workshop e desafio. Presencial para estudantes da FIAP, online para todo o Brasil e gratuito."}
           </p>
-          <a
-            href={DRIVE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-2 self-start inline-flex items-center gap-2 border border-[#78a9ff] px-5 py-3 font-medium text-[#78a9ff] hover:bg-[#78a9ff] hover:text-[#121619] transition-colors"
-          >
-            Slides e materiais no Drive →
-          </a>
+          <div className="mt-2 flex flex-wrap gap-3">
+            <a
+              href={DRIVE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 border border-[#78a9ff] px-5 py-3 font-medium text-[#78a9ff] hover:bg-[#78a9ff] hover:text-[#121619] transition-colors"
+            >
+              Slides e materiais no Drive →
+            </a>
+            <a
+              href={ENIGMAS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 border border-[#78a9ff] px-5 py-3 font-medium text-[#78a9ff] hover:bg-[#78a9ff] hover:text-[#121619] transition-colors"
+            >
+              Quantum Enigmas (IBM SkillsBuild) →
+            </a>
+          </div>
         </div>
 
         <TabsPrimitive.Root
