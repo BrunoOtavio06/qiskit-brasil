@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState, useSyncExternalStore } from "react";
-import { MenuIcon, XIcon } from "lucide-react";
+import { GraduationCapIcon, MenuIcon, PuzzleIcon, XIcon } from "lucide-react";
 import Countdown from "@/components/Countdown";
 import { useNow } from "@/lib/useNow";
 import {
@@ -190,7 +190,9 @@ function Hero() {
   if (phase === "during") return <EventHero />;
   return (
     <section className="relative overflow-hidden bg-[#121619] min-h-[480px] lg:min-h-[600px] flex items-center">
-      {/* hero illustration, right-anchored — hidden on mobile, narrower on small laptops, to avoid overlap */}
+      {/* hero illustration, right-anchored — hidden on mobile, narrower on small laptops, to avoid overlap.
+          Depois do evento, o bloco "Continue aprendendo" ocupa o lugar dela. */}
+      {!over && (
       <div className="hidden lg:flex absolute inset-y-0 right-0 lg:max-w-[55%] xl:max-w-full items-center justify-end select-none pointer-events-none lg:pr-12">
         <Image
           src={`${BASE}/assets/illustrations/hero-main.svg`}
@@ -201,6 +203,7 @@ function Hero() {
           priority
         />
       </div>
+      )}
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 py-14 lg:py-24 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center pointer-events-none">
         {/* sm→lg: a ilustração some, então o conteúdo fica centralizado em vez de colado à esquerda */}
@@ -235,7 +238,6 @@ function Hero() {
                 Obrigado a todo mundo que participou, na FIAP e online. Nos vemos
                 no ano que vem!
               </p>
-              <MaterialsBlock className="w-full max-w-sm gap-4 p-6 text-left" />
             </>
           ) : (
             <>
@@ -276,6 +278,7 @@ function Hero() {
             </>
           )}
         </div>
+        {over && <MaterialsBlock large className="pointer-events-auto" />}
       </div>
     </section>
   );
@@ -866,12 +869,57 @@ function ChallengeBlock({
   );
 }
 
-// Materiais para continuar estudando: gradiente roxo→rosa na diagonal, na manchete
-function MaterialsBlock({ className = "" }: { className?: string }) {
+// Materiais para continuar estudando: gradiente roxo→rosa na diagonal, na manchete.
+// "large" é a versão do pós-evento, que ocupa a metade direita do topo, com ícones.
+function MaterialsBlock({ className = "", large = false }: { className?: string; large?: boolean }) {
   const links = [
-    { href: ENIGMAS_URL, label: "Quantum Enigmas" },
-    { href: IBM_LEARNING_URL, label: "IBM Quantum Learning" },
+    {
+      href: ENIGMAS_URL,
+      label: "Quantum Enigmas",
+      note: "Quebra-cabeças que ensinam computação quântica",
+      Icon: PuzzleIcon,
+      color: "text-[#be95ff]",
+    },
+    {
+      href: IBM_LEARNING_URL,
+      label: "IBM Quantum Learning",
+      note: "Cursos do básico ao avançado",
+      Icon: GraduationCapIcon,
+      color: "text-[#ff7eb6]",
+    },
   ];
+  if (large)
+    return (
+      <div
+        className={`flex flex-col gap-6 p-6 sm:p-10 text-[#121619] ${className}`}
+        style={{ backgroundImage: "linear-gradient(135deg, #be95ff, #ff7eb6)" }}
+      >
+        <span className="text-xs font-semibold uppercase tracking-widest">
+          Continue aprendendo
+        </span>
+        <p className="text-2xl sm:text-3xl font-light leading-snug">
+          Cursos gratuitos da IBM para seguir estudando computação quântica.
+        </p>
+        <div className="flex flex-col gap-px">
+          {links.map(({ href, label, note, Icon, color }) => (
+            <a
+              key={href}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 sm:gap-4 bg-[#121619] p-4 sm:p-5 text-white hover:bg-[#343a3f] transition-colors"
+            >
+              <Icon className={`size-8 shrink-0 ${color}`} strokeWidth={1.5} />
+              <span className="flex min-w-0 flex-1 flex-col">
+                <span className="font-medium">{label}</span>
+                <span className="text-sm text-[#a8a8a8]">{note}</span>
+              </span>
+              <span aria-hidden className="text-xl">→</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    );
   return (
     <div
       className={`flex flex-col gap-3 p-5 text-[#121619] ${className}`}
