@@ -521,17 +521,6 @@ const days: { day: string; date: string; title: string; schedule: Session[] }[] 
             ],
           },
           {
-            label: "Segurança de Sistemas Quânticos",
-            speakers: [
-              {
-                name: "Wildisley Filho",
-                photo: "wildisley-filho.webp",
-                linkedin: "https://www.linkedin.com/in/wildis-filho/",
-                orgs: ["Inteli"],
-              },
-            ],
-          },
-          {
             label: "O Grupo de Estudos de Computação Quântica do ITA",
             speakers: [
               {
@@ -539,6 +528,17 @@ const days: { day: string; date: string; title: string; schedule: Session[] }[] 
                 photo: "pedro-merino.webp",
                 linkedin: "https://www.linkedin.com/in/pedrommerino/",
                 orgs: ["ITA"],
+              },
+            ],
+          },
+          {
+            label: "Segurança de Sistemas Quânticos",
+            speakers: [
+              {
+                name: "Wildisley Filho",
+                photo: "wildisley-filho.webp",
+                linkedin: "https://www.linkedin.com/in/wildis-filho/",
+                orgs: ["Inteli"],
               },
             ],
           },
